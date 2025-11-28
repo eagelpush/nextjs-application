@@ -1,6 +1,9 @@
 import { CampaignType } from "@/generated/prisma/client";
 import type { DateRange } from "@/types/types";
 
+// Re-export DateRange for use in other files
+export type { DateRange };
+
 export interface Campaign {
   id: string;
   title: string;

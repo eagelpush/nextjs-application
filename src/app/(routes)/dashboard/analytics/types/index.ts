@@ -54,6 +54,9 @@ export interface AnalyticsDashboardData {
 // Import shared types
 import type { TimeRange } from "@/types/types";
 
+// Re-export TimeRange for use in other files
+export type { TimeRange };
+
 export type DeviceTab = "revenue" | "subscribers" | "clickRate";
 
 export interface AnalyticsFilters {

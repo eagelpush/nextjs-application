@@ -12,7 +12,7 @@ const analyticsEventSchema = z.object({
   url: z.string().url().nullable().optional(),
   revenueCents: z.number().int().nullable().optional(),
   currency: z.string().nullable().optional(),
-  customData: z.record(z.unknown()).nullable().optional(),
+  customData: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 function corsHeaders() {

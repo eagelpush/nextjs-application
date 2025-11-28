@@ -24,14 +24,15 @@ export async function OPTIONS() {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const data = attributeSchema.parse(body);
 
     const subscriber = await prisma.subscriber.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!subscriber) {
@@ -105,9 +106,10 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const { searchParams } = new URL(request.url);
     const key = searchParams.get("key");
 
@@ -119,7 +121,7 @@ export async function DELETE(
     }
 
     const subscriber = await prisma.subscriber.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!subscriber) {

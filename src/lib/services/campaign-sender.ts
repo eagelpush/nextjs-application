@@ -1,4 +1,4 @@
-import { messaging } from "@/lib/firebase/firebase-admin";
+import { getMessagingInstance } from "@/lib/firebase/firebase-admin";
 import { prisma } from "@/lib/prisma";
 import { buildSubscriberQuery } from "@/app/(routes)/dashboard/segments/lib/subscriber-query-builder";
 import type { SegmentCondition } from "@/app/(routes)/dashboard/segments/types";
@@ -234,6 +234,13 @@ export class CampaignSenderService {
               webpush: fcmMessage.webpush,
             };
           });
+
+          const messaging = getMessagingInstance();
+          if (!messaging) {
+            throw new Error(
+              "Firebase Admin SDK is not configured. Please set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY environment variables."
+            );
+          }
 
           const response = await messaging.sendEach(messages);
 

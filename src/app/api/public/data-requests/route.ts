@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
 
 const dataRequestSchema = z.object({
@@ -9,7 +10,7 @@ const dataRequestSchema = z.object({
   shop: z.string().optional(),
   type: z.enum(["ACCESS", "DELETION", "PORTABILITY", "RECTIFICATION"]),
   requestor: z.string().nullable().optional(),
-  details: z.record(z.unknown()).nullable().optional(),
+  details: z.record(z.string(), z.unknown()).nullable().optional(),
 });
 
 function corsHeaders() {
@@ -80,7 +81,9 @@ export async function POST(request: NextRequest) {
         subscriberId: subscriberId || null,
         type: data.type,
         requestor: data.requestor || null,
-        details: data.details || null,
+        details: data.details
+          ? (data.details as Prisma.InputJsonValue)
+          : undefined,
         status: "PENDING",
       },
     });

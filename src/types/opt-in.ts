@@ -82,3 +82,36 @@ export interface UpdateOptInSettingsInput {
   includeUrls?: string[];
   excludeUrls?: string[];
 }
+
+export interface OptInAnalyticsSummary {
+  overallOptInRate: number;
+  totalViews: number;
+  totalSubscribers: number;
+  customPrompt: {
+    views: number;
+    accepts: number;
+    rate: number;
+  };
+  browserPrompt: {
+    views: number;
+    accepts: number;
+    rate: number;
+  };
+  flyout: {
+    views: number;
+    subscriptions: number;
+    rate: number;
+  };
+  exitIntent: {
+    views: number;
+    subscriptions: number;
+    rate: number;
+  };
+  averageTimeToOptIn: number | null;
+  averageScrollToOptIn: number | null;
+  deviceBreakdown: {
+    desktop: number;
+    mobile: number;
+    tablet: number;
+  } | null;
+}

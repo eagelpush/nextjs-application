@@ -3,7 +3,7 @@
  * Converts segment conditions to Prisma WHERE clauses for querying subscribers
  */
 
-import { Prisma } from "@/generated/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import type { SegmentCondition } from "../types";
 
 /**

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
 
 const pushSubscriptionSchema = z.object({
-  subscriptionJson: z.record(z.unknown()),
+  subscriptionJson: z.record(z.string(), z.unknown()),
   channel: z.enum(["web_push", "email", "SMS"]),
   deviceId: z.string().nullable().optional(),
   browserName: z.string().nullable().optional(),
@@ -27,14 +28,15 @@ export async function OPTIONS() {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const data = pushSubscriptionSchema.parse(body);
 
     const subscriber = await prisma.subscriber.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!subscriber) {
@@ -59,7 +61,7 @@ export async function POST(
       pushSubscription = await prisma.pushSubscription.update({
         where: { id: existing.id },
         data: {
-          subscriptionJson: data.subscriptionJson,
+          subscriptionJson: data.subscriptionJson as Prisma.InputJsonValue,
           deviceId: data.deviceId,
           browserName: data.browserName,
           deviceType: data.deviceType,
@@ -72,7 +74,7 @@ export async function POST(
       pushSubscription = await prisma.pushSubscription.create({
         data: {
           subscriberId: subscriber.id,
-          subscriptionJson: data.subscriptionJson,
+          subscriptionJson: data.subscriptionJson as Prisma.InputJsonValue,
           channel: data.channel,
           deviceId: data.deviceId,
           browserName: data.browserName,
@@ -115,9 +117,10 @@ export async function POST(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const { searchParams } = new URL(request.url);
     const subscriptionId = searchParams.get("subscriptionId");
 
@@ -129,7 +132,7 @@ export async function DELETE(
     }
 
     const subscriber = await prisma.subscriber.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!subscriber) {

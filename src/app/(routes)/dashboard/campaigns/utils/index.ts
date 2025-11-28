@@ -43,14 +43,13 @@ export function filterCampaigns(
 
   // Filter by date range
   if (filters.dateRange && (filters.dateRange.from || filters.dateRange.to)) {
+    const dateRange = filters.dateRange;
     filtered = filtered.filter((campaign) => {
       const campaignDate = new Date(campaign.createdAt);
-      const fromDate = filters.dateRange.from
-        ? new Date(filters.dateRange.from)
+      const fromDate = dateRange.from
+        ? new Date(dateRange.from)
         : new Date(0);
-      const toDate = filters.dateRange.to
-        ? new Date(filters.dateRange.to)
-        : new Date();
+      const toDate = dateRange.to ? new Date(dateRange.to) : new Date();
       return campaignDate >= fromDate && campaignDate <= toDate;
     });
   }

@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 import { z } from "zod";
 
 const importSubscriberSchema = z.object({
   merchantId: z.string().uuid(),
   email: z.string().email().nullable().optional(),
-  phone: z.string().nullable().optional(),
   firstName: z.string().nullable().optional(),
   lastName: z.string().nullable().optional(),
   shopifyCustomerId: z.string().nullable().optional(),
   channels: z.array(z.string()).optional(),
   source: z.string().default("import"),
-  rawData: z.record(z.unknown()).nullable().optional(),
+  rawData: z.record(z.string(), z.unknown()).nullable().optional(),
   importedBy: z.string().nullable().optional(),
 });
 
@@ -78,7 +78,6 @@ export async function POST(request: NextRequest) {
               where: { id: subscriber.id },
               data: {
                 email: subscriberData.email,
-                phone: subscriberData.phone,
                 firstName: subscriberData.firstName,
                 lastName: subscriberData.lastName,
                 shopifyCustomerId: subscriberData.shopifyCustomerId,
@@ -99,7 +98,6 @@ export async function POST(request: NextRequest) {
                 fcmToken: tempFcmToken,
                 fingerprint: tempFingerprint,
                 email: subscriberData.email,
-                phone: subscriberData.phone,
                 firstName: subscriberData.firstName,
                 lastName: subscriberData.lastName,
                 shopifyCustomerId: subscriberData.shopifyCustomerId,
@@ -115,7 +113,9 @@ export async function POST(request: NextRequest) {
             data: {
               subscriberId: subscriber.id,
               source: subscriberData.source || data.source,
-              rawData: subscriberData.rawData || null,
+              rawData: subscriberData.rawData
+                ? (subscriberData.rawData as Prisma.InputJsonValue)
+                : undefined,
               importedBy: subscriberData.importedBy || data.importedBy || null,
             },
           });
@@ -173,7 +173,6 @@ export async function POST(request: NextRequest) {
           where: { id: subscriber.id },
           data: {
             email: data.email,
-            phone: data.phone,
             firstName: data.firstName,
             lastName: data.lastName,
             shopifyCustomerId: data.shopifyCustomerId,
@@ -192,7 +191,6 @@ export async function POST(request: NextRequest) {
             fcmToken: tempFcmToken,
             fingerprint: tempFingerprint,
             email: data.email,
-            phone: data.phone,
             firstName: data.firstName,
             lastName: data.lastName,
             shopifyCustomerId: data.shopifyCustomerId,
@@ -204,14 +202,16 @@ export async function POST(request: NextRequest) {
       }
 
       // Create import record
-      await prisma.subscriberImport.create({
-        data: {
-          subscriberId: subscriber.id,
-          source: data.source,
-          rawData: data.rawData || null,
-          importedBy: data.importedBy || null,
-        },
-      });
+        await prisma.subscriberImport.create({
+          data: {
+            subscriberId: subscriber.id,
+            source: data.source,
+            rawData: data.rawData
+              ? (data.rawData as Prisma.InputJsonValue)
+              : undefined,
+            importedBy: data.importedBy || null,
+          },
+        });
 
       return NextResponse.json(
         {

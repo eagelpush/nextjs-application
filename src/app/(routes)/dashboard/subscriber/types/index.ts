@@ -1,4 +1,8 @@
 import type { JsonValue } from "@/generated/prisma/internal/prismaNamespace";
+import type { TimeRange } from "@/types/types";
+
+// Re-export TimeRange for use in other files
+export type { TimeRange };
 
 // PostgreSQL subscriber document interface (matches exact database schema)
 export interface PostgreSQLSubscriber {
