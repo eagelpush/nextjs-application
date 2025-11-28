@@ -1,0 +1,775 @@
+// ========================================
+// PRISMA SCHEMA - Concise Unified Schema
+// ========================================
+
+generator client {
+  provider   = "prisma-client"
+  output     = "../src/generated/prisma"
+  engineType = "client"
+  runtime    = "bun"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ========================================
+// MERCHANT MODEL (Primary User Model)
+// ========================================
+model Merchant {
+  id            String    @id @default(uuid())
+  clerkId       String    @unique
+  email         String    @unique
+  firstName     String?
+  lastName      String?
+  emailVerified DateTime?
+  image         String?
+
+  // Shopify Integration
+  accessToken        String?
+  shopifyScopes      String?
+  shopifyUserId      String?
+  shopifyUserEmail   String?
+  isShopifyConnected Boolean   @default(false)
+  shopifyConnectedAt DateTime?
+
+  // Store Information
+  storeName     String
+  storeUrl      String
+  subdomain     String  @unique
+  storeImageUrl String?
+  platform      String  @default("Shopify")
+
+  // Timestamps
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  userSettings     UserSettings?
+  optInSettings    OptInSettings?
+  campaigns        Campaign[]
+  segments         Segment[]
+  customAttributes CustomAttribute[]
+  subscribers      Subscriber[]
+  tags             Tag[]
+
+  @@index([clerkId])
+  @@index([email])
+  @@index([subdomain])
+  @@index([isShopifyConnected])
+  @@map("merchants")
+}
+
+// ========================================
+// USER SETTINGS MODEL
+// ========================================
+model UserSettings {
+  id         String   @id @default(uuid())
+  merchantId String   @unique
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  // Privacy Settings
+  allowSupport        Boolean @default(true)
+  ipAddressOption     String  @default("anonymized")
+  enableGeo           Boolean @default(true)
+  enablePreferences   Boolean @default(false)
+  emailStoreOption    String  @default("full-email")
+  locationStoreOption String  @default("yes")
+  nameStoreOption     String  @default("yes")
+
+  // Attribution Settings
+  attributionModel String @default("impression")
+
+  // Additional Settings
+  notificationPreferences Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([merchantId])
+  @@map("user_settings")
+}
+
+// ========================================
+// OPT-IN SETTINGS MODELS
+// ========================================
+model OptInSettings {
+  id         String   @id @default(uuid())
+  merchantId String   @unique
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  // Custom Prompt Settings
+  customPromptEnabled      Boolean @default(false)
+  customPromptHeadline     String  @default("Get Exclusive Deals!")
+  customPromptDescription  String  @default("Be first to know about sales and special offers")
+  customPromptBenefits     Json    @default("[]")
+  customPromptButtonText   String  @default("Yes, Notify Me")
+  customPromptCancelText   String  @default("Maybe Later")
+  customPromptImage        String?
+  customPromptPrimaryColor String  @default("#6366f1")
+  customPromptPosition     String  @default("center")
+
+  // Flyout Widget Settings
+  flyoutEnabled      Boolean @default(false)
+  flyoutPosition     String  @default("bottom-right")
+  flyoutText         String  @default("Get Updates")
+  flyoutIcon         String?
+  flyoutColor        String  @default("#6366f1")
+  flyoutDelaySeconds Int     @default(5)
+
+  // Exit Intent Settings
+  exitIntentEnabled       Boolean @default(false)
+  exitIntentHeadline      String  @default("Wait! Don't miss out!")
+  exitIntentOffer         String  @default("Get 10% off your first order")
+  exitIntentMinTimeOnSite Int     @default(10)
+
+  // Timing & Frequency
+  timingTriggerType   String @default("delay")
+  timingDelaySeconds  Int    @default(5)
+  timingScrollPercent Int    @default(50)
+  timingMinTimeOnPage Int    @default(5)
+
+  showOncePerSession Boolean @default(true)
+  showOncePerDay     Boolean @default(false)
+  showOncePerWeek    Boolean @default(false)
+
+  // URL Targeting
+  urlTargetingEnabled Boolean @default(false)
+  includeUrls         Json    @default("[]")
+  excludeUrls         Json    @default("[]")
+
+  // Analytics
+  totalViews        Int       @default(0)
+  totalSubscribers  Int       @default(0)
+  lastAnalyticsSync DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  analytics OptInAnalytics[]
+
+  @@index([merchantId])
+  @@map("opt_in_settings")
+}
+
+model OptInAnalytics {
+  id              String        @id @default(uuid())
+  optInSettingsId String
+  optInSettings   OptInSettings @relation(fields: [optInSettingsId], references: [id], onDelete: Cascade)
+
+  date DateTime @db.Date
+
+  customPromptViews   Int   @default(0)
+  customPromptAccepts Int   @default(0)
+  customPromptRate    Float @default(0)
+
+  browserPromptViews   Int   @default(0)
+  browserPromptAccepts Int   @default(0)
+  browserPromptRate    Float @default(0)
+
+  flyoutViews         Int   @default(0)
+  flyoutSubscriptions Int   @default(0)
+  flyoutRate          Float @default(0)
+
+  exitIntentViews         Int   @default(0)
+  exitIntentSubscriptions Int   @default(0)
+  exitIntentRate          Float @default(0)
+
+  totalImpressions   Int   @default(0)
+  totalSubscriptions Int   @default(0)
+  overallOptInRate   Float @default(0)
+
+  averageTimeToOptIn   Int?
+  averageScrollToOptIn Int?
+  deviceBreakdown      Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([optInSettingsId, date])
+  @@index([optInSettingsId])
+  @@index([date])
+  @@map("opt_in_analytics")
+}
+
+// ========================================
+// CAMPAIGN MODELS
+// ========================================
+model Campaign {
+  id         String   @id @default(uuid())
+  merchantId String
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  // Basic Information
+  title       String
+  description String?
+  category    String
+
+  // Type and Status
+  type   CampaignType   @default(REGULAR)
+  status CampaignStatus @default(DRAFT)
+
+  // Scheduling
+  sendingOption String
+  scheduledAt   DateTime?
+  sentAt        DateTime?
+  smartDelivery Boolean   @default(false)
+
+  // Content
+  message          String
+  destinationUrl   String?
+  actionButtonText String?
+
+  // Notification Settings
+  enableSound     Boolean @default(true)
+  enableVibration Boolean @default(true)
+  ttl             String  @default("86400")
+
+  // Analytics
+  impressions Int   @default(0)
+  clicks      Int   @default(0)
+  ctr         Float @default(0)
+  revenue     Float @default(0)
+
+  // Timestamps
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Relations
+  heroImages    CampaignHeroImage[]
+  companyLogos  CampaignCompanyLogo[]
+  segments      CampaignSegment[]
+  analytics     CampaignAnalytics[]
+  campaignSends CampaignSend[]
+
+  @@index([merchantId])
+  @@index([status])
+  @@index([type])
+  @@index([merchantId, status])
+  @@index([merchantId, type])
+  @@map("campaigns")
+}
+
+model CampaignHeroImage {
+  id         String   @id @default(uuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  platform String
+  imageUrl String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([campaignId, platform])
+  @@index([campaignId])
+  @@map("campaign_hero_images")
+}
+
+model CampaignCompanyLogo {
+  id         String   @id @default(uuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  logoUrl  String
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([campaignId])
+  @@map("campaign_company_logos")
+}
+
+model CampaignSegment {
+  id         String   @id @default(uuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  segmentId String
+  segment   Segment @relation(fields: [segmentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([campaignId, segmentId])
+  @@index([campaignId])
+  @@index([segmentId])
+  @@map("campaign_segments")
+}
+
+model CampaignAnalytics {
+  id         String   @id @default(uuid())
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  date        DateTime
+  impressions Int      @default(0)
+  clicks      Int      @default(0)
+  conversions Int      @default(0)
+  revenue     Float    @default(0)
+
+  subscribersTargeted Int @default(0)
+  subscribersReached  Int @default(0)
+
+  deviceBreakdown   Json?
+  platformBreakdown Json?
+  locationBreakdown Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([campaignId, date])
+  @@index([campaignId])
+  @@index([date])
+  @@map("campaign_analytics")
+}
+
+// ========================================
+// SUBSCRIBER MODEL
+// ========================================
+model Subscriber {
+  id         String   @id @default(uuid())
+  merchantId String
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  // FCM & Identification
+  fcmToken    String @unique
+  fingerprint String @unique
+
+  // Shopify Data
+  shopifyCustomerId String?
+  email             String?
+  firstName         String?
+  lastName          String?
+
+  // Location
+  country     String?
+  countryCode String?
+  city        String?
+  region      String?
+  timezone    String?
+
+  // Device & Browser
+  browser        String?
+  browserVersion String?
+  os             String?
+  osVersion      String?
+  device         String?
+  isMobile       Boolean @default(false)
+
+  // Technical
+  language  String?
+  userAgent String?
+
+  // Context
+  subscriptionUrl String?
+  referrer        String?
+
+  // Status & Tracking
+  isActive       Boolean   @default(true)
+  subscribedAt   DateTime  @default(now())
+  lastSeenAt     DateTime  @default(now())
+  unsubscribedAt DateTime?
+
+  // PushOwl-like Additional Fields
+  channels              Json?    @default("[]") // Array of channels: email, SMS, push
+  status                SubscriberStatus @default(ACTIVE)
+  lastActiveAt          DateTime?
+  lastSubscribedAt      DateTime?
+  source                String?  // CDN, API, import, etc.
+  ipAddressAnonymized   String?  // Anonymized IP (last octet removed)
+  geoCountry            String?  // From Cloudflare cf.country
+  geoCity               String?  // From Cloudflare cf.city
+  locale                String?  // Browser locale
+  deviceType            String?  // mobile, desktop, tablet
+  platform              String?  // iOS, Android, Windows, etc.
+  deleted               Boolean  @default(false)
+
+  // Custom Attributes
+  attributes Json? @default("{}")
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  campaignSends        CampaignSend[]
+  pushSubscriptions   PushSubscription[]
+  productWatches      ProductWatch[]
+  subscriberTags      SubscriberTag[]
+  customAttributes    SubscriberCustomAttribute[]
+  analyticsEvents     AnalyticsEvent[]
+  subscriberImports   SubscriberImport[]
+  dataRequests        DataRequest[]
+
+  @@index([merchantId])
+  @@index([fcmToken])
+  @@index([fingerprint])
+  @@index([country])
+  @@index([device])
+  @@index([isActive])
+  @@index([subscribedAt])
+  @@index([merchantId, isActive])
+  @@map("subscribers")
+}
+
+// ========================================
+// CAMPAIGN SEND MODEL (Tracking)
+// ========================================
+model CampaignSend {
+  id           String     @id @default(uuid())
+  campaignId   String
+  campaign     Campaign   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  subscriberId String
+  subscriber   Subscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+
+  sentAt       DateTime  @default(now())
+  deliveredAt  DateTime?
+  clickedAt    DateTime?
+  errorMessage String?
+
+  @@index([campaignId])
+  @@index([subscriberId])
+  @@index([sentAt])
+  @@index([campaignId, sentAt])
+  @@map("campaign_sends")
+}
+
+// ========================================
+// SEGMENT MODELS
+// ========================================
+model Segment {
+  id         String   @id @default(uuid())
+  merchantId String
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?
+  type        SegmentType
+
+  isActive Boolean @default(true)
+
+  subscriberCount Int       @default(0)
+  lastCalculated  DateTime?
+
+  criteriaDisplay String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  conditions SegmentCondition[]
+  campaigns  CampaignSegment[]
+
+  @@index([merchantId])
+  @@index([type])
+  @@index([isActive])
+  @@index([merchantId, isActive])
+  @@map("segments")
+}
+
+model SegmentCondition {
+  id        String  @id @default(uuid())
+  segmentId String
+  segment   Segment @relation(fields: [segmentId], references: [id], onDelete: Cascade)
+
+  type     String
+  category String
+  operator String
+
+  value       String?
+  numberValue Float?
+  dateValue   DateTime?
+  dateUnit    String?
+
+  locationCountry String?
+  locationRegion  String?
+  locationCity    String?
+
+  logicalOperator String?
+  orderIndex      Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([segmentId])
+  @@index([type])
+  @@index([category])
+  @@map("segment_conditions")
+}
+
+// ========================================
+// CUSTOM ATTRIBUTE MODEL
+// ========================================
+model CustomAttribute {
+  id         String   @id @default(uuid())
+  merchantId String
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  name        String
+  type        AttributeType
+  description String?
+  required    Boolean       @default(false)
+
+  options String[] @default([])
+
+  defaultValue    String?
+  validationRules Json?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([merchantId])
+  @@index([type])
+  @@index([isActive])
+  @@map("custom_attributes")
+}
+
+// ========================================
+// PUSH SUBSCRIPTION MODEL
+// ========================================
+model PushSubscription {
+  id            String   @id @default(uuid())
+  subscriberId  String
+  subscriber    Subscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+
+  subscriptionJson Json   // Full push subscription object from browser
+  channel          String // web_push, email, sms
+  status           PushSubscriptionStatus @default(ACTIVE)
+  deviceId         String? // Unique device identifier
+  browserName      String?
+  deviceType       String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  lastDeliveredAt DateTime?
+
+  @@index([subscriberId])
+  @@index([channel])
+  @@index([status])
+  @@index([subscriberId, channel])
+  @@map("push_subscriptions")
+}
+
+// ========================================
+// PRODUCT WATCH MODEL
+// ========================================
+model ProductWatch {
+  id          String   @id @default(uuid())
+  subscriberId String
+  subscriber  Subscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+
+  productId  String
+  variantId  String?
+  watchType  ProductWatchType @default(BACK_IN_STOCK)
+  unsubscribed Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([subscriberId])
+  @@index([productId])
+  @@index([watchType])
+  @@index([subscriberId, productId])
+  @@map("product_watches")
+}
+
+// ========================================
+// TAG MODEL
+// ========================================
+model Tag {
+  id          String   @id @default(uuid())
+  merchantId  String
+  merchant    Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  name        String
+  description String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subscriberTags SubscriberTag[]
+
+  @@unique([merchantId, name])
+  @@index([merchantId])
+  @@map("tags")
+}
+
+// ========================================
+// SUBSCRIBER TAG MODEL (Many-to-Many)
+// ========================================
+model SubscriberTag {
+  id          String   @id @default(uuid())
+  subscriberId String
+  subscriber  Subscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+  tagId       String
+  tag         Tag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([subscriberId, tagId])
+  @@index([subscriberId])
+  @@index([tagId])
+  @@map("subscriber_tags")
+}
+
+// ========================================
+// SUBSCRIBER CUSTOM ATTRIBUTE MODEL
+// ========================================
+model SubscriberCustomAttribute {
+  id          String   @id @default(uuid())
+  subscriberId String
+  subscriber  Subscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+
+  key         String
+  value       String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([subscriberId, key])
+  @@index([subscriberId])
+  @@index([key])
+  @@map("subscriber_custom_attributes")
+}
+
+// ========================================
+// ANALYTICS EVENT MODEL
+// ========================================
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  subscriberId String?
+  subscriber  Subscriber? @relation(fields: [subscriberId], references: [id], onDelete: SetNull)
+
+  eventType   String   // page_view, click, purchase, subscribe, etc.
+  campaignId  String?
+  messageId   String?
+  url         String?
+  revenueCents Int?
+  currency    String?
+
+  createdAt DateTime @default(now())
+
+  @@index([subscriberId])
+  @@index([eventType])
+  @@index([campaignId])
+  @@index([createdAt])
+  @@index([subscriberId, eventType])
+  @@map("analytics_events")
+}
+
+// ========================================
+// SUBSCRIBER IMPORT MODEL
+// ========================================
+model SubscriberImport {
+  id          String   @id @default(uuid())
+  subscriberId String?
+  subscriber  Subscriber? @relation(fields: [subscriberId], references: [id], onDelete: SetNull)
+
+  source      String   // CSV, API, manual, etc.
+  rawData     Json?    // Original import data
+  importedAt  DateTime @default(now())
+  importedBy  String?  // User ID or system identifier
+
+  @@index([subscriberId])
+  @@index([source])
+  @@index([importedAt])
+  @@map("subscriber_imports")
+}
+
+// ========================================
+// DATA REQUEST MODEL (GDPR Compliance)
+// ========================================
+model DataRequest {
+  id          String   @id @default(uuid())
+  subscriberId String?
+  subscriber  Subscriber? @relation(fields: [subscriberId], references: [id], onDelete: SetNull)
+
+  type        DataRequestType
+  requestor   String?  // Email or identifier of requester
+  details     Json?    // Additional request details
+  status      DataRequestStatus @default(PENDING)
+
+  createdAt   DateTime @default(now())
+  completedAt DateTime?
+
+  @@index([subscriberId])
+  @@index([type])
+  @@index([status])
+  @@index([createdAt])
+  @@map("data_requests")
+}
+
+// ========================================
+// ENUMS
+// ========================================
+enum CampaignType {
+  REGULAR
+  FLASH_SALE
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENDING
+  SENT
+  PAUSED
+  CANCELLED
+  FAILED
+}
+
+enum SegmentType {
+  DYNAMIC
+  STATIC
+  BEHAVIOR
+}
+
+enum AttributeType {
+  TEXT
+  NUMBER
+  MULTIPLE_CHOICE
+  DATE
+  CATEGORY
+  BOOLEAN
+  EMAIL
+  URL
+}
+
+enum SubscriberStatus {
+  ACTIVE
+  UNSUBSCRIBED
+  PENDING
+  BOUNCED
+  COMPLAINED
+}
+
+enum PushSubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum ProductWatchType {
+  BACK_IN_STOCK
+  PRICE_DROP
+  RESTOCK
+}
+
+enum DataRequestType {
+  ACCESS
+  DELETION
+  PORTABILITY
+  RECTIFICATION
+}
+
+enum DataRequestStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
