@@ -26,7 +26,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, MoreHorizontal, Edit, Trash2, Copy, Play, Pause, Loader2 } from "lucide-react";
+import {
+  Search,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Copy,
+  Play,
+  Pause,
+  Loader2,
+} from "lucide-react";
 import type { Segment } from "../types";
 import { formatNumber, formatDate, getSegmentTypeLabel } from "../utils";
 import { SEGMENT_TYPE_OPTIONS, STATUS_OPTIONS } from "../constants";
@@ -72,9 +81,15 @@ export function SegmentsTable({
   // Pagination
   const totalPages = Math.ceil(filteredSegments.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedSegments = filteredSegments.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedSegments = filteredSegments.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
-  const handleAction = async (action: () => Promise<void>, segmentId: string) => {
+  const handleAction = async (
+    action: () => Promise<void>,
+    segmentId: string
+  ) => {
     setActionLoading(segmentId);
     try {
       await action();
@@ -151,7 +166,10 @@ export function SegmentsTable({
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-muted-foreground py-8 text-center">
+                  <TableCell
+                    colSpan={6}
+                    className="text-muted-foreground py-8 text-center"
+                  >
                     <div className="flex items-center justify-center space-x-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
                       <span>Loading segments...</span>
@@ -160,7 +178,10 @@ export function SegmentsTable({
                 </TableRow>
               ) : paginatedSegments.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-muted-foreground py-8 text-center">
+                  <TableCell
+                    colSpan={6}
+                    className="text-muted-foreground py-8 text-center"
+                  >
                     No segments found
                   </TableCell>
                 </TableRow>
@@ -176,16 +197,22 @@ export function SegmentsTable({
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{getSegmentTypeLabel(segment.type)}</Badge>
+                      <Badge variant="outline">
+                        {getSegmentTypeLabel(segment.type)}
+                      </Badge>
                     </TableCell>
                     <TableCell className="font-mono">
                       {formatNumber(segment.subscriberCount)}
                     </TableCell>
                     <TableCell>
-                      <div className="max-w-xs truncate text-sm">{segment.criteria}</div>
+                      <div className="max-w-xs truncate text-sm">
+                        {segment.criteria}
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={segment.isActive ? "default" : "secondary"}>
+                      <Badge
+                        variant={segment.isActive ? "default" : "secondary"}
+                      >
                         {segment.isActive ? "Active" : "Inactive"}
                       </Badge>
                     </TableCell>
@@ -277,7 +304,9 @@ export function SegmentsTable({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                onClick={() =>
+                  setCurrentPage(Math.min(totalPages, currentPage + 1))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

@@ -22,8 +22,16 @@ export function CampaignHeader({ isPending = false }: CampaignHeaderProps) {
               Create, manage, and analyze your push notification campaigns
             </p>
           </div>
-          <div className="flex items-center space-x-2" role="group" aria-label="Campaign actions">
-            <Button asChild disabled={isPending} aria-label="Create new campaign">
+          <div
+            className="flex items-center space-x-2"
+            role="group"
+            aria-label="Campaign actions"
+          >
+            <Button
+              asChild
+              disabled={isPending}
+              aria-label="Create new campaign"
+            >
               <Link href="/dashboard/campaigns/new">
                 <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
                 New Campaign

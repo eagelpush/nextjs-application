@@ -4,7 +4,13 @@ import { ExternalLink, Github, Globe, Mail } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 
 export default function AboutPage() {
@@ -23,7 +29,9 @@ export default function AboutPage() {
             <Globe className="h-5 w-5" />
             About Push Eagle
           </CardTitle>
-          <CardDescription>AI-powered stock analysis and recommendations platform</CardDescription>
+          <CardDescription>
+            AI-powered stock analysis and recommendations platform
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-4 md:grid-cols-2">
@@ -45,10 +53,11 @@ export default function AboutPage() {
           <div className="space-y-4">
             <h4 className="font-medium">Description</h4>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Push Eagle is a cutting-edge platform that provides AI-powered stock recommendations
-              based on real-time market data and news analysis. Our sophisticated algorithms analyze
-              market trends, company fundamentals, and sentiment data to deliver actionable insights
-              for both novice and experienced investors.
+              Push Eagle is a cutting-edge platform that provides AI-powered
+              stock recommendations based on real-time market data and news
+              analysis. Our sophisticated algorithms analyze market trends,
+              company fundamentals, and sentiment data to deliver actionable
+              insights for both novice and experienced investors.
             </p>
           </div>
 
@@ -87,8 +96,9 @@ export default function AboutPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground text-sm">
-            Our support team is available to help you with any questions or issues you may have.
-            We&apos;re committed to providing the best possible experience for all our users.
+            Our support team is available to help you with any questions or
+            issues you may have. We&apos;re committed to providing the best
+            possible experience for all our users.
           </p>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Button asChild variant="outline">
@@ -98,7 +108,11 @@ export default function AboutPage() {
               </Link>
             </Button>
             <Button asChild variant="outline">
-              <Link href="https://github.com/gizmofacts" target="_blank" rel="noopener noreferrer">
+              <Link
+                href="https://github.com/gizmofacts"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github className="mr-2 h-4 w-4" />
                 GitHub
                 <ExternalLink className="ml-2 h-3 w-3" />

@@ -20,7 +20,9 @@ interface UseSubscriberFiltersProps {
   subscribers: Subscriber[];
 }
 
-export function useSubscriberFilters({ subscribers }: UseSubscriberFiltersProps) {
+export function useSubscriberFilters({
+  subscribers,
+}: UseSubscriberFiltersProps) {
   // Filter state
   const [filters, setFilters] = useState<SubscriberFilters>(DEFAULT_FILTERS);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +37,10 @@ export function useSubscriberFilters({ subscribers }: UseSubscriberFiltersProps)
   }, []);
 
   // Derived data
-  const uniqueCountries = useMemo(() => getUniqueCountries(subscribers), [subscribers]);
+  const uniqueCountries = useMemo(
+    () => getUniqueCountries(subscribers),
+    [subscribers]
+  );
 
   // Filtered subscribers
   const filteredSubscribers = useMemo(() => {
@@ -44,7 +49,12 @@ export function useSubscriberFilters({ subscribers }: UseSubscriberFiltersProps)
       deviceFilter: filters.deviceFilter,
       countryFilter: filters.countryFilter,
     });
-  }, [subscribers, filters.searchQuery, filters.deviceFilter, filters.countryFilter]);
+  }, [
+    subscribers,
+    filters.searchQuery,
+    filters.deviceFilter,
+    filters.countryFilter,
+  ]);
 
   // Pagination state
   const pagination = useMemo(() => {

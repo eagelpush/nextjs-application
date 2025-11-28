@@ -9,7 +9,10 @@ import { generateCriteriaDisplay } from "@/app/(routes)/dashboard/segments/utils
 // GET /api/segments/[id] - Fetch specific segment
 // ========================================
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -19,7 +22,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid segment ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid segment ID format" },
+        { status: 400 }
+      );
     }
 
     // Get merchant
@@ -29,7 +35,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Fetch segment with conditions
@@ -79,7 +88,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json(transformedSegment);
   } catch (error) {
     console.error("Error fetching segment:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -87,7 +99,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 // PUT /api/segments/[id] - Update segment
 // ========================================
 
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -97,7 +112,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid segment ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid segment ID format" },
+        { status: 400 }
+      );
     }
 
     // Get merchant
@@ -107,7 +125,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify segment belongs to merchant
@@ -138,7 +159,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       });
 
       if (nameExists) {
-        return NextResponse.json({ error: "Segment name already exists" }, { status: 409 });
+        return NextResponse.json(
+          { error: "Segment name already exists" },
+          { status: 409 }
+        );
       }
     }
 
@@ -167,17 +191,15 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       if (body.type !== undefined) {
         const validTypes = ["dynamic", "static", "behavior"];
         if (validTypes.includes(body.type.toLowerCase())) {
-          updateData.type = body.type.toUpperCase() as "DYNAMIC" | "STATIC" | "BEHAVIOR";
+          updateData.type = body.type.toUpperCase() as
+            | "DYNAMIC"
+            | "STATIC"
+            | "BEHAVIOR";
         }
       }
       if (criteriaDisplay !== undefined) {
         updateData.criteriaDisplay = criteriaDisplay;
       }
-
-      const updatedSegment = await tx.segment.update({
-        where: { id: id },
-        data: updateData,
-      });
 
       // Update conditions if provided
       if (body.conditions) {
@@ -195,7 +217,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
             operator: condition.operator,
             value: condition.value,
             numberValue: condition.numberValue,
-            dateValue: condition.dateValue ? new Date(condition.dateValue) : null,
+            dateValue: condition.dateValue
+              ? new Date(condition.dateValue)
+              : null,
             dateUnit: condition.dateUnit,
             locationCountry: condition.locationCountry,
             locationRegion: condition.locationRegion,
@@ -249,7 +273,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json(transformedSegment);
   } catch (error) {
     console.error("Error updating segment:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -270,7 +297,10 @@ export async function DELETE(
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid segment ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid segment ID format" },
+        { status: 400 }
+      );
     }
 
     // Get merchant
@@ -280,7 +310,10 @@ export async function DELETE(
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify segment belongs to merchant
@@ -319,7 +352,10 @@ export async function DELETE(
     return NextResponse.json({ message: "Segment deleted successfully" });
   } catch (error) {
     console.error("Error deleting segment:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -327,7 +363,10 @@ export async function DELETE(
 // PATCH /api/segments/[id] - Partial updates (status toggle, duplicate)
 // ========================================
 
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -337,7 +376,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid segment ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid segment ID format" },
+        { status: 400 }
+      );
     }
 
     // Get merchant
@@ -347,7 +389,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
@@ -365,7 +410,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       });
 
       if (!segment) {
-        return NextResponse.json({ error: "Segment not found" }, { status: 404 });
+        return NextResponse.json(
+          { error: "Segment not found" },
+          { status: 404 }
+        );
       }
 
       const updatedSegment = await prisma.segment.update({
@@ -395,7 +443,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       });
 
       if (!originalSegment) {
-        return NextResponse.json({ error: "Segment not found" }, { status: 404 });
+        return NextResponse.json(
+          { error: "Segment not found" },
+          { status: 404 }
+        );
       }
 
       // Create duplicate
@@ -463,7 +514,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     }
   } catch (error) {
     console.error("Error processing PATCH request:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 

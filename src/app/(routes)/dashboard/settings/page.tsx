@@ -4,7 +4,16 @@ import { useEffect, useState } from "react";
 
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar, Camera, Eye, EyeOff, Loader2, Mail, Shield, User } from "lucide-react";
+import {
+  Calendar,
+  Camera,
+  Eye,
+  EyeOff,
+  Loader2,
+  Mail,
+  Shield,
+  User,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -139,7 +148,9 @@ export default function SettingsPage() {
     }
   };
 
-  const handlePasswordSubmit = async (values: z.infer<typeof passwordFormSchema>) => {
+  const handlePasswordSubmit = async (
+    values: z.infer<typeof passwordFormSchema>
+  ) => {
     try {
       setIsPasswordLoading(true);
 
@@ -162,7 +173,10 @@ export default function SettingsPage() {
         toast.error(
           "This password has been found in a data breach. Please choose a different password."
         );
-      } else if (err.errors && err.errors[0]?.code === "form_password_validation_failed") {
+      } else if (
+        err.errors &&
+        err.errors[0]?.code === "form_password_validation_failed"
+      ) {
         toast.error("New password does not meet security requirements.");
       } else {
         toast.error("Failed to update password. Please try again.");
@@ -275,7 +289,9 @@ export default function SettingsPage() {
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle>Authentication Required</CardTitle>
-            <CardDescription>Please sign in to access your settings.</CardDescription>
+            <CardDescription>
+              Please sign in to access your settings.
+            </CardDescription>
           </CardHeader>
         </Card>
       </div>
@@ -308,7 +324,8 @@ export default function SettingsPage() {
               <div className="flex items-center gap-2">
                 <Mail className="text-muted-foreground h-4 w-4" />
                 <span className="text-sm">
-                  {merchantData?.email || user?.primaryEmailAddress?.emailAddress}
+                  {merchantData?.email ||
+                    user?.primaryEmailAddress?.emailAddress}
                 </span>
               </div>
             </div>
@@ -334,7 +351,9 @@ export default function SettingsPage() {
             <Camera className="h-5 w-5" />
             Profile Image
           </CardTitle>
-          <CardDescription>Upload a profile image to personalize your account</CardDescription>
+          <CardDescription>
+            Upload a profile image to personalize your account
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <ImageUpload
@@ -351,7 +370,9 @@ export default function SettingsPage() {
       <Card>
         <CardHeader>
           <CardTitle>Personal Information</CardTitle>
-          <CardDescription>Update your personal details and contact information</CardDescription>
+          <CardDescription>
+            Update your personal details and contact information
+          </CardDescription>
         </CardHeader>
         <Form {...nameForm}>
           <form onSubmit={nameForm.handleSubmit(handleNamesSubmit)}>
@@ -382,7 +403,11 @@ export default function SettingsPage() {
                     <FormItem>
                       <FormLabel>Last Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter your last name" disabled={isLoading} {...field} />
+                        <Input
+                          placeholder="Enter your last name"
+                          disabled={isLoading}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -397,7 +422,11 @@ export default function SettingsPage() {
                   <FormItem>
                     <FormLabel>Store Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your store name" disabled={isLoading} {...field} />
+                      <Input
+                        placeholder="Enter your store name"
+                        disabled={isLoading}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -407,12 +436,17 @@ export default function SettingsPage() {
               <div className="space-y-2">
                 <Label>Email Address</Label>
                 <Input
-                  value={merchantData?.email || user?.primaryEmailAddress?.emailAddress || ""}
+                  value={
+                    merchantData?.email ||
+                    user?.primaryEmailAddress?.emailAddress ||
+                    ""
+                  }
                   disabled
                   className="bg-muted"
                 />
                 <p className="text-muted-foreground text-xs">
-                  Email address cannot be changed here. Please contact support if needed.
+                  Email address cannot be changed here. Please contact support
+                  if needed.
                 </p>
               </div>
             </CardContent>
@@ -433,7 +467,9 @@ export default function SettingsPage() {
             <Shield className="h-5 w-5" />
             Security Settings
           </CardTitle>
-          <CardDescription>Manage your account security and password</CardDescription>
+          <CardDescription>
+            Manage your account security and password
+          </CardDescription>
         </CardHeader>
         <Form {...passwordForm}>
           <form onSubmit={passwordForm.handleSubmit(handlePasswordSubmit)}>
@@ -457,7 +493,9 @@ export default function SettingsPage() {
                           variant="ghost"
                           size="sm"
                           className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                          onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                          onClick={() =>
+                            setShowCurrentPassword(!showCurrentPassword)
+                          }
                         >
                           {showCurrentPassword ? (
                             <EyeOff className="h-4 w-4" />
@@ -503,8 +541,8 @@ export default function SettingsPage() {
                     </FormControl>
                     <FormMessage />
                     <p className="text-muted-foreground text-xs">
-                      Password must be at least 8 characters long and include uppercase, lowercase,
-                      and numbers.
+                      Password must be at least 8 characters long and include
+                      uppercase, lowercase, and numbers.
                     </p>
                   </FormItem>
                 )}
@@ -512,7 +550,9 @@ export default function SettingsPage() {
             </CardContent>
             <CardFooter className="mt-2">
               <Button type="submit" disabled={isPasswordLoading}>
-                {isPasswordLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isPasswordLoading && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Update Password
               </Button>
             </CardFooter>
@@ -533,8 +573,8 @@ export default function SettingsPage() {
             <div className="space-y-2">
               <h4 className="text-destructive font-medium">Delete Account</h4>
               <p className="text-muted-foreground text-sm">
-                Permanently remove your account and all associated data. This action cannot be
-                undone.
+                Permanently remove your account and all associated data. This
+                action cannot be undone.
               </p>
             </div>
           </div>

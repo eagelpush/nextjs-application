@@ -10,9 +10,21 @@ export const newAttributeFormSchema = z.object({
       "Attribute name can only contain letters, numbers, spaces, underscores, and hyphens"
     ),
   type: z
-    .enum(["text", "number", "multiple_choice", "date", "category", "boolean", "email", "url"])
+    .enum([
+      "text",
+      "number",
+      "multiple_choice",
+      "date",
+      "category",
+      "boolean",
+      "email",
+      "url",
+    ])
     .refine((val) => !!val, { message: "Attribute type is required" }),
-  description: z.string().max(200, "Description must be less than 200 characters").optional(),
+  description: z
+    .string()
+    .max(200, "Description must be less than 200 characters")
+    .optional(),
   required: z.boolean(),
   options: z
     .array(z.string().min(1, "Option cannot be empty"))

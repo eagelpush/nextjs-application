@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -45,7 +51,11 @@ import {
 } from "lucide-react";
 import { DevicePreview } from "./";
 import { ImageUpload } from "@/components/image-upload";
-import type { CampaignStep2FormData, CampaignStep1FormData, DeviceType } from "../../types";
+import type {
+  CampaignStep2FormData,
+  CampaignStep1FormData,
+  DeviceType,
+} from "../../types";
 import type {
   CompleteCampaignData,
   CampaignSegment,
@@ -54,12 +64,19 @@ import { STORAGE_KEYS, CAMPAIGN_ROUTES, TTL_OPTIONS } from "../../constants";
 
 // Editor form schema
 const editorFormSchema = z.object({
-  title: z.string().min(1, "Title is required").max(50, "Title must be 50 characters or less"),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(50, "Title must be 50 characters or less"),
   message: z
     .string()
     .min(1, "Message is required")
     .max(120, "Message must be 120 characters or less"),
-  destinationUrl: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
+  destinationUrl: z
+    .string()
+    .url("Please enter a valid URL")
+    .optional()
+    .or(z.literal("")),
   description: z
     .string()
     .min(1, "Description is required")
@@ -72,7 +89,10 @@ const editorFormSchema = z.object({
     android: z.string().optional(),
   }),
   companyLogo: z.string().optional(),
-  actionButtonText: z.string().max(20, "Button text must be 20 characters or less").optional(),
+  actionButtonText: z
+    .string()
+    .max(20, "Button text must be 20 characters or less")
+    .optional(),
   enableSound: z.boolean(),
   enableVibration: z.boolean(),
   ttl: z.string(),
@@ -117,15 +137,22 @@ export function CampaignEditorForm({
                   ? initialData.heroImages.windows
                   : "",
               mac:
-                typeof initialData.heroImages?.mac === "string" ? initialData.heroImages.mac : "",
+                typeof initialData.heroImages?.mac === "string"
+                  ? initialData.heroImages.mac
+                  : "",
               ios:
-                typeof initialData.heroImages?.ios === "string" ? initialData.heroImages.ios : "",
+                typeof initialData.heroImages?.ios === "string"
+                  ? initialData.heroImages.ios
+                  : "",
               android:
                 typeof initialData.heroImages?.android === "string"
                   ? initialData.heroImages.android
                   : "",
             },
-            companyLogo: typeof initialData.companyLogo === "string" ? initialData.companyLogo : "",
+            companyLogo:
+              typeof initialData.companyLogo === "string"
+                ? initialData.companyLogo
+                : "",
             actionButtonText: initialData.actionButtonText || "",
             enableSound: initialData.enableSound ?? true,
             enableVibration: initialData.enableVibration ?? true,
@@ -179,7 +206,10 @@ export function CampaignEditorForm({
         const completeData = { ...step1Data, ...values };
 
         // Store complete data for review
-        localStorage.setItem(STORAGE_KEYS.CAMPAIGN_COMPLETE, JSON.stringify(completeData));
+        localStorage.setItem(
+          STORAGE_KEYS.CAMPAIGN_COMPLETE,
+          JSON.stringify(completeData)
+        );
 
         // Navigate to review route
         router.push(CAMPAIGN_ROUTES.REVIEW);
@@ -197,7 +227,10 @@ export function CampaignEditorForm({
       ...step1Data,
       ...form.getValues(),
     };
-    localStorage.setItem(STORAGE_KEYS.CAMPAIGN_COMPLETE, JSON.stringify(draftData));
+    localStorage.setItem(
+      STORAGE_KEYS.CAMPAIGN_COMPLETE,
+      JSON.stringify(draftData)
+    );
     router.push(CAMPAIGN_ROUTES.LIST);
   };
 
@@ -238,7 +271,9 @@ export function CampaignEditorForm({
         {/* Editor Panel */}
         <div className="space-y-6">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className={`grid w-full ${isEditMode ? "grid-cols-3" : "grid-cols-2"}`}>
+            <TabsList
+              className={`grid w-full ${isEditMode ? "grid-cols-3" : "grid-cols-2"}`}
+            >
               <TabsTrigger value="editor">
                 <Edit3 className="mr-2 h-4 w-4" />
                 Editor
@@ -300,7 +335,10 @@ export function CampaignEditorForm({
                               />
                             </FormControl>
                             <div className="text-muted-foreground flex justify-between text-xs">
-                              <span>This will be the main headline of your notification</span>
+                              <span>
+                                This will be the main headline of your
+                                notification
+                              </span>
                               <span>{field.value?.length || 0}/50</span>
                             </div>
                             <FormMessage />
@@ -344,7 +382,8 @@ export function CampaignEditorForm({
                               />
                             </FormControl>
                             <FormDescription>
-                              Where users will be directed when they click the notification
+                              Where users will be directed when they click the
+                              notification
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -380,17 +419,28 @@ export function CampaignEditorForm({
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Category</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
                               <FormControl>
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select campaign category" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="Promotional">Promotional</SelectItem>
-                                <SelectItem value="Transactional">Transactional</SelectItem>
-                                <SelectItem value="Newsletter">Newsletter</SelectItem>
-                                <SelectItem value="Announcement">Announcement</SelectItem>
+                                <SelectItem value="Promotional">
+                                  Promotional
+                                </SelectItem>
+                                <SelectItem value="Transactional">
+                                  Transactional
+                                </SelectItem>
+                                <SelectItem value="Newsletter">
+                                  Newsletter
+                                </SelectItem>
+                                <SelectItem value="Announcement">
+                                  Announcement
+                                </SelectItem>
                                 <SelectItem value="Event">Event</SelectItem>
                                 <SelectItem value="Sale">Sale</SelectItem>
                               </SelectContent>
@@ -407,7 +457,8 @@ export function CampaignEditorForm({
                     <CardHeader>
                       <CardTitle>Hero Images</CardTitle>
                       <CardDescription>
-                        Upload platform-specific hero images for rich notifications
+                        Upload platform-specific hero images for rich
+                        notifications
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -419,7 +470,9 @@ export function CampaignEditorForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.windows || ""}
-                            onChange={(url) => handleHeroImageChange("windows", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("windows", url)
+                            }
                             onRemove={() => handleHeroImageRemove("windows")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -432,7 +485,9 @@ export function CampaignEditorForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.mac || ""}
-                            onChange={(url) => handleHeroImageChange("mac", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("mac", url)
+                            }
                             onRemove={() => handleHeroImageRemove("mac")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -445,7 +500,9 @@ export function CampaignEditorForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.ios || ""}
-                            onChange={(url) => handleHeroImageChange("ios", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("ios", url)
+                            }
                             onRemove={() => handleHeroImageRemove("ios")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -458,7 +515,9 @@ export function CampaignEditorForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.android || ""}
-                            onChange={(url) => handleHeroImageChange("android", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("android", url)
+                            }
                             onRemove={() => handleHeroImageRemove("android")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -484,7 +543,11 @@ export function CampaignEditorForm({
                           <FormItem>
                             <FormLabel>Action Button Text</FormLabel>
                             <FormControl>
-                              <Input placeholder="View Offer" {...field} maxLength={20} />
+                              <Input
+                                placeholder="View Offer"
+                                {...field}
+                                maxLength={20}
+                              />
                             </FormControl>
                             <div className="text-muted-foreground flex justify-between text-xs">
                               <span>Text for the action button (optional)</span>
@@ -514,7 +577,8 @@ export function CampaignEditorForm({
                               />
                             </FormControl>
                             <FormDescription>
-                              Company logo that appears with notifications (recommended: 64x64px)
+                              Company logo that appears with notifications
+                              (recommended: 64x64px)
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -544,10 +608,15 @@ export function CampaignEditorForm({
                           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
                               <FormLabel className="text-base">Sound</FormLabel>
-                              <FormDescription>Play notification sound</FormDescription>
+                              <FormDescription>
+                                Play notification sound
+                              </FormDescription>
                             </div>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -559,11 +628,16 @@ export function CampaignEditorForm({
                         render={({ field }) => (
                           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
-                              <FormLabel className="text-base">Vibration</FormLabel>
+                              <FormLabel className="text-base">
+                                Vibration
+                              </FormLabel>
                               <FormDescription>Vibrate device</FormDescription>
                             </div>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -576,7 +650,10 @@ export function CampaignEditorForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Time to Live (TTL)</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select TTL" />
@@ -584,14 +661,18 @@ export function CampaignEditorForm({
                             </FormControl>
                             <SelectContent>
                               {TTL_OPTIONS.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
                                   {option.label}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            How long the notification should be stored if the device is offline
+                            How long the notification should be stored if the
+                            device is offline
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -609,17 +690,25 @@ export function CampaignEditorForm({
                     <CardHeader>
                       <CardTitle>Target Segments</CardTitle>
                       <CardDescription>
-                        Select which subscriber segments will receive this campaign
+                        Select which subscriber segments will receive this
+                        campaign
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
                         {availableSegments.map((segment) => (
-                          <div key={segment.id} className="flex items-center space-x-3">
+                          <div
+                            key={segment.id}
+                            className="flex items-center space-x-3"
+                          >
                             <input
                               type="checkbox"
                               id={segment.id}
-                              checked={step1Data.selectedSegments?.includes(segment.id) || false}
+                              checked={
+                                step1Data.selectedSegments?.includes(
+                                  segment.id
+                                ) || false
+                              }
                               onChange={(e) => {
                                 // Segment selection would be handled by the parent component
                                 // For now, this is just for display purposes
@@ -632,7 +721,10 @@ export function CampaignEditorForm({
                               className="rounded border-gray-300"
                             />
                             <div className="flex-1">
-                              <label htmlFor={segment.id} className="text-sm font-medium">
+                              <label
+                                htmlFor={segment.id}
+                                className="text-sm font-medium"
+                              >
                                 {segment.name}
                               </label>
                               <p className="text-muted-foreground text-xs">
@@ -667,7 +759,9 @@ export function CampaignEditorForm({
                 {/* Device Selector */}
                 <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                   <Button
-                    variant={previewDevice === "windows" ? "default" : "outline"}
+                    variant={
+                      previewDevice === "windows" ? "default" : "outline"
+                    }
                     size="sm"
                     onClick={() => setPreviewDevice("windows")}
                   >
@@ -691,7 +785,9 @@ export function CampaignEditorForm({
                     iOS
                   </Button>
                   <Button
-                    variant={previewDevice === "android" ? "default" : "outline"}
+                    variant={
+                      previewDevice === "android" ? "default" : "outline"
+                    }
                     size="sm"
                     onClick={() => setPreviewDevice("android")}
                   >
@@ -722,14 +818,22 @@ export function CampaignEditorForm({
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Type:</span>
                 <Badge
-                  variant={step1Data.campaignType === "flash_sale" ? "destructive" : "secondary"}
+                  variant={
+                    step1Data.campaignType === "flash_sale"
+                      ? "destructive"
+                      : "secondary"
+                  }
                 >
-                  {step1Data.campaignType === "flash_sale" ? "Flash Sale" : "Regular Campaign"}
+                  {step1Data.campaignType === "flash_sale"
+                    ? "Flash Sale"
+                    : "Regular Campaign"}
                 </Badge>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Sending:</span>
-                <span>{step1Data.sendingOption === "now" ? "Send Now" : "Scheduled"}</span>
+                <span>
+                  {step1Data.sendingOption === "now" ? "Send Now" : "Scheduled"}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Segments:</span>

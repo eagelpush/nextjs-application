@@ -20,7 +20,10 @@ export function formatPercentage(value: number): string {
   return `${value.toFixed(1)}%`;
 }
 
-export function calculatePercentageChange(current: number, previous: number): number {
+export function calculatePercentageChange(
+  current: number,
+  previous: number
+): number {
   if (previous === 0) return 0;
   return ((current - previous) / previous) * 100;
 }

@@ -3,7 +3,13 @@
 import { Component, ReactNode } from "react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface Props {
   children: ReactNode;
@@ -57,10 +63,15 @@ export class SubscriberErrorBoundary extends Component<Props, State> {
             {this.state.error && (
               <div className="bg-muted rounded-md p-3">
                 <p className="text-sm font-medium">Error details:</p>
-                <p className="text-muted-foreground text-sm">{this.state.error.message}</p>
+                <p className="text-muted-foreground text-sm">
+                  {this.state.error.message}
+                </p>
               </div>
             )}
-            <Button onClick={this.handleRetry} className="flex items-center gap-2">
+            <Button
+              onClick={this.handleRetry}
+              className="flex items-center gap-2"
+            >
               <RefreshCw className="h-4 w-4" />
               Try again
             </Button>

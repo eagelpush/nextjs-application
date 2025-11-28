@@ -2,20 +2,31 @@
 
 /**
  * Uploadcare File Uploader Component
- * 
+ *
  * A React component that wraps Uploadcare's file uploader widget
  * for easy integration into the application.
- * 
+ *
  * Documentation: https://uploadcare.com/docs/integrations/react/
  */
 
 import { useRef } from "react";
-import { Widget, type WidgetAPI, type FileInfo } from "@uploadcare/react-widget";
+import {
+  Widget,
+  type WidgetAPI,
+  type FileInfo,
+} from "@uploadcare/react-widget";
 
-import { UPLOADCARE_PUBLIC_KEY, isUploadcareConfigured } from "@/lib/uploadcare";
+import {
+  UPLOADCARE_PUBLIC_KEY,
+  isUploadcareConfigured,
+} from "@/lib/uploadcare";
 
 interface FileUploaderProps {
-  onFileUpload: (fileInfo: { cdnUrl: string; uuid: string; name: string }) => void;
+  onFileUpload: (fileInfo: {
+    cdnUrl: string;
+    uuid: string;
+    name: string;
+  }) => void;
   onUploadError?: (error: Error) => void;
   publicKey?: string;
   multiple?: boolean;
@@ -51,7 +62,8 @@ export function FileUploader({
   if (!isUploadcareConfigured() && !publicKey) {
     return (
       <div className="text-destructive text-sm">
-        Uploadcare is not configured. Please set NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY.
+        Uploadcare is not configured. Please set
+        NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY.
       </div>
     );
   }
@@ -92,7 +104,11 @@ export function FileUploader({
  * Opens Uploadcare dialog when clicked
  */
 interface UploadButtonProps {
-  onFileUpload: (fileInfo: { cdnUrl: string; uuid: string; name: string }) => void;
+  onFileUpload: (fileInfo: {
+    cdnUrl: string;
+    uuid: string;
+    name: string;
+  }) => void;
   onUploadError?: (error: Error) => void;
   children?: React.ReactNode;
   className?: string;

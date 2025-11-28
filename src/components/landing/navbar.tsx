@@ -20,17 +20,20 @@ const features = [
   {
     title: "Push Campaigns",
     href: "#features",
-    description: "Create and send targeted push notification campaigns to your subscribers.",
+    description:
+      "Create and send targeted push notification campaigns to your subscribers.",
   },
   {
     title: "Analytics",
     href: "#features",
-    description: "Track performance with real-time analytics and detailed reporting.",
+    description:
+      "Track performance with real-time analytics and detailed reporting.",
   },
   {
     title: "Segmentation",
     href: "#features",
-    description: "Target specific audiences with advanced subscriber segmentation.",
+    description:
+      "Target specific audiences with advanced subscriber segmentation.",
   },
   {
     title: "Automation",
@@ -46,7 +49,10 @@ export function Navbar() {
     <header className="border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <nav className="container mx-auto flex h-16 items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80">
+        <Link
+          href="/"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
+        >
           <span className="text-foreground text-xl font-bold">Push Eagle</span>
         </Link>
 
@@ -56,7 +62,9 @@ export function Navbar() {
             <NavigationMenuList>
               {/* Features Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent">Features</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="bg-transparent">
+                  Features
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                     {features.map((feature) => (
@@ -66,7 +74,9 @@ export function Navbar() {
                             href={feature.href}
                             className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none"
                           >
-                            <div className="text-sm leading-none font-medium">{feature.title}</div>
+                            <div className="text-sm leading-none font-medium">
+                              {feature.title}
+                            </div>
                             <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
                               {feature.description}
                             </p>
@@ -81,14 +91,14 @@ export function Navbar() {
               {/* Pricing Link */}
               <NavigationMenuItem>
                 <Link href="#pricing" className={navigationMenuTriggerStyle()}>
-                    Pricing
+                  Pricing
                 </Link>
               </NavigationMenuItem>
 
               {/* Documentation Link */}
               <NavigationMenuItem>
                 <Link href="#docs" className={navigationMenuTriggerStyle()}>
-                    Docs
+                  Docs
                 </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -112,7 +122,11 @@ export function Navbar() {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
-                {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {isOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
@@ -122,12 +136,16 @@ export function Navbar() {
                   <div className="bg-primary flex h-9 w-9 items-center justify-center rounded-lg">
                     <Bell className="text-primary-foreground h-5 w-5" />
                   </div>
-                  <span className="text-foreground text-xl font-bold">Push Eagle</span>
+                  <span className="text-foreground text-xl font-bold">
+                    Push Eagle
+                  </span>
                 </div>
 
                 {/* Mobile Features */}
                 <div className="flex flex-col gap-2">
-                  <p className="text-muted-foreground px-2 text-sm font-semibold">Features</p>
+                  <p className="text-muted-foreground px-2 text-sm font-semibold">
+                    Features
+                  </p>
                   {features.map((feature) => (
                     <a
                       key={feature.title}
@@ -136,7 +154,9 @@ export function Navbar() {
                       className="hover:bg-accent hover:text-accent-foreground rounded-md p-3 transition-colors"
                     >
                       <div className="text-sm font-medium">{feature.title}</div>
-                      <p className="text-muted-foreground text-xs">{feature.description}</p>
+                      <p className="text-muted-foreground text-xs">
+                        {feature.description}
+                      </p>
                     </a>
                   ))}
                 </div>

@@ -37,7 +37,10 @@ const RATE_LIMITS = {
 /**
  * Check if request is within rate limit
  */
-export function checkRateLimit(userId: string, action: keyof typeof RATE_LIMITS): boolean {
+export function checkRateLimit(
+  userId: string,
+  action: keyof typeof RATE_LIMITS
+): boolean {
   const now = Date.now();
   const windowMs = 60 * 1000; // 1 minute
   const key = `${userId}:${action}`;
@@ -61,7 +64,8 @@ export function checkRateLimit(userId: string, action: keyof typeof RATE_LIMITS)
  * Validate UUID format
  */
 export function isValidUUID(id: string): boolean {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return uuidRegex.test(id);
 }
 
@@ -84,7 +88,10 @@ export async function getMerchantByClerkId(clerkId: string) {
 /**
  * Sanitize text input
  */
-export function sanitizeText(text: string | undefined, maxLength: number): string {
+export function sanitizeText(
+  text: string | undefined,
+  maxLength: number
+): string {
   if (!text) return "";
   return text.trim().slice(0, maxLength);
 }
@@ -105,15 +112,22 @@ export function isValidUrl(url: string): boolean {
  * Standard error responses
  */
 export const ErrorResponses = {
-  unauthorized: () => NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+  unauthorized: () =>
+    NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
   notFound: (resource: string = "Resource") =>
     NextResponse.json({ error: `${resource} not found` }, { status: 404 }),
   rateLimitExceeded: () =>
-    NextResponse.json({ error: "Rate limit exceeded. Please try again later." }, { status: 429 }),
-  invalidId: () => NextResponse.json({ error: "Invalid ID format" }, { status: 400 }),
+    NextResponse.json(
+      { error: "Rate limit exceeded. Please try again later." },
+      { status: 429 }
+    ),
+  invalidId: () =>
+    NextResponse.json({ error: "Invalid ID format" }, { status: 400 }),
   invalidRequest: (details?: unknown) =>
-    NextResponse.json({ error: "Invalid request data", details }, { status: 400 }),
+    NextResponse.json(
+      { error: "Invalid request data", details },
+      { status: 400 }
+    ),
   serverError: (message: string = "Internal server error") =>
     NextResponse.json({ error: message }, { status: 500 }),
 };
-

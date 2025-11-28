@@ -13,4 +13,3 @@ export interface MerchantData {
   createdAt: Date;
   updatedAt: Date;
 }
-

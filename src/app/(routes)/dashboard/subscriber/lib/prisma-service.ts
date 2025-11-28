@@ -49,7 +49,10 @@ export async function getSubscribersByTimeRange(timeRange: TimeRange) {
 /**
  * Get subscribers from PostgreSQL based on date range
  */
-export async function getSubscribersByDateRange(startDate: Date, endDate: Date) {
+export async function getSubscribersByDateRange(
+  startDate: Date,
+  endDate: Date
+) {
   const merchant = await getCurrentMerchant();
 
   const subscribers = await prisma.subscriber.findMany({
@@ -127,12 +130,17 @@ export async function getSubscriberGrowthMetrics() {
 /**
  * Get subscriber count by time periods for growth chart by date range
  */
-export async function getSubscriberGrowthDataByDateRange(startDate: Date, endDate: Date) {
+export async function getSubscriberGrowthDataByDateRange(
+  startDate: Date,
+  endDate: Date
+) {
   const merchant = await getCurrentMerchant();
-  
+
   // Calculate the duration in days
-  const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-  
+  const daysDiff = Math.ceil(
+    (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)
+  );
+
   // Determine period type based on duration
   let periodType: "day" | "week" | "month";
   if (daysDiff <= 30) {
@@ -144,7 +152,10 @@ export async function getSubscriberGrowthDataByDateRange(startDate: Date, endDat
   }
 
   // Initialize periods with 0 subscribers
-  const periodData: Record<string, { label: string; count: number; sortKey: string }> = {};
+  const periodData: Record<
+    string,
+    { label: string; count: number; sortKey: string }
+  > = {};
   const currentDate = new Date(startDate);
 
   if (periodType === "day") {
@@ -213,7 +224,9 @@ export async function getSubscriberGrowthDataByDateRange(startDate: Date, endDat
   });
 
   // Convert to chart format and calculate growth
-  const sortedData = Object.values(periodData).sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+  const sortedData = Object.values(periodData).sort((a, b) =>
+    a.sortKey.localeCompare(b.sortKey)
+  );
 
   return sortedData.map((data, index) => {
     const prevCount = index > 0 ? sortedData[index - 1].count : 0;
@@ -273,7 +286,10 @@ export async function getSubscriberGrowthData(timeRange: TimeRange = "30d") {
   }
 
   // Initialize periods with 0 subscribers
-  const periodData: Record<string, { label: string; count: number; sortKey: string }> = {};
+  const periodData: Record<
+    string,
+    { label: string; count: number; sortKey: string }
+  > = {};
 
   if (periodType === "day") {
     for (let i = periodCount - 1; i >= 0; i--) {
@@ -358,7 +374,9 @@ export async function getSubscriberGrowthData(timeRange: TimeRange = "30d") {
   });
 
   // Convert to chart format and calculate growth
-  const sortedData = Object.values(periodData).sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+  const sortedData = Object.values(periodData).sort((a, b) =>
+    a.sortKey.localeCompare(b.sortKey)
+  );
 
   return sortedData.map((data, index) => {
     const prevCount = index > 0 ? sortedData[index - 1].count : 0;
@@ -397,7 +415,9 @@ export async function getSubscribersByFilters(filters: {
 
   // Time range filter
   if (filters.timeRange) {
-    const daysBack = { "7d": 7, "30d": 30, "90d": 90, "1y": 365 }[filters.timeRange];
+    const daysBack = { "7d": 7, "30d": 30, "90d": 90, "1y": 365 }[
+      filters.timeRange
+    ];
     const startDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
     where.subscribedAt = { gte: startDate };
   }

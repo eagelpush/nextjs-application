@@ -43,7 +43,11 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,19 +58,35 @@ import {
 } from "@/app/(routes)/dashboard/campaigns/types";
 import { ImageUpload } from "@/components/image-upload";
 import { OptimizedImage } from "@/components/uploadcare";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 // import { NotificationPreview } from "./notification-preview";
 
 // Form validation schema
 const formSchema = z.object({
-  title: z.string().min(1, "Title is required").max(50, "Title must be 50 characters or less"),
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .max(50, "Title must be 50 characters or less"),
   description: z.string().optional(),
   message: z
     .string()
     .min(1, "Message is required")
     .max(120, "Message must be 120 characters or less"),
-  destinationUrl: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
-  actionButtonText: z.string().max(20, "Button text must be 20 characters or less").optional(),
+  destinationUrl: z
+    .string()
+    .url("Please enter a valid URL")
+    .optional()
+    .or(z.literal("")),
+  actionButtonText: z
+    .string()
+    .max(20, "Button text must be 20 characters or less")
+    .optional(),
   category: z.string().min(1, "Category is required"),
   campaignType: z.enum(["regular", "flash_sale"]),
   sendingOption: z.enum(["now", "schedule"]),
@@ -82,7 +102,9 @@ const formSchema = z.object({
     android: z.string().optional(),
   }),
   companyLogo: z.string().optional(),
-  selectedSegments: z.array(z.string()).min(1, "At least one segment must be selected"),
+  selectedSegments: z
+    .array(z.string())
+    .min(1, "At least one segment must be selected"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -127,9 +149,12 @@ export function EditCampaignForm({
       destinationUrl: initialData.destinationUrl || "",
       actionButtonText: initialData.actionButtonText || "",
       category: initialData.category || "Promotional",
-      campaignType: (initialData.campaignType as "regular" | "flash_sale") || "regular",
+      campaignType:
+        (initialData.campaignType as "regular" | "flash_sale") || "regular",
       sendingOption: initialData.sendingOption || "schedule",
-      scheduleDate: initialData.scheduleDate ? new Date(initialData.scheduleDate) : undefined,
+      scheduleDate: initialData.scheduleDate
+        ? new Date(initialData.scheduleDate)
+        : undefined,
       smartDelivery: initialData.smartDelivery || false,
       enableSound: initialData.enableSound ?? true,
       enableVibration: initialData.enableVibration ?? true,
@@ -140,16 +165,22 @@ export function EditCampaignForm({
             ? initialData.heroImages.windows
             : "") || "",
         mac:
-          (typeof initialData.heroImages?.mac === "string" ? initialData.heroImages.mac : "") || "",
+          (typeof initialData.heroImages?.mac === "string"
+            ? initialData.heroImages.mac
+            : "") || "",
         ios:
-          (typeof initialData.heroImages?.ios === "string" ? initialData.heroImages.ios : "") || "",
+          (typeof initialData.heroImages?.ios === "string"
+            ? initialData.heroImages.ios
+            : "") || "",
         android:
           (typeof initialData.heroImages?.android === "string"
             ? initialData.heroImages.android
             : "") || "",
       },
       companyLogo:
-        (typeof initialData.companyLogo === "string" ? initialData.companyLogo : "") || "",
+        (typeof initialData.companyLogo === "string"
+          ? initialData.companyLogo
+          : "") || "",
       selectedSegments: initialData.selectedSegments || [],
     },
   });
@@ -157,6 +188,7 @@ export function EditCampaignForm({
   const { watch, setValue } = form;
 
   // Watch specific fields for preview
+  // eslint-disable-next-line react-hooks/incompatible-library
   const watchTitle = watch("title");
   const watchMessage = watch("message");
   const watchCompanyLogo = watch("companyLogo");
@@ -200,7 +232,10 @@ export function EditCampaignForm({
     onSubmit(campaignData);
   };
 
-  const handleHeroImageChange = (platform: keyof FormValues["heroImages"], url: string) => {
+  const handleHeroImageChange = (
+    platform: keyof FormValues["heroImages"],
+    url: string
+  ) => {
     setValue(`heroImages.${platform}`, url);
   };
 
@@ -228,7 +263,11 @@ export function EditCampaignForm({
           {/* Header */}
 
           {/* Tabs */}
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="editor" className="flex items-center gap-2">
                 <Edit3 className="h-4 w-4" />
@@ -289,7 +328,10 @@ export function EditCampaignForm({
                               />
                             </FormControl>
                             <div className="text-muted-foreground flex justify-between text-xs">
-                              <span>This will be the main headline of your notification</span>
+                              <span>
+                                This will be the main headline of your
+                                notification
+                              </span>
                               <span>{field.value?.length || 0}/50</span>
                             </div>
                             <FormMessage />
@@ -333,7 +375,8 @@ export function EditCampaignForm({
                               />
                             </FormControl>
                             <FormDescription>
-                              Where users will be directed when they click the notification
+                              Where users will be directed when they click the
+                              notification
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -347,7 +390,8 @@ export function EditCampaignForm({
                     <CardHeader>
                       <CardTitle>Hero Images</CardTitle>
                       <CardDescription>
-                        Upload platform-specific hero images for rich notifications
+                        Upload platform-specific hero images for rich
+                        notifications
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -359,7 +403,9 @@ export function EditCampaignForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.windows || ""}
-                            onChange={(url) => handleHeroImageChange("windows", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("windows", url)
+                            }
                             onRemove={() => handleHeroImageRemove("windows")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -372,7 +418,9 @@ export function EditCampaignForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.mac || ""}
-                            onChange={(url) => handleHeroImageChange("mac", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("mac", url)
+                            }
                             onRemove={() => handleHeroImageRemove("mac")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -385,7 +433,9 @@ export function EditCampaignForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.ios || ""}
-                            onChange={(url) => handleHeroImageChange("ios", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("ios", url)
+                            }
                             onRemove={() => handleHeroImageRemove("ios")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -398,7 +448,9 @@ export function EditCampaignForm({
                           </div>
                           <ImageUpload
                             value={watchHeroImages?.android || ""}
-                            onChange={(url) => handleHeroImageChange("android", url)}
+                            onChange={(url) =>
+                              handleHeroImageChange("android", url)
+                            }
                             onRemove={() => handleHeroImageRemove("android")}
                             aspectRatio="video"
                             disabled={isSubmitting}
@@ -424,7 +476,11 @@ export function EditCampaignForm({
                           <FormItem>
                             <FormLabel>Action Button Text</FormLabel>
                             <FormControl>
-                              <Input placeholder="View Offer" {...field} maxLength={20} />
+                              <Input
+                                placeholder="View Offer"
+                                {...field}
+                                maxLength={20}
+                              />
                             </FormControl>
                             <div className="text-muted-foreground flex justify-between text-xs">
                               <span>Text for the action button (optional)</span>
@@ -454,7 +510,8 @@ export function EditCampaignForm({
                               />
                             </FormControl>
                             <FormDescription>
-                              Company logo that appears with notifications (recommended: 64x64px)
+                              Company logo that appears with notifications
+                              (recommended: 64x64px)
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -484,10 +541,15 @@ export function EditCampaignForm({
                           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
                               <FormLabel className="text-base">Sound</FormLabel>
-                              <FormDescription>Play notification sound</FormDescription>
+                              <FormDescription>
+                                Play notification sound
+                              </FormDescription>
                             </div>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -499,11 +561,16 @@ export function EditCampaignForm({
                         render={({ field }) => (
                           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                             <div className="space-y-0.5">
-                              <FormLabel className="text-base">Vibration</FormLabel>
+                              <FormLabel className="text-base">
+                                Vibration
+                              </FormLabel>
                               <FormDescription>Vibrate device</FormDescription>
                             </div>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -516,7 +583,10 @@ export function EditCampaignForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Time to Live (TTL)</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select TTL duration" />
@@ -524,14 +594,18 @@ export function EditCampaignForm({
                             </FormControl>
                             <SelectContent>
                               {TTL_OPTIONS.map((option) => (
-                                <SelectItem key={option.value} value={option.value}>
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
                                   {option.label}
                                 </SelectItem>
                               ))}
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            How long the notification should be kept if the device is offline
+                            How long the notification should be kept if the
+                            device is offline
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -543,7 +617,9 @@ export function EditCampaignForm({
                 <Card>
                   <CardHeader>
                     <CardTitle>Scheduling</CardTitle>
-                    <CardDescription>Configure when and how to send the campaign</CardDescription>
+                    <CardDescription>
+                      Configure when and how to send the campaign
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <FormField
@@ -552,7 +628,10 @@ export function EditCampaignForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Sending Option</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select sending option" />
@@ -560,7 +639,9 @@ export function EditCampaignForm({
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="now">Send Now</SelectItem>
-                              <SelectItem value="schedule">Schedule for Later</SelectItem>
+                              <SelectItem value="schedule">
+                                Schedule for Later
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -594,19 +675,25 @@ export function EditCampaignForm({
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                              >
                                 <Calendar
                                   mode="single"
                                   selected={field.value}
                                   onSelect={field.onChange}
                                   disabled={(date) =>
-                                    date < new Date(new Date().setHours(0, 0, 0, 0))
+                                    date <
+                                    new Date(new Date().setHours(0, 0, 0, 0))
                                   }
                                   initialFocus
                                 />
                               </PopoverContent>
                             </Popover>
-                            <FormDescription>Select when to send this campaign</FormDescription>
+                            <FormDescription>
+                              Select when to send this campaign
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -619,13 +706,18 @@ export function EditCampaignForm({
                       render={({ field }) => (
                         <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
-                            <FormLabel className="text-base">Smart Delivery</FormLabel>
+                            <FormLabel className="text-base">
+                              Smart Delivery
+                            </FormLabel>
                             <FormDescription>
                               Optimize delivery timing based on user activity
                             </FormDescription>
                           </div>
                           <FormControl>
-                            <Switch checked={field.value} onCheckedChange={field.onChange} />
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
                           </FormControl>
                         </FormItem>
                       )}
@@ -641,7 +733,8 @@ export function EditCampaignForm({
                   <CardHeader>
                     <CardTitle>Target Segments</CardTitle>
                     <CardDescription>
-                      Select which subscriber segments will receive this campaign
+                      Select which subscriber segments will receive this
+                      campaign
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -664,13 +757,19 @@ export function EditCampaignForm({
                                     >
                                       <FormControl>
                                         <Checkbox
-                                          checked={field.value?.includes(segment.id)}
+                                          checked={field.value?.includes(
+                                            segment.id
+                                          )}
                                           onCheckedChange={(checked) => {
                                             return checked
-                                              ? field.onChange([...field.value, segment.id])
+                                              ? field.onChange([
+                                                  ...field.value,
+                                                  segment.id,
+                                                ])
                                               : field.onChange(
                                                   field.value?.filter(
-                                                    (value) => value !== segment.id
+                                                    (value) =>
+                                                      value !== segment.id
                                                   )
                                                 );
                                           }}
@@ -721,7 +820,9 @@ export function EditCampaignForm({
                 {/* Device Selector */}
                 <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                   <Button
-                    variant={previewDevice === "windows" ? "default" : "outline"}
+                    variant={
+                      previewDevice === "windows" ? "default" : "outline"
+                    }
                     size="sm"
                     onClick={() => setPreviewDevice("windows")}
                   >
@@ -745,7 +846,9 @@ export function EditCampaignForm({
                     iOS
                   </Button>
                   <Button
-                    variant={previewDevice === "android" ? "default" : "outline"}
+                    variant={
+                      previewDevice === "android" ? "default" : "outline"
+                    }
                     size="sm"
                     onClick={() => setPreviewDevice("android")}
                   >
@@ -773,7 +876,9 @@ export function EditCampaignForm({
                       <div className="text-sm font-medium">
                         {watchTitle || "Notification Title"}
                       </div>
-                      <div className="text-muted-foreground text-xs">Just now</div>
+                      <div className="text-muted-foreground text-xs">
+                        Just now
+                      </div>
                     </div>
                   </div>
                   <div className="text-muted-foreground mb-3 text-sm">
@@ -792,7 +897,9 @@ export function EditCampaignForm({
                     </div>
                   )}
                   {watchActionButtonText && (
-                    <div className="text-xs font-medium text-blue-600">{watchActionButtonText}</div>
+                    <div className="text-xs font-medium text-blue-600">
+                      {watchActionButtonText}
+                    </div>
                   )}
                 </div>
               </div>
@@ -808,14 +915,22 @@ export function EditCampaignForm({
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Type:</span>
                 <Badge
-                  variant={watch("campaignType") === "flash_sale" ? "destructive" : "secondary"}
+                  variant={
+                    watch("campaignType") === "flash_sale"
+                      ? "destructive"
+                      : "secondary"
+                  }
                 >
-                  {watch("campaignType") === "flash_sale" ? "Flash Sale" : "Regular Campaign"}
+                  {watch("campaignType") === "flash_sale"
+                    ? "Flash Sale"
+                    : "Regular Campaign"}
                 </Badge>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Sending:</span>
-                <span>{watch("sendingOption") === "now" ? "Send Now" : "Scheduled"}</span>
+                <span>
+                  {watch("sendingOption") === "now" ? "Send Now" : "Scheduled"}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Segments:</span>

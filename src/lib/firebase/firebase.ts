@@ -1,5 +1,10 @@
 import { initializeApp, getApps, type FirebaseApp } from "firebase/app";
-import { getMessaging, getToken, onMessage, type Messaging } from "firebase/messaging";
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+  type Messaging,
+} from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -16,8 +21,9 @@ let messaging: Messaging | undefined;
 
 if (typeof window !== "undefined") {
   const existingApps = getApps();
-  app = existingApps.length > 0 ? existingApps[0] : initializeApp(firebaseConfig);
-  
+  app =
+    existingApps.length > 0 ? existingApps[0] : initializeApp(firebaseConfig);
+
   if ("serviceWorker" in navigator) {
     try {
       messaging = getMessaging(app);
@@ -28,4 +34,3 @@ if (typeof window !== "undefined") {
 }
 
 export { app, messaging, getToken, onMessage };
-

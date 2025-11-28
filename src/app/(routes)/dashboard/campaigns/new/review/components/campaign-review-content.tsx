@@ -4,7 +4,13 @@ import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -56,15 +62,17 @@ const getSegmentDisplayName = (
   return segment ? segment.name : segmentId;
 };
 
-export function CampaignReviewContent({ campaignData }: CampaignReviewContentProps) {
+export function CampaignReviewContent({
+  campaignData,
+}: CampaignReviewContentProps) {
   const router = useRouter();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
   const [isPreviewDialogOpen, setIsPreviewDialogOpen] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
-  const [previewDevice, setPreviewDevice] = React.useState<"windows" | "mac" | "ios" | "android">(
-    "ios"
-  );
+  const [previewDevice, setPreviewDevice] = React.useState<
+    "windows" | "mac" | "ios" | "android"
+  >("ios");
 
   const onSendCampaign = async () => {
     try {
@@ -99,7 +107,9 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
     } catch (error) {
       console.error("Error creating campaign:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to create campaign. Please try again."
+        error instanceof Error
+          ? error.message
+          : "Failed to create campaign. Please try again."
       );
     } finally {
       setIsSubmitting(false);
@@ -137,7 +147,9 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
     } catch (error) {
       console.error("Error saving draft:", error);
       toast.error(
-        error instanceof Error ? error.message : "Failed to save draft. Please try again."
+        error instanceof Error
+          ? error.message
+          : "Failed to save draft. Please try again."
       );
     } finally {
       setIsSaving(false);
@@ -188,8 +200,12 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                   </div>
                   <span className="text-muted-foreground text-xs">now</span>
                 </div>
-                <h4 className="mb-1 truncate text-sm font-medium">{campaignData.title}</h4>
-                <p className="text-muted-foreground mb-2 text-xs">{campaignData.message}</p>
+                <h4 className="mb-1 truncate text-sm font-medium">
+                  {campaignData.title}
+                </h4>
+                <p className="text-muted-foreground mb-2 text-xs">
+                  {campaignData.message}
+                </p>
                 {getPreviewImage() && (
                   <div className="mb-2">
                     <Image
@@ -245,10 +261,14 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex items-center justify-between">
-                      <span className="text-sm font-medium text-white">Your App</span>
+                      <span className="text-sm font-medium text-white">
+                        Your App
+                      </span>
                       <span className="text-xs text-gray-400">now</span>
                     </div>
-                    <h4 className="mb-1 text-sm font-medium text-white">{campaignData.title}</h4>
+                    <h4 className="mb-1 text-sm font-medium text-white">
+                      {campaignData.title}
+                    </h4>
                     <p className="mb-2 text-xs leading-relaxed text-gray-300">
                       {campaignData.message}
                     </p>
@@ -294,7 +314,9 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                 <div className="bg-primary/10 rounded-lg p-2">
                   <CheckCircle className="text-primary h-6 w-6" />
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight">Review Campaign</h1>
+                <h1 className="text-3xl font-bold tracking-tight">
+                  Review Campaign
+                </h1>
               </div>
               <p className="text-muted-foreground">
                 Review all campaign details before sending to your subscribers
@@ -305,10 +327,16 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                 Final Review
               </Badge>
               <Badge
-                variant={campaignData.campaignType === "flash_sale" ? "destructive" : "secondary"}
+                variant={
+                  campaignData.campaignType === "flash_sale"
+                    ? "destructive"
+                    : "secondary"
+                }
                 className="text-xs"
               >
-                {campaignData.campaignType === "flash_sale" ? "Flash Sale" : "Regular Campaign"}
+                {campaignData.campaignType === "flash_sale"
+                  ? "Flash Sale"
+                  : "Regular Campaign"}
               </Badge>
             </div>
           </div>
@@ -358,15 +386,18 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                         <Clock className="text-primary h-4 w-4" />
                       )}
                       <span className="font-medium">
-                        {campaignData.sendingOption === "now" ? "Send Now" : "Scheduled"}
+                        {campaignData.sendingOption === "now"
+                          ? "Send Now"
+                          : "Scheduled"}
                       </span>
                     </div>
-                    {campaignData.sendingOption === "schedule" && campaignData.scheduleDate && (
-                      <div className="text-muted-foreground mt-1 text-sm">
-                        {format(new Date(campaignData.scheduleDate), "PPP")} at{" "}
-                        {campaignData.scheduleTime}
-                      </div>
-                    )}
+                    {campaignData.sendingOption === "schedule" &&
+                      campaignData.scheduleDate && (
+                        <div className="text-muted-foreground mt-1 text-sm">
+                          {format(new Date(campaignData.scheduleDate), "PPP")}{" "}
+                          at {campaignData.scheduleTime}
+                        </div>
+                      )}
                   </div>
                 </div>
 
@@ -378,7 +409,11 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {campaignData.selectedSegments.map((segmentId) => (
-                      <Badge key={segmentId} variant="secondary" className="text-xs">
+                      <Badge
+                        key={segmentId}
+                        variant="secondary"
+                        className="text-xs"
+                      >
                         <Users className="mr-1 h-3 w-3" />
                         {getSegmentDisplayName(segmentId)}
                       </Badge>
@@ -391,7 +426,9 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                     <Separator />
                     <div className="bg-primary/10 flex items-center gap-2 rounded-lg p-3">
                       <Target className="text-primary h-4 w-4" />
-                      <span className="text-sm font-medium">Smart Delivery Enabled</span>
+                      <span className="text-sm font-medium">
+                        Smart Delivery Enabled
+                      </span>
                     </div>
                   </>
                 )}
@@ -408,12 +445,18 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <div className="text-muted-foreground mb-2 text-sm font-medium">Title</div>
+                  <div className="text-muted-foreground mb-2 text-sm font-medium">
+                    Title
+                  </div>
                   <div className="font-medium">{campaignData.title}</div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground mb-2 text-sm font-medium">Message</div>
-                  <div className="text-sm leading-relaxed">{campaignData.message}</div>
+                  <div className="text-muted-foreground mb-2 text-sm font-medium">
+                    Message
+                  </div>
+                  <div className="text-sm leading-relaxed">
+                    {campaignData.message}
+                  </div>
                 </div>
                 {campaignData.destinationUrl && (
                   <div>
@@ -476,28 +519,36 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                       Hero Images
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      {Object.entries(campaignData.heroImages).map(([platform, imageUrl]) => {
-                        if (!imageUrl) return null;
-                        return (
-                          <div key={platform} className="space-y-2">
-                            <div className="flex items-center gap-2 text-xs font-medium">
-                              {platform === "windows" && <Monitor className="h-3 w-3" />}
-                              {platform === "mac" && <Apple className="h-3 w-3" />}
-                              {(platform === "ios" || platform === "android") && (
-                                <Smartphone className="h-3 w-3" />
-                              )}
-                              {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                      {Object.entries(campaignData.heroImages).map(
+                        ([platform, imageUrl]) => {
+                          if (!imageUrl) return null;
+                          return (
+                            <div key={platform} className="space-y-2">
+                              <div className="flex items-center gap-2 text-xs font-medium">
+                                {platform === "windows" && (
+                                  <Monitor className="h-3 w-3" />
+                                )}
+                                {platform === "mac" && (
+                                  <Apple className="h-3 w-3" />
+                                )}
+                                {(platform === "ios" ||
+                                  platform === "android") && (
+                                  <Smartphone className="h-3 w-3" />
+                                )}
+                                {platform.charAt(0).toUpperCase() +
+                                  platform.slice(1)}
+                              </div>
+                              <Image
+                                src={imageUrl}
+                                alt={`${platform} hero`}
+                                width={200}
+                                height={80}
+                                className="h-20 w-full rounded border object-cover"
+                              />
                             </div>
-                            <Image
-                              src={imageUrl}
-                              alt={`${platform} hero`}
-                              width={200}
-                              height={80}
-                              className="h-20 w-full rounded border object-cover"
-                            />
-                          </div>
-                        );
-                      })}
+                          );
+                        }
+                      )}
                     </div>
                   </div>
                 </div>
@@ -514,14 +565,18 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                   <Eye className="h-5 w-5" />
                   Live Preview
                 </CardTitle>
-                <CardDescription>See how your notification will appear</CardDescription>
+                <CardDescription>
+                  See how your notification will appear
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {/* Device Selector */}
                   <div className="grid grid-cols-2 gap-2">
                     <Button
-                      variant={previewDevice === "windows" ? "default" : "outline"}
+                      variant={
+                        previewDevice === "windows" ? "default" : "outline"
+                      }
                       size="sm"
                       onClick={() => setPreviewDevice("windows")}
                     >
@@ -545,7 +600,9 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                       iOS
                     </Button>
                     <Button
-                      variant={previewDevice === "android" ? "default" : "outline"}
+                      variant={
+                        previewDevice === "android" ? "default" : "outline"
+                      }
                       size="sm"
                       onClick={() => setPreviewDevice("android")}
                     >
@@ -558,7 +615,10 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                   {getDevicePreview()}
 
                   {/* Full Preview Button */}
-                  <Dialog open={isPreviewDialogOpen} onOpenChange={setIsPreviewDialogOpen}>
+                  <Dialog
+                    open={isPreviewDialogOpen}
+                    onOpenChange={setIsPreviewDialogOpen}
+                  >
                     <DialogTrigger asChild>
                       <Button variant="outline" className="w-full">
                         <Play className="mr-2 h-4 w-4" />
@@ -576,15 +636,21 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                         {["windows", "mac", "ios", "android"].map((device) => (
                           <div key={device} className="space-y-2">
                             <div className="flex items-center gap-2 text-sm font-medium">
-                              {device === "windows" && <Monitor className="h-4 w-4" />}
-                              {device === "mac" && <Apple className="h-4 w-4" />}
+                              {device === "windows" && (
+                                <Monitor className="h-4 w-4" />
+                              )}
+                              {device === "mac" && (
+                                <Apple className="h-4 w-4" />
+                              )}
                               {(device === "ios" || device === "android") && (
                                 <Smartphone className="h-4 w-4" />
                               )}
                               {device.charAt(0).toUpperCase() + device.slice(1)}
                             </div>
                             <div className="bg-muted/30 rounded-lg border p-4">
-                              <div className="mb-1 text-xs font-medium">{campaignData.title}</div>
+                              <div className="mb-1 text-xs font-medium">
+                                {campaignData.title}
+                              </div>
                               <div className="text-muted-foreground text-xs">
                                 {campaignData.message}
                               </div>
@@ -621,7 +687,10 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                   <Save className="mr-2 h-4 w-4" />
                   {isSaving ? "Saving..." : "Save as Draft"}
                 </Button>
-                <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                <Dialog
+                  open={isDeleteDialogOpen}
+                  onOpenChange={setIsDeleteDialogOpen}
+                >
                   <DialogTrigger asChild>
                     <Button
                       variant="outline"
@@ -635,11 +704,15 @@ export function CampaignReviewContent({ campaignData }: CampaignReviewContentPro
                     <DialogHeader>
                       <DialogTitle>Delete Campaign</DialogTitle>
                       <DialogDescription>
-                        Are you sure you want to delete this campaign? This action cannot be undone.
+                        Are you sure you want to delete this campaign? This
+                        action cannot be undone.
                       </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                      <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>
+                      <Button
+                        variant="outline"
+                        onClick={() => setIsDeleteDialogOpen(false)}
+                      >
                         Cancel
                       </Button>
                       <Button variant="destructive" onClick={onDeleteCampaign}>

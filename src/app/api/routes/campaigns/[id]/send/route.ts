@@ -2,18 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { CampaignSenderService } from "@/lib/services/campaign-sender";
-import { getMerchantByClerkId, isValidUUID, ErrorResponses } from "@/lib/api/utils";
+import {
+  getMerchantByClerkId,
+  isValidUUID,
+  ErrorResponses,
+} from "@/lib/api/utils";
 
 /**
  * POST /api/campaigns/[id]/send
  * Send a campaign to subscribers
  */
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id: campaignId } = await params;
 
     if (!isValidUUID(campaignId)) {
-      return NextResponse.json({ error: "Invalid campaign ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid campaign ID format" },
+        { status: 400 }
+      );
     }
 
     const { userId } = await auth();
@@ -85,12 +95,18 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
  * GET /api/campaigns/[id]/send
  * Get campaign send status and statistics
  */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid campaign ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid campaign ID format" },
+        { status: 400 }
+      );
     }
 
     const { userId } = await auth();

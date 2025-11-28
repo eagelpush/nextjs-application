@@ -13,7 +13,10 @@ export const updateOptInSettingsSchema = z.object({
   customPromptButtonText: z.string().min(1).max(50).optional(),
   customPromptCancelText: z.string().min(1).max(50).optional(),
   customPromptImage: z.string().url().optional().or(z.literal("")),
-  customPromptPrimaryColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
+  customPromptPrimaryColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/)
+    .optional(),
   customPromptPosition: z
     .enum(["center", "bottom-right", "top-right", "bottom-left", "top-left"])
     .optional(),
@@ -23,7 +26,10 @@ export const updateOptInSettingsSchema = z.object({
     .optional(),
   flyoutText: z.string().min(1).max(50).optional(),
   flyoutIcon: z.string().optional().or(z.literal("")),
-  flyoutColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
+  flyoutColor: z
+    .string()
+    .regex(/^#[0-9A-Fa-f]{6}$/)
+    .optional(),
   flyoutDelaySeconds: z.number().int().min(0).max(300).optional(),
   exitIntentEnabled: z.boolean().optional(),
   exitIntentHeadline: z.string().min(1).max(100).optional(),
@@ -43,5 +49,6 @@ export const updateOptInSettingsSchema = z.object({
   excludeUrls: z.array(z.string()).max(20).optional(),
 });
 
-export type UpdateOptInSettingsInput = z.infer<typeof updateOptInSettingsSchema>;
-
+export type UpdateOptInSettingsInput = z.infer<
+  typeof updateOptInSettingsSchema
+>;

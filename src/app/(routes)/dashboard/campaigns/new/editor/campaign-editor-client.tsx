@@ -8,12 +8,15 @@ import type { CampaignStep1FormData } from "../types";
 
 export default function CampaignEditorClient() {
   const router = useRouter();
-  const [step1Data, setStep1Data] = useState<CampaignStep1FormData | null>(null);
+  const [step1Data, setStep1Data] = useState<CampaignStep1FormData | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
   // Prevent hydration errors by only accessing localStorage after mount
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsMounted(true);
   }, []);
 
@@ -24,6 +27,7 @@ export default function CampaignEditorClient() {
     if (savedData) {
       try {
         const parsedData = JSON.parse(savedData) as CampaignStep1FormData;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setStep1Data(parsedData);
       } catch (error) {
         console.error("Failed to parse step 1 data:", error);

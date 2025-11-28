@@ -61,7 +61,9 @@ export function TagInput({
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={value.length >= maxTags ? `Maximum ${maxTags} tags` : placeholder}
+          placeholder={
+            value.length >= maxTags ? `Maximum ${maxTags} tags` : placeholder
+          }
           className="flex-1 border-0 bg-transparent p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           disabled={value.length >= maxTags}
         />
@@ -74,4 +76,3 @@ export function TagInput({
     </div>
   );
 }
-

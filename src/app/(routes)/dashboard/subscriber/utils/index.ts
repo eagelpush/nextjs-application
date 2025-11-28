@@ -1,5 +1,10 @@
 import { format, parseISO } from "date-fns";
-import type { Subscriber, PaginationState, SubscriberFilters, TimeRange } from "../types";
+import type {
+  Subscriber,
+  PaginationState,
+  SubscriberFilters,
+  TimeRange,
+} from "../types";
 import { PAGINATION_CONFIG } from "../constants";
 
 /**
@@ -84,7 +89,10 @@ export function formatRelativeDate(dateString: string): string {
  */
 export function filterSubscribers(
   subscribers: Subscriber[],
-  filters: Pick<SubscriberFilters, "searchQuery" | "deviceFilter" | "countryFilter">
+  filters: Pick<
+    SubscriberFilters,
+    "searchQuery" | "deviceFilter" | "countryFilter"
+  >
 ): Subscriber[] {
   return subscribers.filter((subscriber) => {
     // Search query filter
@@ -135,7 +143,10 @@ export function calculatePagination(
 /**
  * Get paginated items
  */
-export function getPaginatedItems<T>(items: T[], pagination: PaginationState): T[] {
+export function getPaginatedItems<T>(
+  items: T[],
+  pagination: PaginationState
+): T[] {
   const startIndex = (pagination.currentPage - 1) * pagination.itemsPerPage;
   const endIndex = startIndex + pagination.itemsPerPage;
   return items.slice(startIndex, endIndex);
@@ -291,7 +302,10 @@ export { getIconComponent, ICON_MAP } from "./icon-map";
 /**
  * Export data to CSV format
  */
-export function exportToCSV(subscribers: Subscriber[], filename: string = "subscribers"): void {
+export function exportToCSV(
+  subscribers: Subscriber[],
+  filename: string = "subscribers"
+): void {
   if (subscribers.length === 0) {
     console.warn("No subscribers to export");
     return;
@@ -364,7 +378,10 @@ export function exportToCSV(subscribers: Subscriber[], filename: string = "subsc
   if (link.download !== undefined) {
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
-    link.setAttribute("download", `${filename}-${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute(
+      "download",
+      `${filename}-${new Date().toISOString().split("T")[0]}.csv`
+    );
     link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();

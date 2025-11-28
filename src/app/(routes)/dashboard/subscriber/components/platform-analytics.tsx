@@ -9,7 +9,9 @@ export function PlatformAnalytics({ platformData }: PlatformAnalyticsProps) {
       {/* Browser Breakdown */}
       <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Browser Breakdown</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            Browser Breakdown
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {platformData.browsers.length === 0 ? (
@@ -24,10 +26,14 @@ export function PlatformAnalytics({ platformData }: PlatformAnalyticsProps) {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <IconComponent className="text-muted-foreground h-4 w-4" />
-                      <span className="text-sm font-medium">{browser.name}</span>
+                      <span className="text-sm font-medium">
+                        {browser.name}
+                      </span>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium">{formatNumber(browser.users)}</div>
+                      <div className="text-sm font-medium">
+                        {formatNumber(browser.users)}
+                      </div>
                       <div className="text-muted-foreground text-xs">
                         {formatPercentage(browser.percentage)}
                       </div>
@@ -44,7 +50,9 @@ export function PlatformAnalytics({ platformData }: PlatformAnalyticsProps) {
       {/* Operating System Breakdown */}
       <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Operating System</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            Operating System
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           {platformData.operatingSystems.length === 0 ? (
@@ -62,7 +70,9 @@ export function PlatformAnalytics({ platformData }: PlatformAnalyticsProps) {
                       <span className="text-sm font-medium">{os.name}</span>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-medium">{formatNumber(os.users)}</div>
+                      <div className="text-sm font-medium">
+                        {formatNumber(os.users)}
+                      </div>
                       <div className="text-muted-foreground text-xs">
                         {formatPercentage(os.percentage)}
                       </div>

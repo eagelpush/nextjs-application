@@ -57,7 +57,12 @@ export default function SignUpPage() {
     const timestamp = timestampFromUrl || storedContext?.timestamp;
 
     // Require all three parameters (shop, hmac, timestamp) for Shopify OAuth flow
-    if (shop && hmac && timestamp && (shopifyInstall === "true" || storedContext)) {
+    if (
+      shop &&
+      hmac &&
+      timestamp &&
+      (shopifyInstall === "true" || storedContext)
+    ) {
       // Store in sessionStorage for persistence across Clerk navigation (ALWAYS store if we have context)
       if (shop && hmac && timestamp) {
         try {
@@ -74,9 +79,9 @@ export default function SignUpPage() {
       // Only update if context changed
       if (!shopifyContext || shopifyContext.shop !== shop) {
         setShopifyContext({ shop, hmac, timestamp });
-        console.log("🛍️ Sign-up with Shopify context:", { 
-          shop, 
-          source: shopFromUrl ? "URL" : "SessionStorage" 
+        console.log("🛍️ Sign-up with Shopify context:", {
+          shop,
+          source: shopFromUrl ? "URL" : "SessionStorage",
         });
       }
     } else if (shopifyContext) {
@@ -95,10 +100,13 @@ export default function SignUpPage() {
   // If so, redirect to Shopify OAuth immediately
   useEffect(() => {
     if (isLoaded && user && shopifyContext) {
-      console.log("✅ User already authenticated after verification, redirecting to Shopify OAuth:", {
-        userId: user.id,
-        shop: shopifyContext.shop,
-      });
+      console.log(
+        "✅ User already authenticated after verification, redirecting to Shopify OAuth:",
+        {
+          userId: user.id,
+          shop: shopifyContext.shop,
+        }
+      );
 
       // Redirect to Shopify OAuth immediately (no delay to prevent form submission)
       const oauthUrl = new URL("/api/shopify/login", window.location.origin);
@@ -117,7 +125,6 @@ export default function SignUpPage() {
       // Immediate redirect - don't wait
       window.location.href = oauthUrl.toString();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded, user, shopifyContext]);
 
   // Handle successful sign-up completion
@@ -157,12 +164,13 @@ export default function SignUpPage() {
   };
   // Build fallback redirect URL with Shopify context if available
   // This is used by Clerk to redirect after email verification
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const buildFallbackRedirectUrl = () => {
     // Try to get context from state first, then from sessionStorage
     let shop = shopifyContext?.shop;
     let hmac = shopifyContext?.hmac;
     let timestamp = shopifyContext?.timestamp;
-    
+
     // If not in state, try sessionStorage
     if (!shop || !hmac || !timestamp) {
       try {
@@ -177,9 +185,14 @@ export default function SignUpPage() {
         console.error("Error reading sessionStorage for fallback URL:", e);
       }
     }
-    
+
     if (shop && hmac && timestamp) {
-      const url = new URL("/sign-up", typeof window !== "undefined" ? window.location.origin : "http://localhost:3000");
+      const url = new URL(
+        "/sign-up",
+        typeof window !== "undefined"
+          ? window.location.origin
+          : "http://localhost:3000"
+      );
       url.searchParams.set("shop", shop);
       url.searchParams.set("hmac", hmac);
       url.searchParams.set("timestamp", timestamp);
@@ -197,7 +210,8 @@ export default function SignUpPage() {
           <CardHeader>
             <CardTitle>Connecting to Shopify...</CardTitle>
             <CardDescription>
-              Please wait while we redirect you to complete the Shopify OAuth flow.
+              Please wait while we redirect you to complete the Shopify OAuth
+              flow.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center py-8">
@@ -221,7 +235,9 @@ export default function SignUpPage() {
                     <CardDescription>
                       {shopifyContext ? (
                         <div className="flex flex-col gap-2">
-                          <span>Complete your account setup to connect with Shopify.</span>
+                          <span>
+                            Complete your account setup to connect with Shopify.
+                          </span>
                           <Badge variant="secondary" className="w-fit">
                             🛍️ Installing for: {shopifyContext.shop}
                           </Badge>
@@ -231,82 +247,97 @@ export default function SignUpPage() {
                       )}
                     </CardDescription>
                   </CardHeader>
-                          <CardContent className="grid gap-y-4">
-                            <Clerk.Field name="emailAddress" className="space-y-2">
-                              <Clerk.Label asChild>
-                                <Label>Email address</Label>
-                              </Clerk.Label>
-                              <Clerk.Input type="email" required asChild>
-                                <Input />
-                              </Clerk.Input>
-                              <Clerk.FieldError className="text-destructive block text-sm" />
-                            </Clerk.Field>
-                            <Clerk.Field name="password" className="space-y-2">
-                              <Clerk.Label asChild>
-                                <Label>Password</Label>
-                              </Clerk.Label>
-                              <Clerk.Input type="password" required asChild>
-                                <Input />
-                              </Clerk.Input>
-                              <Clerk.FieldError className="text-destructive block text-sm" />
-                            </Clerk.Field>
-                          </CardContent>
-                          <CardFooter>
-                            <div className="grid w-full gap-y-4">
-                              <SignUp.Captcha className="empty:hidden" />
-                              <SignUp.Action 
-                                submit 
-                                asChild
-                                onClick={() => {
-                                  // Ensure Shopify context is stored before form submission
-                                  if (shopifyContext?.shop && shopifyContext?.hmac && shopifyContext?.timestamp) {
-                                    try {
-                                      sessionStorage.setItem(
-                                        "shopify_install_context",
-                                        JSON.stringify({
-                                          shop: shopifyContext.shop,
-                                          hmac: shopifyContext.hmac,
-                                          timestamp: shopifyContext.timestamp,
-                                        })
-                                      );
-                                      console.log("💾 Stored Shopify context before form submission:", {
-                                        shop: shopifyContext.shop,
-                                      });
-                                    } catch (e) {
-                                      console.error("Error storing Shopify context before form submission:", e);
-                                    }
-                                  }
-                                }}
-                              >
-                                <Button disabled={isGlobalLoading}>
-                                  <Clerk.Loading>
-                                    {(isLoading) => {
-                                      return isLoading ? (
-                                        <Icons.spinner className="size-4 animate-spin" />
-                                      ) : (
-                                        "Continue"
-                                      );
-                                    }}
-                                  </Clerk.Loading>
-                                </Button>
-                              </SignUp.Action>
-                      <Button 
-                        variant="link" 
+                  <CardContent className="grid gap-y-4">
+                    <Clerk.Field name="emailAddress" className="space-y-2">
+                      <Clerk.Label asChild>
+                        <Label>Email address</Label>
+                      </Clerk.Label>
+                      <Clerk.Input type="email" required asChild>
+                        <Input />
+                      </Clerk.Input>
+                      <Clerk.FieldError className="text-destructive block text-sm" />
+                    </Clerk.Field>
+                    <Clerk.Field name="password" className="space-y-2">
+                      <Clerk.Label asChild>
+                        <Label>Password</Label>
+                      </Clerk.Label>
+                      <Clerk.Input type="password" required asChild>
+                        <Input />
+                      </Clerk.Input>
+                      <Clerk.FieldError className="text-destructive block text-sm" />
+                    </Clerk.Field>
+                  </CardContent>
+                  <CardFooter>
+                    <div className="grid w-full gap-y-4">
+                      <SignUp.Captcha className="empty:hidden" />
+                      <SignUp.Action
+                        submit
+                        asChild
+                        onClick={() => {
+                          // Ensure Shopify context is stored before form submission
+                          if (
+                            shopifyContext?.shop &&
+                            shopifyContext?.hmac &&
+                            shopifyContext?.timestamp
+                          ) {
+                            try {
+                              sessionStorage.setItem(
+                                "shopify_install_context",
+                                JSON.stringify({
+                                  shop: shopifyContext.shop,
+                                  hmac: shopifyContext.hmac,
+                                  timestamp: shopifyContext.timestamp,
+                                })
+                              );
+                              console.log(
+                                "💾 Stored Shopify context before form submission:",
+                                {
+                                  shop: shopifyContext.shop,
+                                }
+                              );
+                            } catch (e) {
+                              console.error(
+                                "Error storing Shopify context before form submission:",
+                                e
+                              );
+                            }
+                          }
+                        }}
+                      >
+                        <Button disabled={isGlobalLoading}>
+                          <Clerk.Loading>
+                            {(isLoading) => {
+                              return isLoading ? (
+                                <Icons.spinner className="size-4 animate-spin" />
+                              ) : (
+                                "Continue"
+                              );
+                            }}
+                          </Clerk.Loading>
+                        </Button>
+                      </SignUp.Action>
+                      <Button
+                        variant="link"
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
                           // Preserve Shopify context when navigating to sign-in
-                          const signInUrl = new URL("/sign-in", window.location.origin);
-                          
+                          const signInUrl = new URL(
+                            "/sign-in",
+                            window.location.origin
+                          );
+
                           // Get Shopify context from sessionStorage or current URL
                           let shop = shopifyContext?.shop;
                           let hmac = shopifyContext?.hmac;
                           let timestamp = shopifyContext?.timestamp;
-                          
+
                           // If not in state, try to get from sessionStorage
                           if (!shop || !hmac || !timestamp) {
                             try {
-                              const stored = sessionStorage.getItem("shopify_install_context");
+                              const stored = sessionStorage.getItem(
+                                "shopify_install_context"
+                              );
                               if (stored) {
                                 const context = JSON.parse(stored);
                                 shop = shop || context?.shop;
@@ -317,20 +348,31 @@ export default function SignUpPage() {
                               console.error("Error reading sessionStorage:", e);
                             }
                           }
-                          
+
                           // If still not found, try URL params
-                          if (!shop) shop = searchParams.get("shop") || undefined;
-                          if (!hmac) hmac = searchParams.get("hmac") || undefined;
-                          if (!timestamp) timestamp = searchParams.get("timestamp") || undefined;
-                          
+                          if (!shop)
+                            shop = searchParams.get("shop") || undefined;
+                          if (!hmac)
+                            hmac = searchParams.get("hmac") || undefined;
+                          if (!timestamp)
+                            timestamp =
+                              searchParams.get("timestamp") || undefined;
+
                           // Add Shopify parameters to sign-in URL if available
                           // For Shopify OAuth, we need at least shop (hmac/timestamp optional for sign-in)
                           if (shop) {
                             signInUrl.searchParams.set("shop", shop);
                             if (hmac) signInUrl.searchParams.set("hmac", hmac);
-                            if (timestamp) signInUrl.searchParams.set("timestamp", timestamp);
-                            signInUrl.searchParams.set("shopify_install", "true");
-                            
+                            if (timestamp)
+                              signInUrl.searchParams.set(
+                                "timestamp",
+                                timestamp
+                              );
+                            signInUrl.searchParams.set(
+                              "shopify_install",
+                              "true"
+                            );
+
                             // Ensure sessionStorage has the full context
                             try {
                               sessionStorage.setItem(
@@ -338,16 +380,22 @@ export default function SignUpPage() {
                                 JSON.stringify({ shop, hmac, timestamp })
                               );
                             } catch (e) {
-                              console.error("Error writing to sessionStorage:", e);
+                              console.error(
+                                "Error writing to sessionStorage:",
+                                e
+                              );
                             }
-                            
-                            console.log("🔄 Navigating to sign-in with Shopify context:", {
-                              shop,
-                              hasHmac: !!hmac,
-                              hasTimestamp: !!timestamp,
-                              url: signInUrl.toString(),
-                            });
-                            
+
+                            console.log(
+                              "🔄 Navigating to sign-in with Shopify context:",
+                              {
+                                shop,
+                                hasHmac: !!hmac,
+                                hasTimestamp: !!timestamp,
+                                url: signInUrl.toString(),
+                              }
+                            );
+
                             router.push(signInUrl.toString());
                           } else {
                             // Navigate without Shopify context (regular sign-in)
@@ -410,11 +458,13 @@ export default function SignUpPage() {
                     <CardContent className="grid gap-y-4">
                       <div className="grid items-center justify-center gap-y-2">
                         <Clerk.Field name="code" className="space-y-2">
-                          <Clerk.Label className="sr-only">Email address</Clerk.Label>
+                          <Clerk.Label className="sr-only">
+                            Email address
+                          </Clerk.Label>
                           <div className="flex justify-center text-center">
                             <Clerk.Input
                               type="otp"
-                              className="flex justify-center has-[:disabled]:opacity-50"
+                              className="flex justify-center has-disabled:opacity-50"
                               autoSubmit
                               render={({ value, status }) => {
                                 return (
@@ -424,7 +474,8 @@ export default function SignUpPage() {
                                       "border-input relative flex size-10 items-center justify-center border-y border-r text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",
                                       {
                                         "ring-ring ring-offset-background z-10 ring-2":
-                                          status === "cursor" || status === "selected",
+                                          status === "cursor" ||
+                                          status === "selected",
                                       }
                                     )}
                                   >
@@ -445,10 +496,17 @@ export default function SignUpPage() {
                           asChild
                           resend
                           className="text-muted-foreground"
-                          fallback={({ resendableAfter }: { resendableAfter: number }) => (
+                          fallback={({
+                            resendableAfter,
+                          }: {
+                            resendableAfter: number;
+                          }) => (
                             <Button variant="link" size="sm" disabled>
                               Didn&apos;t receive a code? Resend (
-                              <span className="tabular-nums">{resendableAfter}</span>)
+                              <span className="tabular-nums">
+                                {resendableAfter}
+                              </span>
+                              )
                             </Button>
                           )}
                         >

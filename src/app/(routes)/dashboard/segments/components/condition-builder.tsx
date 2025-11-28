@@ -54,7 +54,9 @@ export function ConditionBuilder({
   };
 
   const getCategoryOptions = () => {
-    return condition.type === "action" ? SEGMENT_CRITERIA.actions : SEGMENT_CRITERIA.properties;
+    return condition.type === "action"
+      ? SEGMENT_CRITERIA.actions
+      : SEGMENT_CRITERIA.properties;
   };
 
   const getOperatorOptions = () => {
@@ -80,7 +82,9 @@ export function ConditionBuilder({
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           <Select
             value={condition.locationCountry || ""}
-            onValueChange={(value) => handleFieldUpdate("locationCountry", value)}
+            onValueChange={(value) =>
+              handleFieldUpdate("locationCountry", value)
+            }
           >
             <SelectTrigger>
               <SelectValue placeholder="Country" />
@@ -96,7 +100,9 @@ export function ConditionBuilder({
 
           <Select
             value={condition.locationRegion || ""}
-            onValueChange={(value) => handleFieldUpdate("locationRegion", value)}
+            onValueChange={(value) =>
+              handleFieldUpdate("locationRegion", value)
+            }
           >
             <SelectTrigger>
               <SelectValue placeholder="Region" />
@@ -178,21 +184,27 @@ export function ConditionBuilder({
           type="number"
           placeholder="Enter number"
           value={condition.numberValue || ""}
-          onChange={(e) => handleFieldUpdate("numberValue", Number(e.target.value))}
+          onChange={(e) =>
+            handleFieldUpdate("numberValue", Number(e.target.value))
+          }
           className="bg-background/60 h-10"
         />
       );
     }
 
     // Date and time unit inputs
-    if (["in_last", "more_than_ago", "less_than_ago"].includes(condition.operator)) {
+    if (
+      ["in_last", "more_than_ago", "less_than_ago"].includes(condition.operator)
+    ) {
       return (
         <div className="grid grid-cols-2 gap-3">
           <Input
             type="number"
             placeholder="Number"
             value={condition.numberValue || ""}
-            onChange={(e) => handleFieldUpdate("numberValue", Number(e.target.value))}
+            onChange={(e) =>
+              handleFieldUpdate("numberValue", Number(e.target.value))
+            }
           />
           <Select
             value={condition.dateUnit || ""}
@@ -247,7 +259,9 @@ export function ConditionBuilder({
             <div className="flex items-center space-x-1">
               <Button
                 type="button"
-                variant={condition.logicalOperator === "AND" ? "default" : "ghost"}
+                variant={
+                  condition.logicalOperator === "AND" ? "default" : "ghost"
+                }
                 size="sm"
                 className="h-7 rounded-xl px-3 text-xs font-medium"
                 onClick={() => {
@@ -260,7 +274,9 @@ export function ConditionBuilder({
               <div className="bg-border h-4 w-px"></div>
               <Button
                 type="button"
-                variant={condition.logicalOperator === "OR" ? "default" : "ghost"}
+                variant={
+                  condition.logicalOperator === "OR" ? "default" : "ghost"
+                }
                 size="sm"
                 className="h-7 rounded-xl px-4 text-xs font-medium"
                 onClick={() => {
@@ -301,7 +317,9 @@ export function ConditionBuilder({
             <div className="space-y-5">
               {/* Type and Category Selection */}
               <div className="space-y-3">
-                <div className="text-foreground text-sm font-medium">Subscriber has</div>
+                <div className="text-foreground text-sm font-medium">
+                  Subscriber has
+                </div>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <label className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
@@ -333,7 +351,9 @@ export function ConditionBuilder({
                     </label>
                     <Select
                       value={condition.category}
-                      onValueChange={(value) => handleFieldUpdate("category", value)}
+                      onValueChange={(value) =>
+                        handleFieldUpdate("category", value)
+                      }
                       disabled={!condition.type}
                     >
                       <SelectTrigger className="bg-background/50 h-10">
@@ -363,7 +383,9 @@ export function ConditionBuilder({
                   </div>
                   <Select
                     value={condition.operator}
-                    onValueChange={(value) => handleFieldUpdate("operator", value)}
+                    onValueChange={(value) =>
+                      handleFieldUpdate("operator", value)
+                    }
                   >
                     <SelectTrigger className="bg-background/50 h-10">
                       <SelectValue placeholder="Select condition" />
@@ -389,7 +411,9 @@ export function ConditionBuilder({
                     </span>
                     <div className="bg-border h-px flex-1"></div>
                   </div>
-                  <div className="bg-muted/30 rounded-lg p-4">{renderAdditionalFields()}</div>
+                  <div className="bg-muted/30 rounded-lg p-4">
+                    {renderAdditionalFields()}
+                  </div>
                 </div>
               )}
             </div>

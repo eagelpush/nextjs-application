@@ -14,7 +14,15 @@ export interface Segment {
 export interface CustomAttribute {
   id: string;
   name: string;
-  type: "text" | "number" | "multiple_choice" | "date" | "category" | "boolean" | "email" | "url";
+  type:
+    | "text"
+    | "number"
+    | "multiple_choice"
+    | "date"
+    | "category"
+    | "boolean"
+    | "email"
+    | "url";
   description?: string;
   required: boolean;
   options?: string[]; // For multiple choice type

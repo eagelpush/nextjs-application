@@ -6,7 +6,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { format } from "date-fns";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
@@ -21,7 +27,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import {
   Send,
@@ -83,6 +93,7 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
     },
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const watchSendingOption = form.watch("sendingOption");
   const watchSelectedSegments = form.watch("selectedSegments");
 
@@ -126,7 +137,9 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                   </div>
                   <div>
                     <CardTitle>Sending Options</CardTitle>
-                    <CardDescription>Choose when to send your campaign</CardDescription>
+                    <CardDescription>
+                      Choose when to send your campaign
+                    </CardDescription>
                   </div>
                 </div>
               </CardHeader>
@@ -143,7 +156,11 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                           className="grid gap-4 md:grid-cols-2"
                         >
                           <div className="relative">
-                            <RadioGroupItem value="now" id="send-now" className="peer sr-only" />
+                            <RadioGroupItem
+                              value="now"
+                              id="send-now"
+                              className="peer sr-only"
+                            />
                             <Label
                               htmlFor="send-now"
                               className="border-input hover:bg-accent peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent/50 flex cursor-pointer items-start gap-4 rounded-lg border-2 p-4 transition-colors"
@@ -152,7 +169,9 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                                 <Zap className="text-primary h-5 w-5" />
                               </div>
                               <div className="flex-1">
-                                <div className="mb-1 font-semibold">Send Now</div>
+                                <div className="mb-1 font-semibold">
+                                  Send Now
+                                </div>
                                 <div className="text-muted-foreground text-sm">
                                   Send immediately after creating
                                 </div>
@@ -173,7 +192,9 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                                 <Clock className="text-primary h-5 w-5" />
                               </div>
                               <div className="flex-1">
-                                <div className="mb-1 font-semibold">Schedule</div>
+                                <div className="mb-1 font-semibold">
+                                  Schedule
+                                </div>
                                 <div className="text-muted-foreground text-sm">
                                   Send at a specific date and time
                                 </div>
@@ -215,13 +236,17 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                                 </Button>
                               </FormControl>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
+                            <PopoverContent
+                              className="w-auto p-0"
+                              align="start"
+                            >
                               <Calendar
                                 mode="single"
                                 selected={field.value}
                                 onSelect={field.onChange}
                                 disabled={(date) =>
-                                  date < new Date() || date < new Date("1900-01-01")
+                                  date < new Date() ||
+                                  date < new Date("1900-01-01")
                                 }
                                 initialFocus
                               />
@@ -238,7 +263,11 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                         <FormItem>
                           <FormLabel>Schedule Time</FormLabel>
                           <FormControl>
-                            <Input type="time" placeholder="Select time" {...field} />
+                            <Input
+                              type="time"
+                              placeholder="Select time"
+                              {...field}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -277,7 +306,11 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                           className="grid gap-4 md:grid-cols-2"
                         >
                           <div className="relative">
-                            <RadioGroupItem value="regular" id="regular" className="peer sr-only" />
+                            <RadioGroupItem
+                              value="regular"
+                              id="regular"
+                              className="peer sr-only"
+                            />
                             <Label
                               htmlFor="regular"
                               className="border-input hover:bg-accent peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent/50 flex cursor-pointer items-start gap-4 rounded-lg border-2 p-4 transition-colors"
@@ -286,9 +319,12 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                                 <Send className="text-primary h-5 w-5" />
                               </div>
                               <div className="flex-1">
-                                <div className="mb-1 font-semibold">Regular Campaign</div>
+                                <div className="mb-1 font-semibold">
+                                  Regular Campaign
+                                </div>
                                 <div className="text-muted-foreground text-sm">
-                                  Standard push notification for general messaging
+                                  Standard push notification for general
+                                  messaging
                                 </div>
                               </div>
                             </Label>
@@ -307,7 +343,9 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                                 <Zap className="text-primary h-5 w-5" />
                               </div>
                               <div className="flex-1">
-                                <div className="mb-1 font-semibold">Flash Sale</div>
+                                <div className="mb-1 font-semibold">
+                                  Flash Sale
+                                </div>
                                 <div className="text-muted-foreground text-sm">
                                   Time-sensitive promotional campaign
                                 </div>
@@ -333,11 +371,16 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                     </div>
                     <div>
                       <CardTitle>Target Segments</CardTitle>
-                      <CardDescription>Choose which subscriber segments to target</CardDescription>
+                      <CardDescription>
+                        Choose which subscriber segments to target
+                      </CardDescription>
                     </div>
                   </div>
                   <Link
-                    className={buttonVariants({ variant: "outline", size: "sm" })}
+                    className={buttonVariants({
+                      variant: "outline",
+                      size: "sm",
+                    })}
                     href="/dashboard/segments/new"
                   >
                     <Plus className="mr-2 h-4 w-4" />
@@ -372,13 +415,19 @@ export function NewCampaignForm({ initialSegments }: NewCampaignFormProps) {
                   render={({ field }) => (
                     <FormItem className="border-input flex flex-row items-start gap-4 rounded-lg border p-4">
                       <FormControl>
-                        <Switch checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
                       </FormControl>
                       <div className="flex-1 space-y-1">
-                        <FormLabel className="text-base font-semibold">Smart Delivery</FormLabel>
+                        <FormLabel className="text-base font-semibold">
+                          Smart Delivery
+                        </FormLabel>
                         <FormDescription>
-                          Optimize delivery time for each subscriber based on their activity
-                          patterns to improve engagement rates by up to 40%.
+                          Optimize delivery time for each subscriber based on
+                          their activity patterns to improve engagement rates by
+                          up to 40%.
                         </FormDescription>
                       </div>
                     </FormItem>

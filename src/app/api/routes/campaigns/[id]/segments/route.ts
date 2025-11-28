@@ -3,7 +3,10 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 
 // GET /api/campaigns/[id]/segments - Get segments for a campaign
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -19,7 +22,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify campaign belongs to merchant
@@ -32,7 +38,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!campaign) {
-      return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Campaign not found" },
+        { status: 404 }
+      );
     }
 
     // Get campaign segments with segment details
@@ -67,7 +76,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     }));
 
     // Calculate total reach
-    const totalReach = segments.reduce((sum, segment) => sum + segment.subscriberCount, 0);
+    const totalReach = segments.reduce(
+      (sum, segment) => sum + segment.subscriberCount,
+      0
+    );
 
     return NextResponse.json({
       segments,
@@ -80,12 +92,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
   } catch (error) {
     console.error("Error fetching campaign segments:", error);
-    return NextResponse.json({ error: "Failed to fetch campaign segments" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch campaign segments" },
+      { status: 500 }
+    );
   }
 }
 
 // POST /api/campaigns/[id]/segments - Add segments to a campaign
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -97,7 +115,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const { segmentIds } = body;
 
     if (!segmentIds || !Array.isArray(segmentIds) || segmentIds.length === 0) {
-      return NextResponse.json({ error: "segmentIds array is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "segmentIds array is required" },
+        { status: 400 }
+      );
     }
 
     // Get merchant
@@ -107,7 +128,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify campaign belongs to merchant
@@ -120,7 +144,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (!campaign) {
-      return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Campaign not found" },
+        { status: 404 }
+      );
     }
 
     // Verify segments belong to merchant
@@ -135,7 +162,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (segments.length !== segmentIds.length) {
-      return NextResponse.json({ error: "Some segments not found or inactive" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Some segments not found or inactive" },
+        { status: 400 }
+      );
     }
 
     // Check for existing campaign-segment relationships
@@ -148,7 +178,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     const existingSegmentIds = existingSegments.map((es) => es.segmentId);
-    const newSegmentIds = segmentIds.filter((id) => !existingSegmentIds.includes(id));
+    const newSegmentIds = segmentIds.filter(
+      (id) => !existingSegmentIds.includes(id)
+    );
 
     if (newSegmentIds.length === 0) {
       return NextResponse.json(
@@ -196,7 +228,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       addedAt: cs.createdAt.toISOString(),
     }));
 
-    const totalReach = updatedSegments.reduce((sum, segment) => sum + segment.subscriberCount, 0);
+    const totalReach = updatedSegments.reduce(
+      (sum, segment) => sum + segment.subscriberCount,
+      0
+    );
 
     return NextResponse.json(
       {
@@ -209,7 +244,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     );
   } catch (error) {
     console.error("Error adding segments to campaign:", error);
-    return NextResponse.json({ error: "Failed to add segments to campaign" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to add segments to campaign" },
+      { status: 500 }
+    );
   }
 }
 
@@ -229,7 +267,10 @@ export async function DELETE(
     const segmentId = searchParams.get("segmentId");
 
     if (!segmentId) {
-      return NextResponse.json({ error: "segmentId query parameter is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "segmentId query parameter is required" },
+        { status: 400 }
+      );
     }
 
     // Get merchant
@@ -239,7 +280,10 @@ export async function DELETE(
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify campaign belongs to merchant
@@ -252,7 +296,10 @@ export async function DELETE(
     });
 
     if (!campaign) {
-      return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Campaign not found" },
+        { status: 404 }
+      );
     }
 
     // Remove segment from campaign
@@ -264,7 +311,10 @@ export async function DELETE(
     });
 
     if (deletedSegment.count === 0) {
-      return NextResponse.json({ error: "Segment not found in campaign" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Segment not found in campaign" },
+        { status: 404 }
+      );
     }
 
     // Get updated campaign segments
@@ -298,7 +348,10 @@ export async function DELETE(
       addedAt: cs.createdAt.toISOString(),
     }));
 
-    const totalReach = updatedSegments.reduce((sum, segment) => sum + segment.subscriberCount, 0);
+    const totalReach = updatedSegments.reduce(
+      (sum, segment) => sum + segment.subscriberCount,
+      0
+    );
 
     return NextResponse.json({
       message: "Segment removed from campaign",
@@ -308,6 +361,9 @@ export async function DELETE(
     });
   } catch (error) {
     console.error("Error removing segment from campaign:", error);
-    return NextResponse.json({ error: "Failed to remove segment from campaign" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to remove segment from campaign" },
+      { status: 500 }
+    );
   }
 }

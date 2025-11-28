@@ -100,11 +100,17 @@ export default function SettingsLayout({
             </div>
             <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
           </div>
-          <p className="text-muted-foreground">Manage your account settings and preferences.</p>
+          <p className="text-muted-foreground">
+            Manage your account settings and preferences.
+          </p>
         </div>
 
         {/* Tabs Navigation */}
-        <Tabs value={getCurrentTabValue()} onValueChange={handleTabChange} className="w-full">
+        <Tabs
+          value={getCurrentTabValue()}
+          onValueChange={handleTabChange}
+          className="w-full"
+        >
           <div className="w-full overflow-x-auto">
             <TabsList className="mb-6 inline-flex w-max min-w-full justify-start p-1">
               {settingsNavigation.map((item) => {

@@ -70,14 +70,12 @@ const getUserAccountData = async () => {
   }
 };
 
-const updateUserAccountData = async (
-  data: {
-    firstName?: string;
-    lastName?: string;
-    storeName?: string;
-    storeImageUrl?: string | null;
-  }
-) => {
+const updateUserAccountData = async (data: {
+  firstName?: string;
+  lastName?: string;
+  storeName?: string;
+  storeImageUrl?: string | null;
+}) => {
   try {
     const { userId } = await auth();
 
@@ -155,12 +153,16 @@ const updateUserAccountData = async (
         lastName: updatedMerchant.lastName || undefined,
         // Store image URL in metadata for reference
         unsafeMetadata: {
-          storeImageUrl: updatedMerchant.storeImageUrl || updatedMerchant.image || null,
+          storeImageUrl:
+            updatedMerchant.storeImageUrl || updatedMerchant.image || null,
         },
       });
     } catch (clerkError) {
       // Log error but don't fail the request since database update succeeded
-      console.error("[CLERK_SYNC_ERROR] - Failed to sync with Clerk:", clerkError);
+      console.error(
+        "[CLERK_SYNC_ERROR] - Failed to sync with Clerk:",
+        clerkError
+      );
     }
 
     // Return in expected format

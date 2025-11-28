@@ -4,7 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 
 // GET /api/campaigns/[id]/analytics - Get campaign analytics
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -25,7 +28,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify campaign belongs to merchant
@@ -38,7 +44,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!campaign) {
-      return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Campaign not found" },
+        { status: 404 }
+      );
     }
 
     // Build where clause for analytics
@@ -83,16 +92,21 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     // Calculate CTR
     summary.overallCTR =
-      summary.totalImpressions > 0 ? (summary.totalClicks / summary.totalImpressions) * 100 : 0;
+      summary.totalImpressions > 0
+        ? (summary.totalClicks / summary.totalImpressions) * 100
+        : 0;
 
     // Calculate conversion rate
     summary.conversionRate =
-      summary.totalClicks > 0 ? (summary.totalConversions / summary.totalClicks) * 100 : 0;
+      summary.totalClicks > 0
+        ? (summary.totalConversions / summary.totalClicks) * 100
+        : 0;
 
     // Calculate reach rate
     summary.reachRate =
       summary.totalSubscribersTargeted > 0
-        ? (summary.totalSubscribersReached / summary.totalSubscribersTargeted) * 100
+        ? (summary.totalSubscribersReached / summary.totalSubscribersTargeted) *
+          100
         : 0;
 
     return NextResponse.json({
@@ -108,12 +122,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
   } catch (error) {
     console.error("Error fetching campaign analytics:", error);
-    return NextResponse.json({ error: "Failed to fetch campaign analytics" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch campaign analytics" },
+      { status: 500 }
+    );
   }
 }
 
 // POST /api/campaigns/[id]/analytics - Create or update analytics entry
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -130,7 +150,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify campaign belongs to merchant
@@ -143,7 +166,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     });
 
     if (!campaign) {
-      return NextResponse.json({ error: "Campaign not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Campaign not found" },
+        { status: 404 }
+      );
     }
 
     const {
@@ -215,7 +241,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     // Calculate CTR manually
     const totalImpressions = totalAnalytics._sum?.impressions || 0;
     const totalClicks = totalAnalytics._sum?.clicks || 0;
-    const calculatedCTR = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
+    const calculatedCTR =
+      totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
 
     await prisma.campaign.update({
       where: { id },
@@ -230,6 +257,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     return NextResponse.json(analyticsEntry, { status: 201 });
   } catch (error) {
     console.error("Error creating campaign analytics:", error);
-    return NextResponse.json({ error: "Failed to create campaign analytics" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to create campaign analytics" },
+      { status: 500 }
+    );
   }
 }

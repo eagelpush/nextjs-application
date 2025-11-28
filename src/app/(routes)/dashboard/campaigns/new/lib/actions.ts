@@ -3,7 +3,11 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
-import type { Segment, NewSegmentFormData, CampaignStep1FormData } from "../types";
+import type {
+  Segment,
+  NewSegmentFormData,
+  CampaignStep1FormData,
+} from "../types";
 import { getAvailableSegments as getRealSegments } from "../../lib/actions";
 
 /**
@@ -68,7 +72,9 @@ async function getCurrentMerchant() {
  * Create a new segment (from campaign creation flow)
  * Creates a real segment in the database
  */
-export async function createSegment(data: NewSegmentFormData): Promise<Segment> {
+export async function createSegment(
+  data: NewSegmentFormData
+): Promise<Segment> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -102,7 +108,9 @@ export async function createSegment(data: NewSegmentFormData): Promise<Segment> 
 /**
  * Validate campaign form data on the server
  */
-export async function validateCampaignStep1(data: CampaignStep1FormData): Promise<{
+export async function validateCampaignStep1(
+  data: CampaignStep1FormData
+): Promise<{
   success: boolean;
   errors?: Record<string, string>;
 }> {

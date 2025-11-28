@@ -10,6 +10,7 @@ export default async function SegmentsPage() {
     // Fetch data from the database using server actions
     const segmentsData = await getSegmentsData();
 
+    // eslint-disable-next-line react-hooks/error-boundaries
     return <SegmentsPageClient initialData={segmentsData} />;
   } catch (error) {
     console.error("Error fetching segments data:", error);

@@ -98,7 +98,8 @@ export function DevicePerformance({
       {/* Device Breakdown Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {deviceMetrics.map((device) => {
-          const IconComponent = deviceIcons[device.device as keyof typeof deviceIcons] || Monitor;
+          const IconComponent =
+            deviceIcons[device.device as keyof typeof deviceIcons] || Monitor;
           const value =
             tab === "revenue"
               ? device.revenue
@@ -123,7 +124,9 @@ export function DevicePerformance({
                 </div>
 
                 <div className="space-y-2">
-                  <div className="text-2xl font-bold">{formatValue(value, tab)}</div>
+                  <div className="text-2xl font-bold">
+                    {formatValue(value, tab)}
+                  </div>
                   <Progress value={device.percentage} className="h-2" />
                 </div>
 
@@ -131,15 +134,21 @@ export function DevicePerformance({
                 <div className="mt-3 space-y-1 border-t pt-3">
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Revenue:</span>
-                    <span className="font-medium">{formatCurrency(device.revenue)}</span>
+                    <span className="font-medium">
+                      {formatCurrency(device.revenue)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Subscribers:</span>
-                    <span className="font-medium">{formatNumber(device.subscribers)}</span>
+                    <span className="font-medium">
+                      {formatNumber(device.subscribers)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Click Rate:</span>
-                    <span className="font-medium">{formatPercentage(device.clickRate)}</span>
+                    <span className="font-medium">
+                      {formatPercentage(device.clickRate)}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -153,7 +162,9 @@ export function DevicePerformance({
   return (
     <Card className="border shadow-sm">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold">Device Performance</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          Device Performance
+        </CardTitle>
         <p className="text-muted-foreground text-sm">
           Breakdown of key metrics by subscriber device
         </p>

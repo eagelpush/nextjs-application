@@ -8,7 +8,9 @@ import type { CompleteCampaignData } from "../../types";
 
 export default function CampaignReviewClient() {
   const router = useRouter();
-  const [campaignData, setCampaignData] = useState<CompleteCampaignData | null>(null);
+  const [campaignData, setCampaignData] = useState<CompleteCampaignData | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 

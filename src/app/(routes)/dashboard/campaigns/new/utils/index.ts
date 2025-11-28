@@ -56,7 +56,10 @@ export function getDeviceDisplayName(device: DeviceType): string {
 /**
  * Calculate estimated reach based on selected segments
  */
-export function calculateEstimatedReach(selectedSegmentIds: string[], segments: Segment[]): number {
+export function calculateEstimatedReach(
+  selectedSegmentIds: string[],
+  segments: Segment[]
+): number {
   return selectedSegmentIds.reduce((total, segmentId) => {
     const segment = segments.find((s) => s.id === segmentId);
     return total + (segment?.count || 0);
@@ -121,8 +124,14 @@ export function prepareCampaignForSubmission(
     result.sentAt = new Date().toISOString();
   }
 
-  if (data.sendingOption === "schedule" && data.scheduleDate && data.scheduleTime) {
-    result.scheduledAt = new Date(`${data.scheduleDate}T${data.scheduleTime}`).toISOString();
+  if (
+    data.sendingOption === "schedule" &&
+    data.scheduleDate &&
+    data.scheduleTime
+  ) {
+    result.scheduledAt = new Date(
+      `${data.scheduleDate}T${data.scheduleTime}`
+    ).toISOString();
   }
 
   return result;

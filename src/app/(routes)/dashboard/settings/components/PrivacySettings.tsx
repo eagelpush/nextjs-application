@@ -8,7 +8,13 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -54,17 +60,25 @@ export default function PrivacySettings() {
           setUserSettings(result.data as UserSettings);
           form.reset({
             allowSupport: result.data.allowSupport,
-            ipAddressOption: result.data.ipAddressOption as "anonymized" | "no-ip" | undefined,
+            ipAddressOption: result.data.ipAddressOption as
+              | "anonymized"
+              | "no-ip"
+              | undefined,
             enableGeo: result.data.enableGeo,
             enablePreferences: result.data.enablePreferences,
             emailStoreOption: result.data.emailStoreOption as
               | "full-email"
               | "hash-email"
               | "no-email",
-            locationStoreOption: result.data.locationStoreOption as "yes" | "no",
+            locationStoreOption: result.data.locationStoreOption as
+              | "yes"
+              | "no",
             nameStoreOption: result.data.nameStoreOption as "yes" | "no",
-            attributionModel: result.data.attributionModel as "impression" | "click",
-            notificationPreferences: result.data.notificationPreferences as unknown,
+            attributionModel: result.data.attributionModel as
+              | "impression"
+              | "click",
+            notificationPreferences: result.data
+              .notificationPreferences as unknown,
           });
         }
       } catch {
@@ -123,10 +137,12 @@ export default function PrivacySettings() {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Allow Support Access</FormLabel>
+                      <FormLabel className="text-base">
+                        Allow Support Access
+                      </FormLabel>
                       <FormDescription>
-                        Allow our support team to access your account information to help resolve
-                        issues
+                        Allow our support team to access your account
+                        information to help resolve issues
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -149,7 +165,9 @@ export default function PrivacySettings() {
                 <Eye className="h-5 w-5" />
                 IP Address Privacy
               </CardTitle>
-              <CardDescription>Choose how your IP address is handled</CardDescription>
+              <CardDescription>
+                Choose how your IP address is handled
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
@@ -166,16 +184,21 @@ export default function PrivacySettings() {
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="anonymized" id="anonymized" />
-                          <Label htmlFor="anonymized">Anonymized (Recommended)</Label>
+                          <Label htmlFor="anonymized">
+                            Anonymized (Recommended)
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no-ip" id="no-ip" />
-                          <Label htmlFor="no-ip">No IP Address Collection</Label>
+                          <Label htmlFor="no-ip">
+                            No IP Address Collection
+                          </Label>
                         </div>
                       </RadioGroup>
                     </FormControl>
                     <FormDescription>
-                      Anonymized IP addresses help with analytics while protecting your privacy
+                      Anonymized IP addresses help with analytics while
+                      protecting your privacy
                     </FormDescription>
                   </FormItem>
                 )}
@@ -190,7 +213,9 @@ export default function PrivacySettings() {
                 <MapPin className="h-5 w-5" />
                 Location Services
               </CardTitle>
-              <CardDescription>Control location-based features and data collection</CardDescription>
+              <CardDescription>
+                Control location-based features and data collection
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
@@ -199,8 +224,12 @@ export default function PrivacySettings() {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Enable Geolocation</FormLabel>
-                      <FormDescription>Allow location-based features and analytics</FormDescription>
+                      <FormLabel className="text-base">
+                        Enable Geolocation
+                      </FormLabel>
+                      <FormDescription>
+                        Allow location-based features and analytics
+                      </FormDescription>
                     </div>
                     <FormControl>
                       <Switch
@@ -227,11 +256,15 @@ export default function PrivacySettings() {
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="yes" id="location-yes" />
-                          <Label htmlFor="location-yes">Store location data</Label>
+                          <Label htmlFor="location-yes">
+                            Store location data
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no" id="location-no" />
-                          <Label htmlFor="location-no">Don&apos;t store location data</Label>
+                          <Label htmlFor="location-no">
+                            Don&apos;t store location data
+                          </Label>
                         </div>
                       </RadioGroup>
                     </FormControl>
@@ -248,7 +281,9 @@ export default function PrivacySettings() {
                 <Mail className="h-5 w-5" />
                 Email Privacy
               </CardTitle>
-              <CardDescription>Control how your email address is stored and used</CardDescription>
+              <CardDescription>
+                Control how your email address is stored and used
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
@@ -265,20 +300,27 @@ export default function PrivacySettings() {
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="full-email" id="full-email" />
-                          <Label htmlFor="full-email">Store full email address</Label>
+                          <Label htmlFor="full-email">
+                            Store full email address
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="hash-email" id="hash-email" />
-                          <Label htmlFor="hash-email">Store hashed email address</Label>
+                          <Label htmlFor="hash-email">
+                            Store hashed email address
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no-email" id="no-email" />
-                          <Label htmlFor="no-email">Don&apos;t store email address</Label>
+                          <Label htmlFor="no-email">
+                            Don&apos;t store email address
+                          </Label>
                         </div>
                       </RadioGroup>
                     </FormControl>
                     <FormDescription>
-                      Hashing provides privacy while still allowing for analytics
+                      Hashing provides privacy while still allowing for
+                      analytics
                     </FormDescription>
                   </FormItem>
                 )}
@@ -293,7 +335,9 @@ export default function PrivacySettings() {
                 <User className="h-5 w-5" />
                 Name Privacy
               </CardTitle>
-              <CardDescription>Control how your name is stored and displayed</CardDescription>
+              <CardDescription>
+                Control how your name is stored and displayed
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
@@ -310,7 +354,9 @@ export default function PrivacySettings() {
                       >
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="yes" id="name-yes" />
-                          <Label htmlFor="name-yes">Store and display name</Label>
+                          <Label htmlFor="name-yes">
+                            Store and display name
+                          </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="no" id="name-no" />
@@ -331,7 +377,9 @@ export default function PrivacySettings() {
                 <Settings className="h-5 w-5" />
                 Preferences
               </CardTitle>
-              <CardDescription>Control personalized features and recommendations</CardDescription>
+              <CardDescription>
+                Control personalized features and recommendations
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
@@ -340,9 +388,12 @@ export default function PrivacySettings() {
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Enable Personalized Features</FormLabel>
+                      <FormLabel className="text-base">
+                        Enable Personalized Features
+                      </FormLabel>
                       <FormDescription>
-                        Allow personalized recommendations and features based on your usage
+                        Allow personalized recommendations and features based on
+                        your usage
                       </FormDescription>
                     </div>
                     <FormControl>

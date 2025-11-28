@@ -3,15 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 /**
  * Shopify Installation Handler
- * 
+ *
  * This route receives the OAuth payload from the Shopify app installation.
  * It validates the HMAC, then redirects the merchant to sign-in/sign-up.
- * 
+ *
  * Flow:
  * 1. Validate HMAC from Shopify installation request
  * 2. Store OAuth payload in secure cookies
  * 3. Redirect to sign-in page with shop context
- * 
+ *
  * After Clerk authentication, the merchant will be redirected to complete OAuth.
  */
 
@@ -75,27 +75,27 @@ async function handleInstallRequest(request: NextRequest) {
     // According to Shopify docs, 'host' and 'session' are added by Shopify's redirect
     // mechanism and should NOT be included in HMAC verification for installation requests
     // However, we'll try both methods to handle edge cases
-    
+
     const excludedParams = ["hmac", "host", "session"];
-    
+
     // Method 1: Exclude host and session (standard for installation requests)
     const paramsForHmac: Record<string, string> = {};
     if (shop) paramsForHmac.shop = shop;
     if (timestamp) paramsForHmac.timestamp = timestamp;
-    
+
     // Add other parameters (excluding the excluded ones)
     Object.keys(rest).forEach((key) => {
       if (!excludedParams.includes(key)) {
         paramsForHmac[key] = rest[key];
       }
     });
-    
+
     // Sort all parameters alphabetically and build the message string
     const message = Object.keys(paramsForHmac)
       .sort()
       .map((key) => `${key}=${paramsForHmac[key]}`)
       .join("&");
-    
+
     // Method 2: Include all parameters except hmac (fallback for edge cases)
     const allParamsForHmac: Record<string, string> = {};
     Object.keys(params).forEach((key) => {
@@ -107,7 +107,7 @@ async function handleInstallRequest(request: NextRequest) {
       .sort()
       .map((key) => `${key}=${allParamsForHmac[key]}`)
       .join("&");
-    
+
     console.log("HMAC validation debug", {
       message,
       messageWithAll,
@@ -115,24 +115,26 @@ async function handleInstallRequest(request: NextRequest) {
       includedParams: Object.keys(paramsForHmac),
       allParams: Object.keys(params),
       secretLength: SHOPIFY_CLIENT_SECRET?.length || 0,
-      secretPrefix: SHOPIFY_CLIENT_SECRET ? `${SHOPIFY_CLIENT_SECRET.substring(0, 4)}...` : "MISSING",
+      secretPrefix: SHOPIFY_CLIENT_SECRET
+        ? `${SHOPIFY_CLIENT_SECRET.substring(0, 4)}...`
+        : "MISSING",
     });
-    
+
     // Try Method 1 first (excluding host and session)
     let generatedHmac = crypto
       .createHmac("sha256", SHOPIFY_CLIENT_SECRET)
       .update(message)
       .digest("hex");
-    
+
     let hmacValid = generatedHmac === hmac;
-    
+
     // If Method 1 fails, try Method 2 (including all parameters except hmac)
     if (!hmacValid && (params.host || params.session)) {
       const generatedHmacWithAll = crypto
         .createHmac("sha256", SHOPIFY_CLIENT_SECRET)
         .update(messageWithAll)
         .digest("hex");
-      
+
       if (generatedHmacWithAll === hmac) {
         console.log("✅ HMAC validation passed (with all parameters)");
         hmacValid = true;
@@ -145,19 +147,23 @@ async function handleInstallRequest(request: NextRequest) {
         provided: hmac,
         generated: generatedHmac,
         message,
-        messageWithAll: params.host || params.session ? messageWithAll : undefined,
+        messageWithAll:
+          params.host || params.session ? messageWithAll : undefined,
         secretConfigured: !!SHOPIFY_CLIENT_SECRET,
         hint: "Ensure SHOPIFY_CLIENT_SECRET matches the Shopify app's API secret",
       });
-      
+
       // For development: Allow bypassing HMAC if explicitly requested (REMOVE IN PRODUCTION)
-      if (process.env.NODE_ENV === "development" && params.bypass_hmac === "true") {
+      if (
+        process.env.NODE_ENV === "development" &&
+        params.bypass_hmac === "true"
+      ) {
         console.warn("⚠️ Bypassing HMAC validation in development mode");
       } else {
         return NextResponse.json(
-          { 
+          {
             error: "HMAC validation failed",
-            hint: "Ensure SHOPIFY_CLIENT_SECRET matches your Shopify app's API secret. Check that the client secret in your Next.js app matches the one in your Shopify Partner Dashboard."
+            hint: "Ensure SHOPIFY_CLIENT_SECRET matches your Shopify app's API secret. Check that the client secret in your Next.js app matches the one in your Shopify Partner Dashboard.",
           },
           { status: 401 }
         );
@@ -204,7 +210,7 @@ async function handleInstallRequest(request: NextRequest) {
     signInUrl.searchParams.set("hmac", hmac);
     signInUrl.searchParams.set("timestamp", timestamp);
     signInUrl.searchParams.set("shopify_install", "true");
-    
+
     response.headers.set("Location", signInUrl.toString());
 
     console.log("🔄 Redirecting to sign-in with Shopify context:", {
@@ -227,4 +233,3 @@ async function handleInstallRequest(request: NextRequest) {
     );
   }
 }
-

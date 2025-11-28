@@ -2,7 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { getSubscribersBySegment, getSubscriberTokensBySegment } from "../../segments/lib/actions";
+import {
+  getSubscribersBySegment,
+  getSubscriberTokensBySegment,
+} from "../../segments/lib/actions";
 
 async function getCurrentMerchant() {
   const { userId } = await auth();
@@ -22,7 +25,9 @@ async function getCurrentMerchant() {
   return merchant;
 }
 
-export async function getSubscribersForCampaign(campaignId: string): Promise<string[]> {
+export async function getSubscribersForCampaign(
+  campaignId: string
+): Promise<string[]> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -56,11 +61,15 @@ export async function getSubscribersForCampaign(campaignId: string): Promise<str
 
     for (const campaignSegment of campaign.segments) {
       if (!campaignSegment.segment.isActive) {
-        console.warn(`Skipping inactive segment: ${campaignSegment.segment.name}`);
+        console.warn(
+          `Skipping inactive segment: ${campaignSegment.segment.name}`
+        );
         continue;
       }
 
-      const subscriberIds = await getSubscribersBySegment(campaignSegment.segment.id);
+      const subscriberIds = await getSubscribersBySegment(
+        campaignSegment.segment.id
+      );
       allSubscriberIds.push(...subscriberIds);
 
       console.log(
@@ -82,8 +91,9 @@ export async function getSubscribersForCampaign(campaignId: string): Promise<str
   }
 }
 
-
-export async function getSubscriberTokensForCampaign(campaignId: string): Promise<string[]> {
+export async function getSubscriberTokensForCampaign(
+  campaignId: string
+): Promise<string[]> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -122,7 +132,9 @@ export async function getSubscriberTokensForCampaign(campaignId: string): Promis
         continue;
       }
 
-      const tokens = await getSubscriberTokensBySegment(campaignSegment.segment.id);
+      const tokens = await getSubscriberTokensBySegment(
+        campaignSegment.segment.id
+      );
       allTokens.push(...tokens);
     }
 
@@ -186,7 +198,9 @@ export async function getCampaignReachAnalytics(campaignId: string): Promise<{
         continue;
       }
 
-      const subscriberIds = await getSubscribersBySegment(campaignSegment.segment.id);
+      const subscriberIds = await getSubscribersBySegment(
+        campaignSegment.segment.id
+      );
 
       segmentBreakdown.push({
         segmentId: campaignSegment.segment.id,

@@ -1,4 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Megaphone, Plus } from "lucide-react";
@@ -69,7 +75,9 @@ export function CampaignList({
           </span>
           <Badge variant="secondary">{totalItems} campaigns</Badge>
         </CardTitle>
-        <CardDescription>Manage and monitor your push notification campaigns</CardDescription>
+        <CardDescription>
+          Manage and monitor your push notification campaigns
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="divide-border/50 space-y-6 divide-y">

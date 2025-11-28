@@ -10,7 +10,7 @@ import { CampaignType, CampaignStatus } from "@/generated/prisma/client";
  */
 export function toCampaignType(type: string): CampaignType {
   const normalized = type.toLowerCase().trim();
-  
+
   switch (normalized) {
     case "regular":
       return CampaignType.REGULAR;
@@ -18,7 +18,9 @@ export function toCampaignType(type: string): CampaignType {
     case "flash-sale":
       return CampaignType.FLASH_SALE;
     default:
-      throw new Error(`Invalid campaign type: ${type}. Must be 'regular' or 'flash_sale'`);
+      throw new Error(
+        `Invalid campaign type: ${type}. Must be 'regular' or 'flash_sale'`
+      );
   }
 }
 
@@ -27,7 +29,7 @@ export function toCampaignType(type: string): CampaignType {
  */
 export function toCampaignStatus(status: string): CampaignStatus {
   const normalized = status.toLowerCase().trim();
-  
+
   switch (normalized) {
     case "draft":
       return CampaignStatus.DRAFT;
@@ -49,4 +51,3 @@ export function toCampaignStatus(status: string): CampaignStatus {
       );
   }
 }
-

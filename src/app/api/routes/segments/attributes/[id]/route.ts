@@ -3,7 +3,10 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import type { NewAttributeFormValues } from "@/app/(routes)/dashboard/segments/utils/attribute-schema";
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -19,7 +22,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Fetch attribute
@@ -32,7 +38,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!attribute) {
-      return NextResponse.json({ error: "Attribute not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Attribute not found" },
+        { status: 404 }
+      );
     }
 
     // Transform response
@@ -50,7 +59,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json(transformedAttribute);
   } catch (error) {
     console.error("Error fetching custom attribute:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -58,7 +70,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 // PUT /api/segments/attributes/[id] - Update custom attribute
 // ========================================
 
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -74,7 +89,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify attribute belongs to merchant
@@ -87,7 +105,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     });
 
     if (!existingAttribute) {
-      return NextResponse.json({ error: "Attribute not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Attribute not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
@@ -105,12 +126,18 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       });
 
       if (nameExists) {
-        return NextResponse.json({ error: "Attribute name already exists" }, { status: 409 });
+        return NextResponse.json(
+          { error: "Attribute name already exists" },
+          { status: 409 }
+        );
       }
     }
 
     // Validate options for multiple choice type
-    if (body.type === "multiple_choice" && (!body.options || body.options.length === 0)) {
+    if (
+      body.type === "multiple_choice" &&
+      (!body.options || body.options.length === 0)
+    ) {
       return NextResponse.json(
         { error: "Multiple choice attributes require options" },
         { status: 400 }
@@ -120,7 +147,15 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     // Build update data
     const updateData: {
       name?: string;
-      type?: "TEXT" | "NUMBER" | "MULTIPLE_CHOICE" | "DATE" | "CATEGORY" | "BOOLEAN" | "EMAIL" | "URL";
+      type?:
+        | "TEXT"
+        | "NUMBER"
+        | "MULTIPLE_CHOICE"
+        | "DATE"
+        | "CATEGORY"
+        | "BOOLEAN"
+        | "EMAIL"
+        | "URL";
       description?: string | null;
       required?: boolean;
       options?: string[];
@@ -130,7 +165,16 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       updateData.name = body.name;
     }
     if (body.type !== undefined) {
-      const validTypes = ["text", "number", "multiple_choice", "date", "category", "boolean", "email", "url"];
+      const validTypes = [
+        "text",
+        "number",
+        "multiple_choice",
+        "date",
+        "category",
+        "boolean",
+        "email",
+        "url",
+      ];
       if (validTypes.includes(body.type.toLowerCase())) {
         updateData.type = body.type.toUpperCase() as
           | "TEXT"
@@ -174,7 +218,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json(transformedAttribute);
   } catch (error) {
     console.error("Error updating custom attribute:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -201,7 +248,10 @@ export async function DELETE(
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Verify attribute belongs to merchant
@@ -214,12 +264,18 @@ export async function DELETE(
     });
 
     if (!attribute) {
-      return NextResponse.json({ error: "Attribute not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Attribute not found" },
+        { status: 404 }
+      );
     }
 
     // Check if attribute is required
     if (attribute.required) {
-      return NextResponse.json({ error: "Cannot delete required attributes" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Cannot delete required attributes" },
+        { status: 400 }
+      );
     }
 
     // Soft delete
@@ -234,6 +290,9 @@ export async function DELETE(
     return NextResponse.json({ message: "Attribute deleted successfully" });
   } catch (error) {
     console.error("Error deleting custom attribute:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

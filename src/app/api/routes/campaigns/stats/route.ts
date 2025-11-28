@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Get query parameters for date filtering
@@ -45,7 +48,10 @@ export async function GET(request: NextRequest) {
       }
 
       if (fromDateObj > toDateObj) {
-        return NextResponse.json({ error: "From date cannot be after to date" }, { status: 400 });
+        return NextResponse.json(
+          { error: "From date cannot be after to date" },
+          { status: 400 }
+        );
       }
 
       where.createdAt = {
@@ -55,76 +61,82 @@ export async function GET(request: NextRequest) {
     }
 
     // Get campaign statistics - optimized with parallel queries
-    const [campaignStats, campaignCounts, recentCampaigns, categoryBreakdown, typeBreakdown] =
-      await Promise.all([
-        // Overall stats
-        prisma.campaign.aggregate({
-          where,
-          _sum: {
-            impressions: true,
-            clicks: true,
-            revenue: true,
-          },
-          _avg: {
-            ctr: true,
-          },
-        }),
-        // Status-based counts
-        prisma.campaign.groupBy({
-          by: ["status"],
-          where,
-          _count: {
-            id: true,
-          },
-        }),
-        // Recent campaigns for trend analysis
-        prisma.campaign.findMany({
-          where,
-          select: {
-            id: true,
-            title: true,
-            status: true,
-            createdAt: true,
-            impressions: true,
-            clicks: true,
-            ctr: true,
-            revenue: true,
-          },
-          orderBy: { createdAt: "desc" },
-          take: 5,
-        }),
-        // Category breakdown
-        prisma.campaign.groupBy({
-          by: ["category"],
-          where,
-          _count: {
-            id: true,
-          },
-          _sum: {
-            impressions: true,
-            clicks: true,
-            revenue: true,
-          },
-        }),
-        // Type breakdown
-        prisma.campaign.groupBy({
-          by: ["type"],
-          where,
-          _count: {
-            id: true,
-          },
-          _sum: {
-            impressions: true,
-            clicks: true,
-            revenue: true,
-          },
-        }),
-      ]);
+    const [
+      campaignStats,
+      campaignCounts,
+      recentCampaigns,
+      categoryBreakdown,
+      typeBreakdown,
+    ] = await Promise.all([
+      // Overall stats
+      prisma.campaign.aggregate({
+        where,
+        _sum: {
+          impressions: true,
+          clicks: true,
+          revenue: true,
+        },
+        _avg: {
+          ctr: true,
+        },
+      }),
+      // Status-based counts
+      prisma.campaign.groupBy({
+        by: ["status"],
+        where,
+        _count: {
+          id: true,
+        },
+      }),
+      // Recent campaigns for trend analysis
+      prisma.campaign.findMany({
+        where,
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          createdAt: true,
+          impressions: true,
+          clicks: true,
+          ctr: true,
+          revenue: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 5,
+      }),
+      // Category breakdown
+      prisma.campaign.groupBy({
+        by: ["category"],
+        where,
+        _count: {
+          id: true,
+        },
+        _sum: {
+          impressions: true,
+          clicks: true,
+          revenue: true,
+        },
+      }),
+      // Type breakdown
+      prisma.campaign.groupBy({
+        by: ["type"],
+        where,
+        _count: {
+          id: true,
+        },
+        _sum: {
+          impressions: true,
+          clicks: true,
+          revenue: true,
+        },
+      }),
+    ]);
 
     // Calculate CTR manually since Prisma doesn't support computed fields in aggregates
     const totalImpressions = campaignStats._sum.impressions || 0;
     const totalClicks = campaignStats._sum.clicks || 0;
-    const overallCTR = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
+    const overallCTR =
+      totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
 
     // Transform status counts
     const statusBreakdown = campaignCounts.reduce(
@@ -181,7 +193,10 @@ export async function GET(request: NextRequest) {
         totalClicks,
         overallCTR: Math.round(overallCTR * 100) / 100, // Round to 2 decimal places
         totalRevenue: campaignStats._sum.revenue || 0,
-        totalCampaigns: campaignCounts.reduce((sum, item) => sum + item._count.id, 0),
+        totalCampaigns: campaignCounts.reduce(
+          (sum, item) => sum + item._count.id,
+          0
+        ),
       },
       statusBreakdown: {
         draft: statusBreakdown.draft || 0,
@@ -202,6 +217,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching campaign stats:", error);
-    return NextResponse.json({ error: "Failed to fetch campaign statistics" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch campaign statistics" },
+      { status: 500 }
+    );
   }
 }

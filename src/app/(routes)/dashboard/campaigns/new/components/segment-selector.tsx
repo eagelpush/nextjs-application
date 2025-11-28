@@ -41,12 +41,19 @@ export function SegmentSelector({
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex items-center gap-2">
-                  <h4 className="truncate text-sm font-medium">{segment.name}</h4>
-                  <Badge variant={getSegmentBadgeVariant(segment.type)} className="text-xs">
+                  <h4 className="truncate text-sm font-medium">
+                    {segment.name}
+                  </h4>
+                  <Badge
+                    variant={getSegmentBadgeVariant(segment.type)}
+                    className="text-xs"
+                  >
                     {formatSegmentCount(segment.count)}
                   </Badge>
                 </div>
-                <p className="text-muted-foreground line-clamp-2 text-xs">{segment.description}</p>
+                <p className="text-muted-foreground line-clamp-2 text-xs">
+                  {segment.description}
+                </p>
               </div>
               {selectedSegments.includes(segment.id) && (
                 <div className="absolute top-2 right-2">

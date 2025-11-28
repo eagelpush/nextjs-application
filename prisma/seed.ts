@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from "../src/generated/prisma/client";
+import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 
@@ -12,16 +12,76 @@ const prisma = new PrismaClient({
 
 // Pakistani cities and regions
 const PAKISTANI_CITIES = [
-  { city: "Karachi", region: "Sindh", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Lahore", region: "Punjab", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Islamabad", region: "Islamabad Capital Territory", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Faisalabad", region: "Punjab", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Rawalpindi", region: "Punjab", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Multan", region: "Punjab", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Peshawar", region: "Khyber Pakhtunkhwa", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Quetta", region: "Balochistan", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Sialkot", region: "Punjab", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
-  { city: "Gujranwala", region: "Punjab", country: "Pakistan", countryCode: "PK", timezone: "Asia/Karachi" },
+  {
+    city: "Karachi",
+    region: "Sindh",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Lahore",
+    region: "Punjab",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Islamabad",
+    region: "Islamabad Capital Territory",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Faisalabad",
+    region: "Punjab",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Rawalpindi",
+    region: "Punjab",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Multan",
+    region: "Punjab",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Peshawar",
+    region: "Khyber Pakhtunkhwa",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Quetta",
+    region: "Balochistan",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Sialkot",
+    region: "Punjab",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
+  {
+    city: "Gujranwala",
+    region: "Punjab",
+    country: "Pakistan",
+    countryCode: "PK",
+    timezone: "Asia/Karachi",
+  },
 ];
 
 // Pakistani names
@@ -40,11 +100,31 @@ const PAKISTANI_NAMES = [
 
 // Pakistani store names
 const PAKISTANI_STORES = [
-  { storeName: "Karachi Fashion Hub", subdomain: "karachi-fashion", storeUrl: "https://karachi-fashion.myshopify.com" },
-  { storeName: "Lahore Electronics", subdomain: "lahore-electronics", storeUrl: "https://lahore-electronics.myshopify.com" },
-  { storeName: "Islamabad Textiles", subdomain: "islamabad-textiles", storeUrl: "https://islamabad-textiles.myshopify.com" },
-  { storeName: "Punjab Handicrafts", subdomain: "punjab-handicrafts", storeUrl: "https://punjab-handicrafts.myshopify.com" },
-  { storeName: "Sindh Spices", subdomain: "sindh-spices", storeUrl: "https://sindh-spices.myshopify.com" },
+  {
+    storeName: "Karachi Fashion Hub",
+    subdomain: "karachi-fashion",
+    storeUrl: "https://karachi-fashion.myshopify.com",
+  },
+  {
+    storeName: "Lahore Electronics",
+    subdomain: "lahore-electronics",
+    storeUrl: "https://lahore-electronics.myshopify.com",
+  },
+  {
+    storeName: "Islamabad Textiles",
+    subdomain: "islamabad-textiles",
+    storeUrl: "https://islamabad-textiles.myshopify.com",
+  },
+  {
+    storeName: "Punjab Handicrafts",
+    subdomain: "punjab-handicrafts",
+    storeUrl: "https://punjab-handicrafts.myshopify.com",
+  },
+  {
+    storeName: "Sindh Spices",
+    subdomain: "sindh-spices",
+    storeUrl: "https://sindh-spices.myshopify.com",
+  },
 ];
 
 export async function main() {
@@ -111,7 +191,8 @@ export async function main() {
           create: {
             customPromptEnabled: true,
             customPromptHeadline: "حصص خصوصی حاصل کریں!",
-            customPromptDescription: "سیلز اور خصوصی پیشکشوں کے بارے میں سب سے پہلے جانیں",
+            customPromptDescription:
+              "سیلز اور خصوصی پیشکشوں کے بارے میں سب سے پہلے جانیں",
             customPromptButtonText: "جی ہاں، مطلع کریں",
             customPromptCancelText: "شاید بعد میں",
             customPromptPrimaryColor: "#0066cc",
@@ -154,7 +235,13 @@ export async function main() {
         name: "Budget Range",
         type: "CATEGORY" as const,
         description: "Customer's budget range in PKR",
-        options: ["Under 5000", "5000-10000", "10000-25000", "25000-50000", "Above 50000"],
+        options: [
+          "Under 5000",
+          "5000-10000",
+          "10000-25000",
+          "25000-50000",
+          "Above 50000",
+        ],
         required: false,
         isActive: true,
       },
@@ -279,8 +366,10 @@ export async function main() {
     const numSubscribers = 20 + Math.floor(Math.random() * 30); // 20-50 subscribers per merchant
 
     for (let j = 0; j < numSubscribers; j++) {
-      const cityData = PAKISTANI_CITIES[Math.floor(Math.random() * PAKISTANI_CITIES.length)];
-      const name = PAKISTANI_NAMES[Math.floor(Math.random() * PAKISTANI_NAMES.length)];
+      const cityData =
+        PAKISTANI_CITIES[Math.floor(Math.random() * PAKISTANI_CITIES.length)];
+      const name =
+        PAKISTANI_NAMES[Math.floor(Math.random() * PAKISTANI_NAMES.length)];
       const email = `${name.firstName.toLowerCase()}.${name.lastName.toLowerCase()}${j}@gmail.com`;
       const isMobile = Math.random() > 0.3; // 70% mobile users
       const browsers = ["Chrome", "Safari", "Firefox", "Edge"];
@@ -313,12 +402,22 @@ export async function main() {
           userAgent: `Mozilla/5.0 (${os}) AppleWebKit/537.36`,
           subscriptionUrl: merchant.storeUrl,
           isActive: Math.random() > 0.1, // 90% active
-          subscribedAt: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000), // Last 90 days
-          lastSeenAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000), // Last 7 days
+          subscribedAt: new Date(
+            Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000
+          ), // Last 90 days
+          lastSeenAt: new Date(
+            Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000
+          ), // Last 7 days
           attributes: {
-            favoriteCategory: ["Electronics", "Fashion", "Home & Living"][Math.floor(Math.random() * 3)],
-            budgetRange: ["Under 5000", "5000-10000", "10000-25000"][Math.floor(Math.random() * 3)],
-            preferredLanguage: ["Urdu", "English"][Math.floor(Math.random() * 2)],
+            favoriteCategory: ["Electronics", "Fashion", "Home & Living"][
+              Math.floor(Math.random() * 3)
+            ],
+            budgetRange: ["Under 5000", "5000-10000", "10000-25000"][
+              Math.floor(Math.random() * 3)
+            ],
+            preferredLanguage: ["Urdu", "English"][
+              Math.floor(Math.random() * 2)
+            ],
           },
         },
       });
@@ -326,7 +425,9 @@ export async function main() {
       subscribers.push(subscriber);
     }
 
-    console.log(`✅ Created ${numSubscribers} subscribers for ${merchant.storeName}`);
+    console.log(
+      `✅ Created ${numSubscribers} subscribers for ${merchant.storeName}`
+    );
   }
 
   // Create Campaigns
@@ -360,24 +461,43 @@ export async function main() {
 
     for (let i = 0; i < numCampaigns; i++) {
       const titleIndex = Math.floor(Math.random() * campaignTitles.length);
-      const statuses: Array<"DRAFT" | "SCHEDULED" | "SENT" | "PAUSED"> = ["DRAFT", "SCHEDULED", "SENT", "PAUSED"];
+      const statuses: Array<"DRAFT" | "SCHEDULED" | "SENT" | "PAUSED"> = [
+        "DRAFT",
+        "SCHEDULED",
+        "SENT",
+        "PAUSED",
+      ];
       const status = statuses[Math.floor(Math.random() * statuses.length)];
-      const type: "REGULAR" | "FLASH_SALE" = Math.random() > 0.7 ? "FLASH_SALE" : "REGULAR";
-      const sentAt = status === "SENT" ? new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000) : null;
+      const type: "REGULAR" | "FLASH_SALE" =
+        Math.random() > 0.7 ? "FLASH_SALE" : "REGULAR";
+      const sentAt =
+        status === "SENT"
+          ? new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000)
+          : null;
 
-      const merchantSegments = segments.filter((s) => s.merchantId === merchant.id);
-      const selectedSegments = merchantSegments.slice(0, Math.min(2, merchantSegments.length));
+      const merchantSegments = segments.filter(
+        (s) => s.merchantId === merchant.id
+      );
+      const selectedSegments = merchantSegments.slice(
+        0,
+        Math.min(2, merchantSegments.length)
+      );
 
       const campaign = await prisma.campaign.create({
         data: {
           merchantId: merchant.id,
           title: campaignTitles[titleIndex],
           description: `Special campaign for ${merchant.storeName} customers`,
-          category: ["Fashion", "Electronics", "Home", "Sports", "Books"][Math.floor(Math.random() * 5)],
+          category: ["Fashion", "Electronics", "Home", "Sports", "Books"][
+            Math.floor(Math.random() * 5)
+          ],
           type: type,
           status: status,
           sendingOption: status === "SENT" ? "now" : "schedule",
-          scheduledAt: status === "SCHEDULED" ? new Date(Date.now() + Math.random() * 7 * 24 * 60 * 60 * 1000) : null,
+          scheduledAt:
+            status === "SCHEDULED"
+              ? new Date(Date.now() + Math.random() * 7 * 24 * 60 * 60 * 1000)
+              : null,
           sentAt: sentAt,
           smartDelivery: Math.random() > 0.5,
           message: campaignMessages[titleIndex],
@@ -386,7 +506,8 @@ export async function main() {
           enableSound: true,
           enableVibration: true,
           ttl: "86400",
-          impressions: status === "SENT" ? Math.floor(Math.random() * 1000) + 100 : 0,
+          impressions:
+            status === "SENT" ? Math.floor(Math.random() * 1000) + 100 : 0,
           clicks: status === "SENT" ? Math.floor(Math.random() * 100) + 10 : 0,
           ctr: status === "SENT" ? Math.random() * 0.15 + 0.02 : 0,
           revenue: status === "SENT" ? Math.random() * 50000 + 5000 : 0,
@@ -472,11 +593,16 @@ export async function main() {
 
       // Create campaign sends for some subscribers
       if (status === "SENT") {
-        const merchantSubscribers = subscribers.filter((s) => s.merchantId === merchant.id);
+        const merchantSubscribers = subscribers.filter(
+          (s) => s.merchantId === merchant.id
+        );
         const numSends = Math.min(50, merchantSubscribers.length);
 
         for (let k = 0; k < numSends; k++) {
-          const subscriber = merchantSubscribers[Math.floor(Math.random() * merchantSubscribers.length)];
+          const subscriber =
+            merchantSubscribers[
+              Math.floor(Math.random() * merchantSubscribers.length)
+            ];
           const sentAt = new Date(campaign.sentAt || new Date());
           sentAt.setHours(sentAt.getHours() + Math.floor(Math.random() * 24));
 
@@ -485,15 +611,23 @@ export async function main() {
               campaignId: campaign.id,
               subscriberId: subscriber.id,
               sentAt: sentAt,
-              deliveredAt: Math.random() > 0.1 ? new Date(sentAt.getTime() + Math.random() * 60000) : null,
-              clickedAt: Math.random() > 0.7 ? new Date(sentAt.getTime() + Math.random() * 3600000) : null,
+              deliveredAt:
+                Math.random() > 0.1
+                  ? new Date(sentAt.getTime() + Math.random() * 60000)
+                  : null,
+              clickedAt:
+                Math.random() > 0.7
+                  ? new Date(sentAt.getTime() + Math.random() * 3600000)
+                  : null,
             },
           });
         }
       }
     }
 
-    console.log(`✅ Created ${numCampaigns} campaigns for ${merchant.storeName}`);
+    console.log(
+      `✅ Created ${numCampaigns} campaigns for ${merchant.storeName}`
+    );
   }
 
   // Create Opt-In Analytics
@@ -543,7 +677,9 @@ export async function main() {
   // Update segment subscriber counts
   console.log("🔄 Updating segment subscriber counts...");
   for (const segment of segments) {
-    const merchantSubscribers = subscribers.filter((s) => s.merchantId === segment.merchantId);
+    const merchantSubscribers = subscribers.filter(
+      (s) => s.merchantId === segment.merchantId
+    );
     let count = 0;
 
     if (segment.name.includes("Karachi")) {
@@ -582,4 +718,3 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
-

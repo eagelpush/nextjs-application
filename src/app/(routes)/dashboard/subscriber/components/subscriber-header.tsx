@@ -25,9 +25,13 @@ export function SubscriberHeader({
                 <Users className="text-primary h-6 w-6" />
               </div>
               <h1 className="text-3xl font-bold tracking-tight">Subscribers</h1>
-              {isLoading && <Loader2 className="text-primary h-5 w-5 animate-spin" />}
+              {isLoading && (
+                <Loader2 className="text-primary h-5 w-5 animate-spin" />
+              )}
             </div>
-            <p className="text-muted-foreground">Monitor your subscriber growth and analytics</p>
+            <p className="text-muted-foreground">
+              Monitor your subscriber growth and analytics
+            </p>
           </div>
           <div className="flex items-center space-x-2">
             <DateRangePicker

@@ -8,7 +8,13 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -53,7 +59,9 @@ export default function AttributionSettings() {
         if (result.data) {
           setUserSettings(result.data as UserSettings);
           form.reset({
-            attributionModel: result.data.attributionModel as "impression" | "click",
+            attributionModel: result.data.attributionModel as
+              | "impression"
+              | "click",
           });
         }
       } catch {
@@ -86,7 +94,9 @@ export default function AttributionSettings() {
     <div className="space-y-6">
       {/* Page Header */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold tracking-tight">Attribution Settings</h2>
+        <h2 className="text-2xl font-bold tracking-tight">
+          Attribution Settings
+        </h2>
         <p className="text-muted-foreground">
           Configure how conversions are attributed to your marketing campaigns.
         </p>
@@ -102,7 +112,8 @@ export default function AttributionSettings() {
                 Attribution Model
               </CardTitle>
               <CardDescription>
-                Choose how conversions are attributed to your marketing touchpoints
+                Choose how conversions are attributed to your marketing
+                touchpoints
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -112,7 +123,10 @@ export default function AttributionSettings() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Attribution Method</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select attribution model" />
@@ -136,19 +150,24 @@ export default function AttributionSettings() {
                     <FormDescription>
                       <div className="mt-4 space-y-3">
                         <div className="rounded-lg border p-3">
-                          <h4 className="mb-2 text-sm font-medium">By Impressions</h4>
+                          <h4 className="mb-2 text-sm font-medium">
+                            By Impressions
+                          </h4>
                           <p className="text-muted-foreground text-sm">
-                            Attributes conversions to the first impression that led to the
-                            conversion. This model is useful for brand awareness campaigns and
-                            top-of-funnel marketing.
+                            Attributes conversions to the first impression that
+                            led to the conversion. This model is useful for
+                            brand awareness campaigns and top-of-funnel
+                            marketing.
                           </p>
                         </div>
                         <div className="rounded-lg border p-3">
-                          <h4 className="mb-2 text-sm font-medium">By Clicks</h4>
+                          <h4 className="mb-2 text-sm font-medium">
+                            By Clicks
+                          </h4>
                           <p className="text-muted-foreground text-sm">
-                            Attributes conversions to the last click that led to the conversion.
-                            This model is useful for performance marketing and bottom-of-funnel
-                            campaigns.
+                            Attributes conversions to the last click that led to
+                            the conversion. This model is useful for performance
+                            marketing and bottom-of-funnel campaigns.
                           </p>
                         </div>
                       </div>

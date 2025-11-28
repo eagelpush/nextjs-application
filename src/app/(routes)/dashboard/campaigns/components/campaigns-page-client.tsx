@@ -1,6 +1,12 @@
 "use client";
 
-import { CampaignHeader, CampaignStatsCards, CampaignFilters, CampaignTabs, CampaignList } from ".";
+import {
+  CampaignHeader,
+  CampaignStatsCards,
+  CampaignFilters,
+  CampaignTabs,
+  CampaignList,
+} from ".";
 import { SendCampaignDialog } from "./send-campaign-dialog";
 import { useCampaignFilters, useCampaignActions } from "../hooks";
 import type { Campaign, CampaignStats, PaginationState } from "../types";
@@ -69,7 +75,10 @@ export function CampaignsPageClient({
             isPending={isPending}
           />
 
-          <CampaignTabs activeTab={filters.activeTab} onTabChange={setActiveTab}>
+          <CampaignTabs
+            activeTab={filters.activeTab}
+            onTabChange={setActiveTab}
+          >
             <CampaignList
               campaigns={filteredCampaigns}
               currentPage={currentPage}

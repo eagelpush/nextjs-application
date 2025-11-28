@@ -41,12 +41,18 @@ export function DevicePreview({
             }}
           >
             {/* Browser Header */}
-            <div className="absolute" style={{ top: "14px", left: "16px", right: "16px" }}>
+            <div
+              className="absolute"
+              style={{ top: "14px", left: "16px", right: "16px" }}
+            >
               <div className="flex items-center justify-between">
                 {/* Firefox Icon and Text */}
                 <div className="flex items-center gap-2">
                   {/* Firefox Logo (18px × 18px) */}
-                  <div className="relative rounded-full" style={{ width: "18px", height: "18px" }}>
+                  <div
+                    className="relative rounded-full"
+                    style={{ width: "18px", height: "18px" }}
+                  >
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500 via-orange-400 to-purple-600"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-card h-3 w-3 rounded-full"></div>
@@ -92,7 +98,12 @@ export function DevicePreview({
             {/* Company Logo Icon (60px × 60px) at position (16, 48) */}
             <div
               className="absolute"
-              style={{ top: "48px", left: "16px", width: "60px", height: "60px" }}
+              style={{
+                top: "48px",
+                left: "16px",
+                width: "60px",
+                height: "60px",
+              }}
             >
               {companyLogo ? (
                 <OptimizedImage
@@ -175,7 +186,10 @@ export function DevicePreview({
           }}
         >
           {/* Hero Image - Full Width Top (364px × 180px) */}
-          <div className="relative w-full overflow-hidden" style={{ height: "180px" }}>
+          <div
+            className="relative w-full overflow-hidden"
+            style={{ height: "180px" }}
+          >
             {heroImage ? (
               <>
                 <OptimizedImage
@@ -194,8 +208,12 @@ export function DevicePreview({
                   <div className="bg-primary/10 mb-3 inline-flex h-16 w-16 items-center justify-center rounded-2xl">
                     <div className="text-4xl">📷</div>
                   </div>
-                  <p className="text-foreground mb-1 text-sm font-semibold">Hero Image Preview</p>
-                  <p className="text-muted-foreground text-xs">Upload an image to see it here</p>
+                  <p className="text-foreground mb-1 text-sm font-semibold">
+                    Hero Image Preview
+                  </p>
+                  <p className="text-muted-foreground text-xs">
+                    Upload an image to see it here
+                  </p>
                 </div>
               </div>
             )}
@@ -211,12 +229,18 @@ export function DevicePreview({
             }}
           >
             {/* Browser Header */}
-            <div className="absolute" style={{ top: "14px", left: "16px", right: "16px" }}>
+            <div
+              className="absolute"
+              style={{ top: "14px", left: "16px", right: "16px" }}
+            >
               <div className="flex items-center justify-between">
                 {/* Chrome Icon and Text */}
                 <div className="flex items-center gap-2">
                   {/* Chrome Logo (18px × 18px) */}
-                  <div className="relative rounded-full" style={{ width: "18px", height: "18px" }}>
+                  <div
+                    className="relative rounded-full"
+                    style={{ width: "18px", height: "18px" }}
+                  >
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-red-500 via-yellow-400 to-green-500"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-card h-3 w-3 rounded-full"></div>
@@ -262,7 +286,12 @@ export function DevicePreview({
             {/* App Icon (60px × 60px) at position (16, 48 from top of background) */}
             <div
               className="absolute"
-              style={{ top: "48px", left: "16px", width: "60px", height: "60px" }}
+              style={{
+                top: "48px",
+                left: "16px",
+                width: "60px",
+                height: "60px",
+              }}
             >
               {companyLogo ? (
                 <OptimizedImage
@@ -397,7 +426,12 @@ export function DevicePreview({
             {/* Icon (46px) at position (9, 20) */}
             <div
               className="absolute"
-              style={{ top: "20px", left: "9px", width: "46px", height: "46px" }}
+              style={{
+                top: "20px",
+                left: "9px",
+                width: "46px",
+                height: "46px",
+              }}
             >
               {companyLogo ? (
                 <OptimizedImage
@@ -490,7 +524,12 @@ export function DevicePreview({
           {/* Hero Image at (0, 31) - 344px × 192px */}
           <div
             className="absolute w-full overflow-hidden"
-            style={{ top: "31px", left: "0px", width: "344px", height: "192px" }}
+            style={{
+              top: "31px",
+              left: "0px",
+              width: "344px",
+              height: "192px",
+            }}
           >
             {heroImage ? (
               <>
@@ -510,8 +549,12 @@ export function DevicePreview({
                   <div className="bg-primary/10 mb-3 inline-flex h-16 w-16 items-center justify-center rounded-2xl">
                     <div className="text-4xl">📷</div>
                   </div>
-                  <p className="text-foreground mb-1 text-sm font-semibold">Hero Image</p>
-                  <p className="text-muted-foreground text-xs">Upload to preview</p>
+                  <p className="text-foreground mb-1 text-sm font-semibold">
+                    Hero Image
+                  </p>
+                  <p className="text-muted-foreground text-xs">
+                    Upload to preview
+                  </p>
                 </div>
               </div>
             )}
@@ -520,7 +563,12 @@ export function DevicePreview({
           {/* Browser Icon (36px) at position (16, 255) */}
           <div
             className="absolute"
-            style={{ top: "255px", left: "16px", width: "36px", height: "36px" }}
+            style={{
+              top: "255px",
+              left: "16px",
+              width: "36px",
+              height: "36px",
+            }}
           >
             {/* Chrome Icon */}
             <div className="relative h-full w-full">
@@ -714,7 +762,10 @@ export function DevicePreview({
           </div>
 
           {/* Info Bar at (48, 22) - Title • Domain • now */}
-          <div className="absolute flex items-center gap-1" style={{ top: "22px", left: "48px" }}>
+          <div
+            className="absolute flex items-center gap-1"
+            style={{ top: "22px", left: "48px" }}
+          >
             <span
               className="text-card-foreground max-w-[80px] truncate font-medium"
               style={{
@@ -724,7 +775,11 @@ export function DevicePreview({
                 letterSpacing: "0.009em",
               }}
             >
-              {title ? (title.length > 12 ? title.substring(0, 12) + ".." : title) : "Campaign.."}
+              {title
+                ? title.length > 12
+                  ? title.substring(0, 12) + ".."
+                  : title
+                : "Campaign.."}
             </span>
             <div className="bg-muted-foreground h-[3px] w-[3px] rounded-full"></div>
             <span
@@ -769,7 +824,12 @@ export function DevicePreview({
           {/* Large Icon (44px) at position (236, 17) - Company Logo */}
           <div
             className="absolute"
-            style={{ top: "17px", left: "236px", width: "44px", height: "44px" }}
+            style={{
+              top: "17px",
+              left: "236px",
+              width: "44px",
+              height: "44px",
+            }}
           >
             {companyLogo ? (
               <OptimizedImage
@@ -794,7 +854,12 @@ export function DevicePreview({
           {/* Collapse/Expand button at (294, 27) */}
           <div
             className="absolute"
-            style={{ top: "27px", left: "294px", width: "23px", height: "23px" }}
+            style={{
+              top: "27px",
+              left: "294px",
+              width: "23px",
+              height: "23px",
+            }}
           >
             <div className="bg-muted/50 flex h-full w-full items-center justify-center rounded-full">
               <div className="flex h-[6.79px] w-[11px] flex-col gap-[2px]">
@@ -837,7 +902,10 @@ export function DevicePreview({
         </div>
 
         {/* Info Bar at (48, 20) - Chrome • Domain • now */}
-        <div className="absolute flex items-center gap-1" style={{ top: "20px", left: "48px" }}>
+        <div
+          className="absolute flex items-center gap-1"
+          style={{ top: "20px", left: "48px" }}
+        >
           <span
             className="text-muted-foreground"
             style={{
@@ -934,8 +1002,12 @@ export function DevicePreview({
                 <div className="bg-primary/10 mb-2 inline-flex h-12 w-12 items-center justify-center rounded-xl">
                   <div className="text-3xl">📷</div>
                 </div>
-                <p className="text-foreground mb-1 text-xs font-semibold">Hero Image</p>
-                <p className="text-muted-foreground text-[10px]">Upload to preview</p>
+                <p className="text-foreground mb-1 text-xs font-semibold">
+                  Hero Image
+                </p>
+                <p className="text-muted-foreground text-[10px]">
+                  Upload to preview
+                </p>
               </div>
             </div>
           )}

@@ -27,7 +27,10 @@ import {
 import { Plus, Save, ArrowLeft } from "lucide-react";
 import { ConditionBuilder } from "./condition-builder";
 import { EstimatedCount } from "./estimated-count";
-import { newSegmentFormSchema, type NewSegmentFormValues } from "../utils/form-schema";
+import {
+  newSegmentFormSchema,
+  type NewSegmentFormValues,
+} from "../utils/form-schema";
 import type { SegmentCondition, Segment } from "../types";
 import { SEGMENT_TYPE_OPTIONS } from "../constants";
 
@@ -45,7 +48,9 @@ export function NewSegmentForm({
   initialData,
 }: NewSegmentFormProps) {
   const router = useRouter();
-  const [estimatedCount, setEstimatedCount] = useState(initialData?.subscriberCount || 0);
+  const [estimatedCount, setEstimatedCount] = useState(
+    initialData?.subscriberCount || 0
+  );
   const [isCalculating, setIsCalculating] = useState(false);
 
   const form = useForm<NewSegmentFormValues>({
@@ -138,7 +143,10 @@ export function NewSegmentForm({
     }
   };
 
-  const updateCondition = async (index: number, updatedCondition: SegmentCondition) => {
+  const updateCondition = async (
+    index: number,
+    updatedCondition: SegmentCondition
+  ) => {
     try {
       const newConditions = [...conditions];
       newConditions[index] = updatedCondition;
@@ -202,7 +210,9 @@ export function NewSegmentForm({
                 <Card className="border-border/60 shadow-sm">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
-                      <CardTitle className="text-xl">Basic Information</CardTitle>
+                      <CardTitle className="text-xl">
+                        Basic Information
+                      </CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -213,9 +223,14 @@ export function NewSegmentForm({
                         <FormItem>
                           <FormLabel>Segment Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="e.g., High-Value Customers" {...field} />
+                            <Input
+                              placeholder="e.g., High-Value Customers"
+                              {...field}
+                            />
                           </FormControl>
-                          <FormDescription>Give your segment a descriptive name</FormDescription>
+                          <FormDescription>
+                            Give your segment a descriptive name
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -235,7 +250,8 @@ export function NewSegmentForm({
                             />
                           </FormControl>
                           <FormDescription>
-                            Add a description to help others understand this segment
+                            Add a description to help others understand this
+                            segment
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -248,24 +264,31 @@ export function NewSegmentForm({
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Segment Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select segment type" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {SEGMENT_TYPE_OPTIONS.filter((opt) => opt.value !== "all").map(
-                                (option) => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                                )
-                              )}
+                              {SEGMENT_TYPE_OPTIONS.filter(
+                                (opt) => opt.value !== "all"
+                              ).map((option) => (
+                                <SelectItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            Dynamic segments update automatically, static segments are fixed
+                            Dynamic segments update automatically, static
+                            segments are fixed
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -282,10 +305,12 @@ export function NewSegmentForm({
                         <div className="w-5 h-5 bg-primary rounded opacity-80"></div>
                       </div> */}
                       <div>
-                        <CardTitle className="text-xl">Build your segment</CardTitle>
+                        <CardTitle className="text-xl">
+                          Build your segment
+                        </CardTitle>
                         <p className="text-muted-foreground mt-1 text-sm">
-                          Define the criteria that subscribers must meet to be included in this
-                          segment
+                          Define the criteria that subscribers must meet to be
+                          included in this segment
                         </p>
                       </div>
                     </div>
@@ -306,7 +331,8 @@ export function NewSegmentForm({
                                 </div>
                                 <p>No conditions added yet</p>
                                 <p className="text-xs">
-                                  Add your first condition to start building your segment
+                                  Add your first condition to start building
+                                  your segment
                                 </p>
                               </div>
                             )}
@@ -343,7 +369,8 @@ export function NewSegmentForm({
                           Add another condition
                         </div>
                         <div className="text-muted-foreground text-xs">
-                          Use &quot;AND&quot; to narrow your audience, &quot;OR&quot; to broaden it
+                          Use &quot;AND&quot; to narrow your audience,
+                          &quot;OR&quot; to broaden it
                         </div>
                       </div>
                       <div className="flex flex-col gap-3 sm:flex-row">
@@ -374,7 +401,10 @@ export function NewSegmentForm({
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Estimated Count */}
-                <EstimatedCount count={estimatedCount} isLoading={isCalculating} />
+                <EstimatedCount
+                  count={estimatedCount}
+                  isLoading={isCalculating}
+                />
 
                 {/* Actions */}
                 <Card className="border-primary/20 from-primary/5 to-background bg-gradient-to-br shadow-sm">
@@ -410,9 +440,13 @@ export function NewSegmentForm({
                   <CardContent className="p-6">
                     <div className="mb-4 flex items-center space-x-2">
                       <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30">
-                        <span className="text-sm text-amber-600 dark:text-amber-400">💡</span>
+                        <span className="text-sm text-amber-600 dark:text-amber-400">
+                          💡
+                        </span>
                       </div>
-                      <h3 className="text-foreground font-semibold">Pro Tips</h3>
+                      <h3 className="text-foreground font-semibold">
+                        Pro Tips
+                      </h3>
                     </div>
                     <div className="space-y-3 text-sm">
                       <div className="flex items-start space-x-2">
@@ -430,7 +464,8 @@ export function NewSegmentForm({
                       <div className="flex items-start space-x-2">
                         <div className="bg-primary mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full"></div>
                         <p className="text-muted-foreground">
-                          Dynamic segments update automatically as new data comes in
+                          Dynamic segments update automatically as new data
+                          comes in
                         </p>
                       </div>
                       <div className="flex items-start space-x-2">

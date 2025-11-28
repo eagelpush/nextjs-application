@@ -13,7 +13,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Search, X, Filter } from "lucide-react";
 import { useDebounce } from "@/hooks/use-local-storage";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 
@@ -241,7 +245,11 @@ export function EnhancedCampaignFilters({
                 </Select>
               </div>
 
-              <Button variant="outline" className="w-full" onClick={handleClearFilters}>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={handleClearFilters}
+              >
                 <X className="mr-2 h-4 w-4" />
                 Clear Filters
               </Button>
@@ -252,7 +260,11 @@ export function EnhancedCampaignFilters({
 
       {/* Clear Filters Button (Desktop) */}
       {activeFilterCount > 0 && (
-        <Button variant="ghost" onClick={handleClearFilters} className="hidden lg:flex">
+        <Button
+          variant="ghost"
+          onClick={handleClearFilters}
+          className="hidden lg:flex"
+        >
           <X className="mr-2 h-4 w-4" />
           Clear Filters
           {activeFilterCount > 0 && (
@@ -269,25 +281,37 @@ export function EnhancedCampaignFilters({
           {debouncedSearch && (
             <Badge variant="secondary" className="gap-1">
               Search: {debouncedSearch}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => setSearch("")} />
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setSearch("")}
+              />
             </Badge>
           )}
           {status !== "all" && (
             <Badge variant="secondary" className="gap-1">
               Status: {status}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => setStatus("all")} />
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setStatus("all")}
+              />
             </Badge>
           )}
           {category !== "all" && (
             <Badge variant="secondary" className="gap-1">
               Category: {category}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => setCategory("all")} />
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setCategory("all")}
+              />
             </Badge>
           )}
           {type !== "all" && (
             <Badge variant="secondary" className="gap-1">
               Type: {type}
-              <X className="h-3 w-3 cursor-pointer" onClick={() => setType("all")} />
+              <X
+                className="h-3 w-3 cursor-pointer"
+                onClick={() => setType("all")}
+              />
             </Badge>
           )}
         </div>

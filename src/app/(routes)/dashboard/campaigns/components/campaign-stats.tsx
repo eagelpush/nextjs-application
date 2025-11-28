@@ -42,14 +42,18 @@ export function CampaignStatsCards({ stats }: CampaignStatsProps) {
         return (
           <Card key={item.title} className="border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                {item.title}
+              </CardTitle>
               <div className="bg-primary/10 rounded-lg p-2">
                 <IconComponent className="text-primary h-4 w-4" />
               </div>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{item.value}</div>
-              <p className="text-muted-foreground mt-1 text-xs">{item.description}</p>
+              <p className="text-muted-foreground mt-1 text-xs">
+                {item.description}
+              </p>
             </CardContent>
           </Card>
         );

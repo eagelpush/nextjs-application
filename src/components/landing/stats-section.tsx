@@ -40,10 +40,12 @@ export function StatsSection() {
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-foreground text-3xl font-bold tracking-tight sm:text-5xl">
-            Trusted by thousands of <span className="text-primary">growing businesses</span>
+            Trusted by thousands of{" "}
+            <span className="text-primary">growing businesses</span>
           </h2>
           <p className="text-muted-foreground mt-6 text-lg leading-8">
-            Join the merchants who are already driving more sales with Push Eagle
+            Join the merchants who are already driving more sales with Push
+            Eagle
           </p>
         </div>
 
@@ -67,7 +69,9 @@ export function StatsSection() {
               </dd>
 
               {/* Name */}
-              <dt className="text-foreground mt-3 text-lg font-semibold">{stat.name}</dt>
+              <dt className="text-foreground mt-3 text-lg font-semibold">
+                {stat.name}
+              </dt>
 
               {/* Description */}
               <dd className="text-muted-foreground mt-2 text-sm leading-relaxed">

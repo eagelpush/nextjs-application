@@ -24,7 +24,9 @@ export function buildSubscriberQuery(
     return where;
   }
 
-  console.log(`[QueryBuilder] Building query for ${conditions.length} conditions`);
+  console.log(
+    `[QueryBuilder] Building query for ${conditions.length} conditions`
+  );
 
   // Group conditions by logical operator
   const andConditions: Prisma.SubscriberWhereInput[] = [];
@@ -57,7 +59,10 @@ export function buildSubscriberQuery(
         console.log(`[QueryBuilder] Added to OR conditions`);
       }
     } catch (error) {
-      console.error(`[QueryBuilder] Skipping unsupported condition: ${condition.category}`, error);
+      console.error(
+        `[QueryBuilder] Skipping unsupported condition: ${condition.category}`,
+        error
+      );
       // Skip unsupported conditions instead of failing
     }
   }
@@ -65,7 +70,9 @@ export function buildSubscriberQuery(
   // Apply AND conditions
   if (andConditions.length > 0) {
     where.AND = andConditions;
-    console.log(`[QueryBuilder] Applied ${andConditions.length} AND conditions`);
+    console.log(
+      `[QueryBuilder] Applied ${andConditions.length} AND conditions`
+    );
   }
 
   // Apply OR conditions
@@ -74,7 +81,10 @@ export function buildSubscriberQuery(
     console.log(`[QueryBuilder] Applied ${orConditions.length} OR conditions`);
   }
 
-  console.log("[QueryBuilder] Final WHERE clause:", JSON.stringify(where, null, 2));
+  console.log(
+    "[QueryBuilder] Final WHERE clause:",
+    JSON.stringify(where, null, 2)
+  );
 
   return where;
 }
@@ -82,7 +92,9 @@ export function buildSubscriberQuery(
 /**
  * Convert a single segment condition to Prisma WHERE clause
  */
-function convertConditionToWhere(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function convertConditionToWhere(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   switch (condition.category) {
     case "subscribed":
       return handleSubscribedCondition(condition);
@@ -120,13 +132,18 @@ function convertConditionToWhere(condition: SegmentCondition): Prisma.Subscriber
  * Handle "subscribed" conditions
  * Maps to subscribedAt field
  */
-function handleSubscribedCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleSubscribedCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
     case "in_last":
       if (condition.numberValue && condition.dateUnit) {
-        const daysBack = convertDateUnitToDays(condition.numberValue, condition.dateUnit);
+        const daysBack = convertDateUnitToDays(
+          condition.numberValue,
+          condition.dateUnit
+        );
         const startDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
         where.subscribedAt = { gte: startDate };
       }
@@ -146,7 +163,10 @@ function handleSubscribedCondition(condition: SegmentCondition): Prisma.Subscrib
 
     case "more_than_ago":
       if (condition.numberValue && condition.dateUnit) {
-        const daysBack = convertDateUnitToDays(condition.numberValue, condition.dateUnit);
+        const daysBack = convertDateUnitToDays(
+          condition.numberValue,
+          condition.dateUnit
+        );
         const endDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
         where.subscribedAt = { lt: endDate };
       }
@@ -154,7 +174,10 @@ function handleSubscribedCondition(condition: SegmentCondition): Prisma.Subscrib
 
     case "less_than_ago":
       if (condition.numberValue && condition.dateUnit) {
-        const daysBack = convertDateUnitToDays(condition.numberValue, condition.dateUnit);
+        const daysBack = convertDateUnitToDays(
+          condition.numberValue,
+          condition.dateUnit
+        );
         const startDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
         where.subscribedAt = { gte: startDate };
       }
@@ -171,7 +194,9 @@ function handleSubscribedCondition(condition: SegmentCondition): Prisma.Subscrib
  * Handle "location" conditions
  * Maps to country, city, region fields
  */
-function handleLocationCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleLocationCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
@@ -215,7 +240,10 @@ function handleLocationCondition(condition: SegmentCondition): Prisma.Subscriber
         });
       }
       if (notConditions.length > 0) {
-        where.NOT = notConditions.length === 1 ? notConditions[0] : { AND: notConditions };
+        where.NOT =
+          notConditions.length === 1
+            ? notConditions[0]
+            : { AND: notConditions };
       }
       break;
 
@@ -240,7 +268,9 @@ function handleLocationCondition(condition: SegmentCondition): Prisma.Subscriber
  * Handle "device_type" conditions
  * Maps to device and isMobile fields
  */
-function handleDeviceCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleDeviceCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
@@ -297,7 +327,9 @@ function convertDateUnitToDays(value: number, unit: string): number {
  * Handle "browser" conditions
  * Maps to browser field
  */
-function handleBrowserCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleBrowserCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
@@ -334,7 +366,9 @@ function handleBrowserCondition(condition: SegmentCondition): Prisma.SubscriberW
  * Handle "operating_system" conditions
  * Maps to os field
  */
-function handleOSCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleOSCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
@@ -371,7 +405,9 @@ function handleOSCondition(condition: SegmentCondition): Prisma.SubscriberWhereI
  * Handle "language" conditions
  * Maps to language field
  */
-function handleLanguageCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleLanguageCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
@@ -408,7 +444,9 @@ function handleLanguageCondition(condition: SegmentCondition): Prisma.Subscriber
  * Handle "email_domain" conditions
  * Checks if email ends with specified domain
  */
-function handleEmailDomainCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleEmailDomainCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   if (!condition.value) return where;
@@ -418,7 +456,9 @@ function handleEmailDomainCondition(condition: SegmentCondition): Prisma.Subscri
     case "equals":
       // Check if email ends with @domain.com
       where.email = {
-        endsWith: condition.value.startsWith("@") ? condition.value : `@${condition.value}`,
+        endsWith: condition.value.startsWith("@")
+          ? condition.value
+          : `@${condition.value}`,
         mode: "insensitive",
       };
       break;
@@ -427,7 +467,9 @@ function handleEmailDomainCondition(condition: SegmentCondition): Prisma.Subscri
     case "not_equals":
       where.NOT = {
         email: {
-          endsWith: condition.value.startsWith("@") ? condition.value : `@${condition.value}`,
+          endsWith: condition.value.startsWith("@")
+            ? condition.value
+            : `@${condition.value}`,
           mode: "insensitive",
         },
       };
@@ -451,7 +493,9 @@ function handleEmailDomainCondition(condition: SegmentCondition): Prisma.Subscri
  * Handle "referrer" conditions
  * Maps to referrer field (subscription source)
  */
-function handleReferrerCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleReferrerCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
@@ -496,13 +540,18 @@ function handleReferrerCondition(condition: SegmentCondition): Prisma.Subscriber
  * Handle "last_seen" conditions
  * Maps to lastSeenAt field
  */
-function handleLastSeenCondition(condition: SegmentCondition): Prisma.SubscriberWhereInput {
+function handleLastSeenCondition(
+  condition: SegmentCondition
+): Prisma.SubscriberWhereInput {
   const where: Prisma.SubscriberWhereInput = {};
 
   switch (condition.operator) {
     case "in_last":
       if (condition.numberValue && condition.dateUnit) {
-        const daysBack = convertDateUnitToDays(condition.numberValue, condition.dateUnit);
+        const daysBack = convertDateUnitToDays(
+          condition.numberValue,
+          condition.dateUnit
+        );
         const startDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
         where.lastSeenAt = { gte: startDate };
       }
@@ -522,7 +571,10 @@ function handleLastSeenCondition(condition: SegmentCondition): Prisma.Subscriber
 
     case "more_than_ago":
       if (condition.numberValue && condition.dateUnit) {
-        const daysBack = convertDateUnitToDays(condition.numberValue, condition.dateUnit);
+        const daysBack = convertDateUnitToDays(
+          condition.numberValue,
+          condition.dateUnit
+        );
         const endDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
         where.lastSeenAt = { lt: endDate };
       }
@@ -530,7 +582,10 @@ function handleLastSeenCondition(condition: SegmentCondition): Prisma.Subscriber
 
     case "less_than_ago":
       if (condition.numberValue && condition.dateUnit) {
-        const daysBack = convertDateUnitToDays(condition.numberValue, condition.dateUnit);
+        const daysBack = convertDateUnitToDays(
+          condition.numberValue,
+          condition.dateUnit
+        );
         const startDate = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000);
         where.lastSeenAt = { gte: startDate };
       }

@@ -2,7 +2,13 @@
 
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import { RefreshCw, Home, MessageSquare } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 // import { useRouter } from "next/navigation";
 
@@ -53,12 +59,15 @@ export class CampaignsErrorBoundary extends Component<Props, State> {
                 <MessageSquare className="h-6 w-6" />
                 Campaign Error
               </CardTitle>
-              <CardDescription>Something went wrong while loading campaigns</CardDescription>
+              <CardDescription>
+                Something went wrong while loading campaigns
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground">
-                We&apos;re sorry, but an unexpected error occurred while loading your campaigns.
-                This might be due to a network issue or a temporary service problem.
+                We&apos;re sorry, but an unexpected error occurred while loading
+                your campaigns. This might be due to a network issue or a
+                temporary service problem.
               </p>
 
               <div className="flex flex-col gap-2">
@@ -93,7 +102,9 @@ export class CampaignsErrorBoundary extends Component<Props, State> {
                     {this.state.error.stack && (
                       <div>
                         <strong>Stack:</strong>
-                        <pre className="mt-1 text-xs">{this.state.error.stack}</pre>
+                        <pre className="mt-1 text-xs">
+                          {this.state.error.stack}
+                        </pre>
                       </div>
                     )}
                   </div>

@@ -21,14 +21,16 @@ export function HeroSection() {
           {/* Headline */}
           <h1 className="text-foreground max-w-2xl text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
             Turn every store visitor into a{" "}
-            <span className="text-primary">customer</span> with Push Notifications
+            <span className="text-primary">customer</span> with Push
+            Notifications
           </h1>
 
           {/* Subheadline */}
           <p className="text-muted-foreground mt-6 text-xl leading-8">
-            Send targeted push notifications that drive sales and increase customer engagement.
-            Recover abandoned carts, promote flash sales, and build lasting customer relationships —
-            all without email addresses.
+            Send targeted push notifications that drive sales and increase
+            customer engagement. Recover abandoned carts, promote flash sales,
+            and build lasting customer relationships — all without email
+            addresses.
           </p>
 
           {/* CTAs */}
@@ -39,7 +41,12 @@ export function HeroSection() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-12 px-8 text-base"
+            >
               <Link href="/sign-in">Sign In</Link>
             </Button>
           </div>
@@ -69,12 +76,16 @@ export function HeroSection() {
                   </span>
                 ))}
               </div>
-              <p className="text-foreground mt-1 text-xs font-medium">4.9 out of 5 stars</p>
+              <p className="text-foreground mt-1 text-xs font-medium">
+                4.9 out of 5 stars
+              </p>
             </div>
             <div className="h-10 w-px bg-border" />
             <div className="flex items-center gap-2">
               <CheckCircle2 className="text-primary h-4 w-4" />
-              <span className="text-foreground text-xs font-medium">No credit card required</span>
+              <span className="text-foreground text-xs font-medium">
+                No credit card required
+              </span>
             </div>
           </div>
         </div>

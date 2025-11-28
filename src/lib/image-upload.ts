@@ -1,4 +1,7 @@
-export function validateImageFile(file: File): { isValid: boolean; error?: string } {
+export function validateImageFile(file: File): {
+  isValid: boolean;
+  error?: string;
+} {
   // Check file type
   if (!file.type.startsWith("image/")) {
     return {
@@ -17,7 +20,13 @@ export function validateImageFile(file: File): { isValid: boolean; error?: strin
   }
 
   // Check specific image formats
-  const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
+  const allowedTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+  ];
   if (!allowedTypes.includes(file.type.toLowerCase())) {
     return {
       isValid: false,
@@ -43,5 +52,3 @@ export function revokeImagePreview(url: string): void {
     URL.revokeObjectURL(url);
   }
 }
-
-

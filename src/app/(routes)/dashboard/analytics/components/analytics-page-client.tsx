@@ -21,14 +21,20 @@ interface AnalyticsPageClientProps {
 
 export function AnalyticsPageClient({ initialData }: AnalyticsPageClientProps) {
   // Initialize with default date range (last 30 days) using useMemo
-  const initialDateRange = useMemo(() => ({
-    from: subDays(new Date(), 30),
-    to: new Date(),
-  }), []);
-  
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(initialDateRange);
+  const initialDateRange = useMemo(
+    () => ({
+      from: subDays(new Date(), 30),
+      to: new Date(),
+    }),
+    []
+  );
+
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
+    initialDateRange
+  );
   const [deviceTab, setDeviceTab] = useState<DeviceTab>("revenue");
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsDashboardData>(initialData);
+  const [analyticsData, setAnalyticsData] =
+    useState<AnalyticsDashboardData>(initialData);
   const [isPending, startTransition] = useTransition();
 
   const fetchAnalyticsData = async (range: DateRange | undefined) => {
@@ -47,7 +53,7 @@ export function AnalyticsPageClient({ initialData }: AnalyticsPageClientProps) {
 
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setDateRange(range);
-    
+
     if (!range?.from || !range?.to) {
       return;
     }

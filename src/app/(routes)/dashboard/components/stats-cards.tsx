@@ -1,7 +1,12 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Info } from "lucide-react";
 import {
   IconTrendingUp,
@@ -114,7 +119,10 @@ export function StatsCards({ stats }: StatsCardsProps) {
                   </Tooltip>
                 </div>
                 <div className={`rounded-lg p-2 ${card.bgColor}`}>
-                  <Icon className={`h-4 w-4 ${card.color}`} aria-hidden="true" />
+                  <Icon
+                    className={`h-4 w-4 ${card.color}`}
+                    aria-hidden="true"
+                  />
                 </div>
               </CardHeader>
               <CardContent>
@@ -129,7 +137,9 @@ export function StatsCards({ stats }: StatsCardsProps) {
                   >
                     {Math.abs(card.change)}%
                   </span>
-                  <span className="text-muted-foreground ml-1">vs last period</span>
+                  <span className="text-muted-foreground ml-1">
+                    vs last period
+                  </span>
                 </div>
               </CardContent>
             </Card>

@@ -1,7 +1,16 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import {
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -42,13 +51,19 @@ const pieChartConfig = {
   },
 } satisfies ChartConfig;
 
-export function PerformanceOverview({ revenueData, revenueAttribution }: PerformanceOverviewProps) {
+export function PerformanceOverview({
+  revenueData,
+  revenueAttribution,
+}: PerformanceOverviewProps) {
   // Prepare pie chart data
   const pieData = revenueAttribution.map((item, index) => ({
     name: item.source,
     value: item.revenue,
     percentage: item.percentage,
-    fill: index === 0 ? "var(--color-manualCampaigns)" : "var(--color-automatedFlows)",
+    fill:
+      index === 0
+        ? "var(--color-manualCampaigns)"
+        : "var(--color-automatedFlows)",
   }));
 
   return (
@@ -56,8 +71,12 @@ export function PerformanceOverview({ revenueData, revenueAttribution }: Perform
       {/* Revenue Over Time */}
       <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Performance Overview</CardTitle>
-          <p className="text-muted-foreground text-sm">Revenue trend over the selected period</p>
+          <CardTitle className="text-lg font-semibold">
+            Performance Overview
+          </CardTitle>
+          <p className="text-muted-foreground text-sm">
+            Revenue trend over the selected period
+          </p>
         </CardHeader>
         <CardContent>
           <ChartContainer config={lineChartConfig} className="h-[300px] w-full">
@@ -111,8 +130,12 @@ export function PerformanceOverview({ revenueData, revenueAttribution }: Perform
       {/* Revenue Attribution */}
       <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Revenue Attribution</CardTitle>
-          <p className="text-muted-foreground text-sm">Revenue breakdown by source</p>
+          <CardTitle className="text-lg font-semibold">
+            Revenue Attribution
+          </CardTitle>
+          <p className="text-muted-foreground text-sm">
+            Revenue breakdown by source
+          </p>
         </CardHeader>
         <CardContent>
           <ChartContainer config={pieChartConfig} className="h-[300px] w-full">
@@ -141,12 +164,19 @@ export function PerformanceOverview({ revenueData, revenueAttribution }: Perform
             {pieData.map((item, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full" style={{ backgroundColor: item.fill }} />
+                  <div
+                    className="h-3 w-3 rounded-full"
+                    style={{ backgroundColor: item.fill }}
+                  />
                   <span className="text-sm">{item.name}</span>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-medium">{formatCurrency(item.value)}</div>
-                  <div className="text-muted-foreground text-xs">{item.percentage.toFixed(1)}%</div>
+                  <div className="text-sm font-medium">
+                    {formatCurrency(item.value)}
+                  </div>
+                  <div className="text-muted-foreground text-xs">
+                    {item.percentage.toFixed(1)}%
+                  </div>
                 </div>
               </div>
             ))}

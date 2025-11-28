@@ -18,7 +18,13 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -53,7 +59,9 @@ interface OptInSettingsClientProps {
   initialSettings: OptInSettings;
 }
 
-export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProps) {
+export function OptInSettingsClient({
+  initialSettings,
+}: OptInSettingsClientProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [settings, setSettings] = useState<OptInSettings>(initialSettings);
 
@@ -102,7 +110,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
       setSettings(updatedSettings);
       toast.success("Settings saved successfully!");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save settings");
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save settings"
+      );
     } finally {
       setIsSaving(false);
     }
@@ -115,10 +125,12 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
         <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Opt-in Settings</h1>
+              <h1 className="text-3xl font-bold tracking-tight">
+                Opt-in Settings
+              </h1>
               <p className="text-muted-foreground">
-                Configure how visitors subscribe to push notifications and optimize your conversion
-                rate
+                Configure how visitors subscribe to push notifications and
+                optimize your conversion rate
               </p>
             </div>
           </div>
@@ -136,14 +148,20 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{settings.totalViews.toLocaleString()}</div>
-              <p className="text-muted-foreground mt-1 text-xs">Prompt impressions</p>
+              <div className="text-3xl font-bold">
+                {settings.totalViews.toLocaleString()}
+              </div>
+              <p className="text-muted-foreground mt-1 text-xs">
+                Prompt impressions
+              </p>
             </CardContent>
           </Card>
 
           <Card className="transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Subscribers</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Subscribers
+              </CardTitle>
               <div className="bg-chart-3/10 rounded-lg p-2">
                 <Users className="text-chart-3 h-4 w-4" />
               </div>
@@ -158,7 +176,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
 
           <Card className="transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Conversion Rate
+              </CardTitle>
               <div className="bg-primary/10 rounded-lg p-2">
                 <Target className="text-primary h-4 w-4" />
               </div>
@@ -166,11 +186,16 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
             <CardContent>
               <div className="text-3xl font-bold">
                 {settings.totalViews > 0
-                  ? ((settings.totalSubscribers / settings.totalViews) * 100).toFixed(1)
+                  ? (
+                      (settings.totalSubscribers / settings.totalViews) *
+                      100
+                    ).toFixed(1)
                   : "0"}
                 %
               </div>
-              <p className="text-muted-foreground mt-1 text-xs">Opt-in success rate</p>
+              <p className="text-muted-foreground mt-1 text-xs">
+                Opt-in success rate
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -214,8 +239,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                       <div>
                         <CardTitle>Custom Prompt</CardTitle>
                         <CardDescription>
-                          Show your branded message before the browser prompt. Can increase opt-in
-                          rates by 200-400%.
+                          Show your branded message before the browser prompt.
+                          Can increase opt-in rates by 200-400%.
                         </CardDescription>
                       </div>
                       <FormField
@@ -224,7 +249,10 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -235,8 +263,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                     <Alert>
                       <MousePointerClick className="h-4 w-4" />
                       <AlertDescription>
-                        This prompt appears before the browser&apos;s native permission dialog,
-                        giving you a chance to explain the value of notifications.
+                        This prompt appears before the browser&apos;s native
+                        permission dialog, giving you a chance to explain the
+                        value of notifications.
                       </AlertDescription>
                     </Alert>
 
@@ -248,9 +277,14 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                           <FormItem>
                             <FormLabel>Headline</FormLabel>
                             <FormControl>
-                              <Input placeholder="Get Exclusive Deals!" {...field} />
+                              <Input
+                                placeholder="Get Exclusive Deals!"
+                                {...field}
+                              />
                             </FormControl>
-                            <FormDescription>Short, attention-grabbing headline</FormDescription>
+                            <FormDescription>
+                              Short, attention-grabbing headline
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -262,7 +296,10 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Position</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <FormControl>
                                 <SelectTrigger>
                                   <SelectValue />
@@ -270,10 +307,18 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                               </FormControl>
                               <SelectContent>
                                 <SelectItem value="center">Center</SelectItem>
-                                <SelectItem value="bottom-right">Bottom Right</SelectItem>
-                                <SelectItem value="top-right">Top Right</SelectItem>
-                                <SelectItem value="bottom-left">Bottom Left</SelectItem>
-                                <SelectItem value="top-left">Top Left</SelectItem>
+                                <SelectItem value="bottom-right">
+                                  Bottom Right
+                                </SelectItem>
+                                <SelectItem value="top-right">
+                                  Top Right
+                                </SelectItem>
+                                <SelectItem value="bottom-left">
+                                  Bottom Left
+                                </SelectItem>
+                                <SelectItem value="top-left">
+                                  Top Left
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />
@@ -295,7 +340,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                               {...field}
                             />
                           </FormControl>
-                          <FormDescription>Explain the benefits of subscribing</FormDescription>
+                          <FormDescription>
+                            Explain the benefits of subscribing
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -315,7 +362,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                               maxTags={5}
                             />
                           </FormControl>
-                          <FormDescription>Add up to 5 bullet points (optional)</FormDescription>
+                          <FormDescription>
+                            Add up to 5 bullet points (optional)
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -381,8 +430,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                       <div>
                         <CardTitle>Flyout Widget</CardTitle>
                         <CardDescription>
-                          Persistent subscription button that stays on screen. Recovers 30-50% of
-                          missed opt-ins.
+                          Persistent subscription button that stays on screen.
+                          Recovers 30-50% of missed opt-ins.
                         </CardDescription>
                       </div>
                       <FormField
@@ -391,7 +440,10 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -402,8 +454,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                     <Alert>
                       <Bell className="h-4 w-4" />
                       <AlertDescription>
-                        The flyout widget appears in a corner of the screen, giving users a second
-                        chance to subscribe.
+                        The flyout widget appears in a corner of the screen,
+                        giving users a second chance to subscribe.
                       </AlertDescription>
                     </Alert>
 
@@ -417,7 +469,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                             <FormControl>
                               <Input placeholder="Get Updates" {...field} />
                             </FormControl>
-                            <FormDescription>Short call-to-action text</FormDescription>
+                            <FormDescription>
+                              Short call-to-action text
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -429,17 +483,28 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Position</FormLabel>
-                            <Select onValueChange={field.onChange} value={field.value}>
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
                               <FormControl>
                                 <SelectTrigger>
                                   <SelectValue />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="bottom-right">Bottom Right</SelectItem>
-                                <SelectItem value="bottom-left">Bottom Left</SelectItem>
-                                <SelectItem value="top-right">Top Right</SelectItem>
-                                <SelectItem value="top-left">Top Left</SelectItem>
+                                <SelectItem value="bottom-right">
+                                  Bottom Right
+                                </SelectItem>
+                                <SelectItem value="bottom-left">
+                                  Bottom Left
+                                </SelectItem>
+                                <SelectItem value="top-right">
+                                  Top Right
+                                </SelectItem>
+                                <SelectItem value="top-left">
+                                  Top Left
+                                </SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />
@@ -476,10 +541,14 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                                 min={0}
                                 max={300}
                                 {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value) || 0)
+                                }
                               />
                             </FormControl>
-                            <FormDescription>Delay before showing the flyout</FormDescription>
+                            <FormDescription>
+                              Delay before showing the flyout
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -497,8 +566,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                       <div>
                         <CardTitle>Exit Intent</CardTitle>
                         <CardDescription>
-                          Show prompt when user tries to leave. Captures 15-25% of abandoning
-                          visitors.
+                          Show prompt when user tries to leave. Captures 15-25%
+                          of abandoning visitors.
                         </CardDescription>
                       </div>
                       <FormField
@@ -507,7 +576,10 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -518,8 +590,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                     <Alert>
                       <DoorOpen className="h-4 w-4" />
                       <AlertDescription>
-                        Exit intent detects when a user is about to leave your site and shows a
-                        last-chance prompt.
+                        Exit intent detects when a user is about to leave your
+                        site and shows a last-chance prompt.
                       </AlertDescription>
                     </Alert>
 
@@ -531,9 +603,14 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                           <FormItem>
                             <FormLabel>Headline</FormLabel>
                             <FormControl>
-                              <Input placeholder="Wait! Don't miss out!" {...field} />
+                              <Input
+                                placeholder="Wait! Don't miss out!"
+                                {...field}
+                              />
                             </FormControl>
-                            <FormDescription>Attention-grabbing message</FormDescription>
+                            <FormDescription>
+                              Attention-grabbing message
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -551,7 +628,9 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                                 min={0}
                                 max={300}
                                 {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value) || 0)
+                                }
                               />
                             </FormControl>
                             <FormDescription>
@@ -593,8 +672,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                   <CardHeader>
                     <CardTitle>Timing & Frequency</CardTitle>
                     <CardDescription>
-                      Control when and how often prompts appear. Proper timing can improve opt-in
-                      rates by 30-50%.
+                      Control when and how often prompts appear. Proper timing
+                      can improve opt-in rates by 30-50%.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -604,20 +683,31 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Trigger Type</FormLabel>
-                          <Select onValueChange={field.onChange} value={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="immediate">Immediate (on page load)</SelectItem>
+                              <SelectItem value="immediate">
+                                Immediate (on page load)
+                              </SelectItem>
                               <SelectItem value="delay">After Delay</SelectItem>
-                              <SelectItem value="scroll">After Scrolling</SelectItem>
-                              <SelectItem value="engagement">After Engagement</SelectItem>
+                              <SelectItem value="scroll">
+                                After Scrolling
+                              </SelectItem>
+                              <SelectItem value="engagement">
+                                After Engagement
+                              </SelectItem>
                             </SelectContent>
                           </Select>
-                          <FormDescription>When to show the opt-in prompt</FormDescription>
+                          <FormDescription>
+                            When to show the opt-in prompt
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -636,10 +726,14 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                                 min={0}
                                 max={300}
                                 {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value) || 0)
+                                }
                               />
                             </FormControl>
-                            <FormDescription>For &quot;delay&quot; trigger</FormDescription>
+                            <FormDescription>
+                              For &quot;delay&quot; trigger
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -657,10 +751,14 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                                 min={0}
                                 max={100}
                                 {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value) || 0)
+                                }
                               />
                             </FormControl>
-                            <FormDescription>For &quot;scroll&quot; trigger</FormDescription>
+                            <FormDescription>
+                              For &quot;scroll&quot; trigger
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -678,10 +776,14 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                                 min={0}
                                 max={300}
                                 {...field}
-                                onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+                                onChange={(e) =>
+                                  field.onChange(parseInt(e.target.value) || 0)
+                                }
                               />
                             </FormControl>
-                            <FormDescription>For &quot;engagement&quot; trigger</FormDescription>
+                            <FormDescription>
+                              For &quot;engagement&quot; trigger
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -699,13 +801,19 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                           render={({ field }) => (
                             <FormItem className="flex items-center justify-between rounded-lg border p-4">
                               <div className="space-y-0.5">
-                                <FormLabel className="text-base">Once Per Session</FormLabel>
+                                <FormLabel className="text-base">
+                                  Once Per Session
+                                </FormLabel>
                                 <FormDescription>
-                                  Only show prompt once during user&apos;s browsing session
+                                  Only show prompt once during user&apos;s
+                                  browsing session
                                 </FormDescription>
                               </div>
                               <FormControl>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
                               </FormControl>
                             </FormItem>
                           )}
@@ -717,13 +825,18 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                           render={({ field }) => (
                             <FormItem className="flex items-center justify-between rounded-lg border p-4">
                               <div className="space-y-0.5">
-                                <FormLabel className="text-base">Once Per Day</FormLabel>
+                                <FormLabel className="text-base">
+                                  Once Per Day
+                                </FormLabel>
                                 <FormDescription>
                                   Only show prompt once per 24 hours
                                 </FormDescription>
                               </div>
                               <FormControl>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
                               </FormControl>
                             </FormItem>
                           )}
@@ -735,13 +848,18 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                           render={({ field }) => (
                             <FormItem className="flex items-center justify-between rounded-lg border p-4">
                               <div className="space-y-0.5">
-                                <FormLabel className="text-base">Once Per Week</FormLabel>
+                                <FormLabel className="text-base">
+                                  Once Per Week
+                                </FormLabel>
                                 <FormDescription>
                                   Only show prompt once per 7 days
                                 </FormDescription>
                               </div>
                               <FormControl>
-                                <Switch checked={field.value} onCheckedChange={field.onChange} />
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
                               </FormControl>
                             </FormItem>
                           )}
@@ -760,8 +878,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                       <div>
                         <CardTitle>URL Targeting</CardTitle>
                         <CardDescription>
-                          Show different prompts on specific pages. Can improve conversion by
-                          40-60%.
+                          Show different prompts on specific pages. Can improve
+                          conversion by 40-60%.
                         </CardDescription>
                       </div>
                       <FormField
@@ -770,7 +888,10 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Switch checked={field.value} onCheckedChange={field.onChange} />
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
@@ -781,8 +902,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                     <Alert>
                       <Target className="h-4 w-4" />
                       <AlertDescription>
-                        Use URL patterns to show prompts only on specific pages. Supports
-                        wildcards (*).
+                        Use URL patterns to show prompts only on specific pages.
+                        Supports wildcards (*).
                       </AlertDescription>
                     </Alert>
 
@@ -801,7 +922,8 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                             />
                           </FormControl>
                           <FormDescription>
-                            Show prompts only on these URL patterns (leave empty for all pages)
+                            Show prompts only on these URL patterns (leave empty
+                            for all pages)
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -831,23 +953,37 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
                     />
 
                     <div className="bg-muted/50 rounded-lg border p-4">
-                      <h4 className="mb-2 text-sm font-medium">Pattern Examples:</h4>
+                      <h4 className="mb-2 text-sm font-medium">
+                        Pattern Examples:
+                      </h4>
                       <ul className="text-muted-foreground space-y-1 text-sm">
                         <li>
-                          • <code className="bg-muted rounded px-1 py-0.5">/products/*</code> -
-                          All product pages
+                          •{" "}
+                          <code className="bg-muted rounded px-1 py-0.5">
+                            /products/*
+                          </code>{" "}
+                          - All product pages
                         </li>
                         <li>
-                          • <code className="bg-muted rounded px-1 py-0.5">/collections/*</code> -
-                          All collection pages
+                          •{" "}
+                          <code className="bg-muted rounded px-1 py-0.5">
+                            /collections/*
+                          </code>{" "}
+                          - All collection pages
                         </li>
                         <li>
-                          • <code className="bg-muted rounded px-1 py-0.5">/checkout</code> - Exact
-                          match
+                          •{" "}
+                          <code className="bg-muted rounded px-1 py-0.5">
+                            /checkout
+                          </code>{" "}
+                          - Exact match
                         </li>
                         <li>
-                          • <code className="bg-muted rounded px-1 py-0.5">*</code> - All pages
-                          (default)
+                          •{" "}
+                          <code className="bg-muted rounded px-1 py-0.5">
+                            *
+                          </code>{" "}
+                          - All pages (default)
                         </li>
                       </ul>
                     </div>
@@ -878,4 +1014,3 @@ export function OptInSettingsClient({ initialSettings }: OptInSettingsClientProp
     </div>
   );
 }
-

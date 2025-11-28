@@ -1,15 +1,14 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 /**
  * Client component to handle Shopify context preservation after Clerk verification
- * 
+ *
  * When Clerk redirects to / after email verification, this component checks
  * sessionStorage for Shopify context and redirects back to sign-up with the context.
  */
 export function ShopifyContextHandler() {
-  const router = useRouter();
   const pathname = usePathname();
   const hasRedirected = useRef(false);
 
@@ -31,9 +30,12 @@ export function ShopifyContextHandler() {
       if (stored) {
         const context = JSON.parse(stored);
         if (context?.shop && context?.hmac && context?.timestamp) {
-          console.log("🔄 Detected Shopify context after verification, redirecting back to sign-up:", {
-            shop: context.shop,
-          });
+          console.log(
+            "🔄 Detected Shopify context after verification, redirecting back to sign-up:",
+            {
+              shop: context.shop,
+            }
+          );
 
           hasRedirected.current = true;
 
@@ -51,9 +53,7 @@ export function ShopifyContextHandler() {
     } catch (e) {
       console.error("Error checking sessionStorage for Shopify context:", e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return null; // This component doesn't render anything
 }
-

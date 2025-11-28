@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback, useOptimistic, useTransition } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useOptimistic,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -28,10 +34,9 @@ export function EditCampaignPageClient({
   const [, startTransition] = useTransition();
 
   // Local storage for auto-save drafts
-  const [draft, setDraft, clearDraft] = useLocalStorage<Partial<CompleteCampaignData>>(
-    `campaign-draft-${initialCampaign.id}`,
-    {}
-  );
+  const [draft, setDraft, clearDraft] = useLocalStorage<
+    Partial<CompleteCampaignData>
+  >(`campaign-draft-${initialCampaign.id}`, {});
 
   // Merge initial campaign with draft on load
   const initialFormData: CompleteCampaignData = {
@@ -39,7 +44,8 @@ export function EditCampaignPageClient({
     ...draft,
     // Ensure nested objects are merged correctly
     heroImages: { ...initialCampaign.heroImages, ...draft.heroImages },
-    selectedSegments: draft.selectedSegments || initialCampaign.selectedSegments,
+    selectedSegments:
+      draft.selectedSegments || initialCampaign.selectedSegments,
     // Ensure scheduleDate is a Date object if it exists
     scheduleDate: draft.scheduleDate
       ? new Date(draft.scheduleDate)
@@ -134,7 +140,9 @@ export function EditCampaignPageClient({
             </Button>
             <div>
               <h1 className="text-2xl font-bold">Edit Campaign</h1>
-              <p className="text-muted-foreground text-sm">{initialCampaign.title}</p>
+              <p className="text-muted-foreground text-sm">
+                {initialCampaign.title}
+              </p>
             </div>
           </div>
         </div>

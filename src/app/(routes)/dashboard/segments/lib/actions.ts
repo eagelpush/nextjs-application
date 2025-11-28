@@ -13,7 +13,10 @@ import type {
 } from "../types";
 import type { NewAttributeFormValues } from "../utils/attribute-schema";
 import { generateCriteriaDisplay } from "../utils/segment-utils";
-import { buildSubscriberQuery, validateSegmentConditions } from "./subscriber-query-builder";
+import {
+  buildSubscriberQuery,
+  validateSegmentConditions,
+} from "./subscriber-query-builder";
 
 // ========================================
 // UTILITY FUNCTIONS
@@ -105,7 +108,9 @@ export async function getSegmentsData(): Promise<SegmentsDashboardData> {
   }
 }
 
-export async function getSegmentById(segmentId: string): Promise<Segment | null> {
+export async function getSegmentById(
+  segmentId: string
+): Promise<Segment | null> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -148,7 +153,8 @@ export async function getSegmentById(segmentId: string): Promise<Segment | null>
         locationCountry: condition.locationCountry || undefined,
         locationRegion: condition.locationRegion || undefined,
         locationCity: condition.locationCity || undefined,
-        logicalOperator: (condition.logicalOperator as "AND" | "OR") || undefined,
+        logicalOperator:
+          (condition.logicalOperator as "AND" | "OR") || undefined,
       })),
     };
   } catch (error) {
@@ -157,7 +163,9 @@ export async function getSegmentById(segmentId: string): Promise<Segment | null>
   }
 }
 
-export async function createSegment(data: NewSegmentFormData): Promise<Segment> {
+export async function createSegment(
+  data: NewSegmentFormData
+): Promise<Segment> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -182,7 +190,9 @@ export async function createSegment(data: NewSegmentFormData): Promise<Segment> 
             operator: condition.operator,
             value: condition.value,
             numberValue: condition.numberValue,
-            dateValue: condition.dateValue ? new Date(condition.dateValue) : null,
+            dateValue: condition.dateValue
+              ? new Date(condition.dateValue)
+              : null,
             dateUnit: condition.dateUnit,
             locationCountry: condition.locationCountry,
             locationRegion: condition.locationRegion,
@@ -199,7 +209,9 @@ export async function createSegment(data: NewSegmentFormData): Promise<Segment> 
       },
     });
 
-    console.log(`Created segment "${segment.name}" with ${subscriberCount} subscribers`);
+    console.log(
+      `Created segment "${segment.name}" with ${subscriberCount} subscribers`
+    );
 
     revalidatePath("/dashboard/segments");
 
@@ -257,7 +269,9 @@ export async function updateSegment(
         name: data.name,
         description: data.description,
         type: data.type?.toUpperCase() as "DYNAMIC" | "STATIC" | "BEHAVIOR",
-        criteriaDisplay: data.conditions ? generateCriteriaDisplay(data.conditions) : undefined,
+        criteriaDisplay: data.conditions
+          ? generateCriteriaDisplay(data.conditions)
+          : undefined,
         ...(subscriberCount !== undefined && {
           subscriberCount, // ✅ Save recalculated count
           lastCalculated: new Date(), // ✅ Track when it was calculated
@@ -271,7 +285,9 @@ export async function updateSegment(
               operator: condition.operator,
               value: condition.value,
               numberValue: condition.numberValue,
-              dateValue: condition.dateValue ? new Date(condition.dateValue) : null,
+              dateValue: condition.dateValue
+                ? new Date(condition.dateValue)
+                : null,
               dateUnit: condition.dateUnit,
               locationCountry: condition.locationCountry,
               locationRegion: condition.locationRegion,
@@ -409,7 +425,10 @@ export async function duplicateSegment(segmentId: string): Promise<Segment> {
     return {
       id: duplicatedSegment.id,
       name: duplicatedSegment.name,
-      type: duplicatedSegment.type.toLowerCase() as "dynamic" | "static" | "behavior",
+      type: duplicatedSegment.type.toLowerCase() as
+        | "dynamic"
+        | "static"
+        | "behavior",
       subscriberCount: duplicatedSegment.subscriberCount,
       criteria: duplicatedSegment.criteriaDisplay,
       createdAt: duplicatedSegment.createdAt.toISOString(),
@@ -452,7 +471,10 @@ export async function toggleSegmentStatus(segmentId: string): Promise<Segment> {
     return {
       id: updatedSegment.id,
       name: updatedSegment.name,
-      type: updatedSegment.type.toLowerCase() as "dynamic" | "static" | "behavior",
+      type: updatedSegment.type.toLowerCase() as
+        | "dynamic"
+        | "static"
+        | "behavior",
       subscriberCount: updatedSegment.subscriberCount,
       criteria: updatedSegment.criteriaDisplay,
       createdAt: updatedSegment.createdAt.toISOString(),
@@ -586,7 +608,9 @@ export async function updateCustomAttribute(
   }
 }
 
-export async function deleteCustomAttribute(attributeId: string): Promise<void> {
+export async function deleteCustomAttribute(
+  attributeId: string
+): Promise<void> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -627,7 +651,9 @@ export async function deleteCustomAttribute(attributeId: string): Promise<void> 
  * Get actual subscribers that match a segment's conditions
  * This is the core integration between segments and subscribers
  */
-export async function getSubscribersBySegment(segmentId: string): Promise<string[]> {
+export async function getSubscribersBySegment(
+  segmentId: string
+): Promise<string[]> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -673,7 +699,9 @@ export async function getSubscribersBySegment(segmentId: string): Promise<string
       select: { id: true, fcmToken: true },
     });
 
-    console.log(`Segment "${segment.name}" matched ${subscribers.length} subscribers`);
+    console.log(
+      `Segment "${segment.name}" matched ${subscribers.length} subscribers`
+    );
 
     return subscribers.map((s) => s.id);
   } catch (error) {
@@ -685,7 +713,9 @@ export async function getSubscribersBySegment(segmentId: string): Promise<string
 /**
  * Get subscriber FCM tokens for a segment (for notification sending)
  */
-export async function getSubscriberTokensBySegment(segmentId: string): Promise<string[]> {
+export async function getSubscriberTokensBySegment(
+  segmentId: string
+): Promise<string[]> {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -742,13 +772,19 @@ export async function getSubscriberTokensBySegment(segmentId: string): Promise<s
 // SEGMENT ESTIMATION & CALCULATION
 // ========================================
 
-export async function estimateSegmentCount(conditions: SegmentCondition[]): Promise<number> {
+export async function estimateSegmentCount(
+  conditions: SegmentCondition[]
+): Promise<number> {
   try {
     const merchant = await getCurrentMerchant();
 
     // ✅ Filter out incomplete conditions (empty category or operator)
     const validConditions = conditions.filter(
-      (c) => c.category && c.category.trim() !== "" && c.operator && c.operator.trim() !== ""
+      (c) =>
+        c.category &&
+        c.category.trim() !== "" &&
+        c.operator &&
+        c.operator.trim() !== ""
     );
 
     // If no valid conditions, return all active subscribers
@@ -759,7 +795,9 @@ export async function estimateSegmentCount(conditions: SegmentCondition[]): Prom
           isActive: true,
         },
       });
-      console.log(`No valid conditions, returning total subscriber count: ${totalCount}`);
+      console.log(
+        `No valid conditions, returning total subscriber count: ${totalCount}`
+      );
       return totalCount;
     }
 
@@ -818,7 +856,8 @@ export async function recalculateSegmentCounts(): Promise<void> {
           locationCountry: condition.locationCountry || undefined,
           locationRegion: condition.locationRegion || undefined,
           locationCity: condition.locationCity || undefined,
-          logicalOperator: (condition.logicalOperator as "AND" | "OR") || undefined,
+          logicalOperator:
+            (condition.logicalOperator as "AND" | "OR") || undefined,
         }))
       );
 

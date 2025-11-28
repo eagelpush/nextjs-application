@@ -41,21 +41,31 @@ const subscriberSchema = z.object({
   }),
   // New PushOwl-like fields
   channels: z.array(z.string()).optional(),
-  status: z.enum(["ACTIVE", "UNSUBSCRIBED", "PENDING", "BOUNCED", "COMPLAINED"]).optional(),
-  lastActiveAt: z.union([z.date(), z.string()]).nullable().optional().transform((val) => {
-    if (!val) return null;
-    if (typeof val === "string") {
-      return new Date(val);
-    }
-    return val;
-  }),
-  lastSubscribedAt: z.union([z.date(), z.string()]).nullable().optional().transform((val) => {
-    if (!val) return null;
-    if (typeof val === "string") {
-      return new Date(val);
-    }
-    return val;
-  }),
+  status: z
+    .enum(["ACTIVE", "UNSUBSCRIBED", "PENDING", "BOUNCED", "COMPLAINED"])
+    .optional(),
+  lastActiveAt: z
+    .union([z.date(), z.string()])
+    .nullable()
+    .optional()
+    .transform((val) => {
+      if (!val) return null;
+      if (typeof val === "string") {
+        return new Date(val);
+      }
+      return val;
+    }),
+  lastSubscribedAt: z
+    .union([z.date(), z.string()])
+    .nullable()
+    .optional()
+    .transform((val) => {
+      if (!val) return null;
+      if (typeof val === "string") {
+        return new Date(val);
+      }
+      return val;
+    }),
   source: z.string().nullable().optional(),
   ipAddressAnonymized: z.string().nullable().optional(),
   geoCountry: z.string().nullable().optional(),
@@ -154,7 +164,7 @@ export async function POST(request: NextRequest) {
     // Check authorization header for API secret key (from CDN Worker)
     const authHeader = request.headers.get("Authorization");
     const apiSecretKey = process.env.API_SECRET_KEY;
-    
+
     // Allow requests from CDN Worker with secret key, or allow public requests without auth
     if (authHeader && apiSecretKey) {
       const token = authHeader.replace("Bearer ", "");
@@ -202,15 +212,15 @@ export async function POST(request: NextRequest) {
       });
     } else if (processedData.shop) {
       merchant = await prisma.merchant.findFirst({
-      where: {
-        OR: [
-          { storeUrl: processedData.shop },
-          { storeUrl: `https://${processedData.shop}` },
+        where: {
+          OR: [
+            { storeUrl: processedData.shop },
+            { storeUrl: `https://${processedData.shop}` },
             { storeUrl: processedData.shop.replace(/^https?:\/\//, "") },
-        ],
-        deletedAt: null,
-      },
-    });
+          ],
+          deletedAt: null,
+        },
+      });
     }
 
     if (!merchant) {
@@ -221,7 +231,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate FCM token if not provided (for basic tracking without push subscription)
-    const fcmToken = processedData.fcmToken || `temp-${processedData.fingerprint}-${Date.now()}`;
+    const fcmToken =
+      processedData.fcmToken ||
+      `temp-${processedData.fingerprint}-${Date.now()}`;
 
     // Check if subscriber already exists (by FCM token or fingerprint)
     // Note: fcmToken and fingerprint are unique at database level, so we check separately
@@ -274,10 +286,16 @@ export async function POST(request: NextRequest) {
         isActive: true,
         ...(processedData.channels && { channels: processedData.channels }),
         ...(processedData.status && { status: processedData.status }),
-        ...(processedData.lastSubscribedAt && { lastSubscribedAt: processedData.lastSubscribedAt }),
+        ...(processedData.lastSubscribedAt && {
+          lastSubscribedAt: processedData.lastSubscribedAt,
+        }),
         ...(processedData.source && { source: processedData.source }),
-        ...(processedData.ipAddressAnonymized && { ipAddressAnonymized: processedData.ipAddressAnonymized }),
-        ...(processedData.geoCountry && { geoCountry: processedData.geoCountry }),
+        ...(processedData.ipAddressAnonymized && {
+          ipAddressAnonymized: processedData.ipAddressAnonymized,
+        }),
+        ...(processedData.geoCountry && {
+          geoCountry: processedData.geoCountry,
+        }),
         ...(processedData.geoCity && { geoCity: processedData.geoCity }),
       };
 
@@ -293,12 +311,21 @@ export async function POST(request: NextRequest) {
         ...baseData,
         merchantId: merchant.id,
         subscribedAt: new Date(processedData.subscribedAt),
-        status: (processedData.status || "ACTIVE") as "ACTIVE" | "UNSUBSCRIBED" | "PENDING" | "BOUNCED" | "COMPLAINED",
+        status: (processedData.status || "ACTIVE") as
+          | "ACTIVE"
+          | "UNSUBSCRIBED"
+          | "PENDING"
+          | "BOUNCED"
+          | "COMPLAINED",
         lastSubscribedAt: processedData.lastSubscribedAt || now,
         source: processedData.source || "CDN",
         ...(processedData.channels && { channels: processedData.channels }),
-        ...(processedData.ipAddressAnonymized && { ipAddressAnonymized: processedData.ipAddressAnonymized }),
-        ...(processedData.geoCountry && { geoCountry: processedData.geoCountry }),
+        ...(processedData.ipAddressAnonymized && {
+          ipAddressAnonymized: processedData.ipAddressAnonymized,
+        }),
+        ...(processedData.geoCountry && {
+          geoCountry: processedData.geoCountry,
+        }),
         ...(processedData.geoCity && { geoCity: processedData.geoCity }),
       };
 
@@ -317,7 +344,12 @@ export async function POST(request: NextRequest) {
             subscriberId: subscriber.id,
             eventType: processedData.eventType,
             url: processedData.subscriptionUrl || null,
-            ...(processedData.productId && { customData: { productId: processedData.productId, variantId: processedData.variantId } }),
+            ...(processedData.productId && {
+              customData: {
+                productId: processedData.productId,
+                variantId: processedData.variantId,
+              },
+            }),
           },
         });
       } catch (error) {

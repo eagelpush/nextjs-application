@@ -26,10 +26,14 @@ export function LocationAnalytics({ locationData }: LocationAnalyticsProps) {
                 <div className="flex items-center justify-between">
                   <div>
                     <span className="text-sm font-medium">{city.name}</span>
-                    <span className="text-muted-foreground ml-2 text-xs">{city.country}</span>
+                    <span className="text-muted-foreground ml-2 text-xs">
+                      {city.country}
+                    </span>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-medium">{formatNumber(city.users)}</div>
+                    <div className="text-sm font-medium">
+                      {formatNumber(city.users)}
+                    </div>
                     <div className="text-muted-foreground text-xs">
                       {formatPercentage(city.percentage)}
                     </div>
@@ -64,7 +68,9 @@ export function LocationAnalytics({ locationData }: LocationAnalyticsProps) {
                     <span className="text-sm font-medium">{country.name}</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-medium">{formatNumber(country.users)}</div>
+                    <div className="text-sm font-medium">
+                      {formatNumber(country.users)}
+                    </div>
                     <div className="text-muted-foreground text-xs">
                       {formatPercentage(country.percentage)}
                     </div>

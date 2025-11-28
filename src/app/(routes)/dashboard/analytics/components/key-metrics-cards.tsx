@@ -21,7 +21,10 @@ export function KeyMetricsCards({ stats }: KeyMetricsCardsProps) {
       value: formatNumber(stats.totalSubscribers),
       description: "Active subscribers",
       icon: Users,
-      trend: { value: stats.trends?.subscribers || 0, label: "from last period" },
+      trend: {
+        value: stats.trends?.subscribers || 0,
+        label: "from last period",
+      },
     },
     {
       title: "Avg. Click Rate",
@@ -35,7 +38,10 @@ export function KeyMetricsCards({ stats }: KeyMetricsCardsProps) {
       value: formatNumber(stats.totalImpressions),
       description: "All time views",
       icon: Eye,
-      trend: { value: stats.trends?.impressions || 0, label: "from last period" },
+      trend: {
+        value: stats.trends?.impressions || 0,
+        label: "from last period",
+      },
     },
   ];
 
@@ -48,7 +54,9 @@ export function KeyMetricsCards({ stats }: KeyMetricsCardsProps) {
         return (
           <Card key={metric.title} className="border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{metric.title}</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                {metric.title}
+              </CardTitle>
               <div className="bg-primary/10 rounded-lg p-2">
                 <IconComponent className="text-primary h-4 w-4" />
               </div>

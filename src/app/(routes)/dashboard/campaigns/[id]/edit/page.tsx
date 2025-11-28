@@ -11,7 +11,9 @@ interface EditCampaignPageProps {
   };
 }
 
-export default async function EditCampaignPage({ params }: EditCampaignPageProps) {
+export default async function EditCampaignPage({
+  params,
+}: EditCampaignPageProps) {
   const { id } = await params;
   const campaignId = id;
 
@@ -35,21 +37,30 @@ export default async function EditCampaignPage({ params }: EditCampaignPageProps
     actionButtonText: campaignData.actionButtonText || "",
     category: campaignData.category,
     campaignType: campaignData.type.toLowerCase() as "regular" | "flash_sale",
-    sendingOption: (campaignData.sendingOption || "schedule") as "now" | "schedule",
+    sendingOption: (campaignData.sendingOption || "schedule") as
+      | "now"
+      | "schedule",
     scheduleDate: campaignData.scheduledAt || undefined,
     smartDelivery: campaignData.smartDelivery,
     enableSound: campaignData.enableSound,
     enableVibration: campaignData.enableVibration,
     ttl: campaignData.ttl,
-    heroImages: campaignData.heroImages.reduce((acc: Record<string, string>, img) => {
-      acc[img.platform] = img.imageUrl;
-      return acc;
-    }, {}),
-    companyLogo: campaignData.companyLogos.find((logo) => logo.isActive)?.logoUrl || "",
+    heroImages: campaignData.heroImages.reduce(
+      (acc: Record<string, string>, img) => {
+        acc[img.platform] = img.imageUrl;
+        return acc;
+      },
+      {}
+    ),
+    companyLogo:
+      campaignData.companyLogos.find((logo) => logo.isActive)?.logoUrl || "",
     selectedSegments: campaignData.segments.map((s) => s.segment.id),
   };
 
   return (
-    <EditCampaignPageClient initialCampaign={campaign} availableSegments={availableSegments} />
+    <EditCampaignPageClient
+      initialCampaign={campaign}
+      availableSegments={availableSegments}
+    />
   );
 }

@@ -1,10 +1,14 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import UploadcareImage from "@uploadcare/nextjs-loader";
 import { getOptimizedUploadcareUrl } from "@/lib/uploadcare";
 import type { ComponentProps } from "react";
 
-interface OptimizedImageProps extends Omit<ComponentProps<typeof UploadcareImage>, "src"> {
+interface OptimizedImageProps extends Omit<
+  ComponentProps<typeof UploadcareImage>,
+  "src"
+> {
   src: string;
   alt: string;
   width?: number;
@@ -30,7 +34,6 @@ export function OptimizedImage({
 }: OptimizedImageProps) {
   // For local images or when unoptimized is true, use Next.js Image directly
   if (unoptimized || (!src.startsWith("http") && !src.startsWith("//"))) {
-    // eslint-disable-next-line @next/next/no-img-element
     if (fill) {
       return (
         <img
@@ -56,7 +59,7 @@ export function OptimizedImage({
     );
   }
 
-  const imageSrc = transformations 
+  const imageSrc = transformations
     ? getOptimizedUploadcareUrl(src, transformations)
     : src;
 
@@ -93,7 +96,12 @@ interface AvatarImageProps {
   className?: string;
 }
 
-export function AvatarImage({ src, alt, size = 40, className }: AvatarImageProps) {
+export function AvatarImage({
+  src,
+  alt,
+  size = 40,
+  className,
+}: AvatarImageProps) {
   if (!src) {
     return null;
   }
@@ -110,4 +118,3 @@ export function AvatarImage({ src, alt, size = 40, className }: AvatarImageProps
     />
   );
 }
-

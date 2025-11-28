@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   IconSpeakerphone,
@@ -38,10 +44,14 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
 
   const getActivityColor = (type: string) => {
     const colors = {
-      campaign_sent: "bg-green-100 text-green-600 dark:bg-green-950/50 dark:text-green-400",
-      campaign_created: "bg-blue-100 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400",
-      subscriber_joined: "bg-purple-100 text-purple-600 dark:bg-purple-950/50 dark:text-purple-400",
-      segment_created: "bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400",
+      campaign_sent:
+        "bg-green-100 text-green-600 dark:bg-green-950/50 dark:text-green-400",
+      campaign_created:
+        "bg-blue-100 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400",
+      subscriber_joined:
+        "bg-purple-100 text-purple-600 dark:bg-purple-950/50 dark:text-purple-400",
+      segment_created:
+        "bg-amber-100 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400",
     };
     return (
       colors[type as keyof typeof colors] ||
@@ -51,18 +61,25 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
 
   const formatTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    
+
     // If currentTime is not set yet (during SSR), return absolute date to prevent hydration mismatch
     if (!currentTime) {
-      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
     }
 
-    const diffInSeconds = Math.floor((currentTime.getTime() - date.getTime()) / 1000);
+    const diffInSeconds = Math.floor(
+      (currentTime.getTime() - date.getTime()) / 1000
+    );
 
     if (diffInSeconds < 60) return "Just now";
     if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+    if (diffInSeconds < 86400)
+      return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    if (diffInSeconds < 604800)
+      return `${Math.floor(diffInSeconds / 86400)}d ago`;
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   };
 
@@ -101,17 +118,23 @@ export function ActivityFeed({ activities }: ActivityFeedProps) {
                   key={activity.id}
                   className="hover:bg-muted/50 flex items-start gap-3 rounded-lg border p-3 transition-colors"
                 >
-                  <div className={`rounded-lg p-2 ${getActivityColor(activity.type)}`}>
+                  <div
+                    className={`rounded-lg p-2 ${getActivityColor(activity.type)}`}
+                  >
                     <Icon className="h-4 w-4" />
                   </div>
                   <div className="flex-1 space-y-1">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="text-sm leading-none font-medium">{activity.title}</p>
+                      <p className="text-sm leading-none font-medium">
+                        {activity.title}
+                      </p>
                       <Badge variant="secondary" className="text-xs">
                         {formatTime(activity.timestamp)}
                       </Badge>
                     </div>
-                    <p className="text-muted-foreground text-xs">{activity.description}</p>
+                    <p className="text-muted-foreground text-xs">
+                      {activity.description}
+                    </p>
                   </div>
                 </div>
               );

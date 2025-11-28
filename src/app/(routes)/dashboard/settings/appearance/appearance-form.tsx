@@ -6,7 +6,13 @@ import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
@@ -92,7 +98,8 @@ export function AppearanceForm() {
       <CardHeader>
         <CardTitle>Theme</CardTitle>
         <CardDescription>
-          Choose how the dashboard appears to you. Select a single theme, or sync with your device.
+          Choose how the dashboard appears to you. Select a single theme, or
+          sync with your device.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">

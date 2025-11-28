@@ -138,9 +138,11 @@ export async function updateOptInSettings(
       create: {
         merchantId: merchant.id,
         customPromptEnabled: data.customPromptEnabled ?? false,
-        customPromptHeadline: data.customPromptHeadline ?? "Get Exclusive Deals!",
+        customPromptHeadline:
+          data.customPromptHeadline ?? "Get Exclusive Deals!",
         customPromptDescription:
-          data.customPromptDescription ?? "Be first to know about sales and special offers",
+          data.customPromptDescription ??
+          "Be first to know about sales and special offers",
         customPromptBenefits: Array.isArray(data.customPromptBenefits)
           ? data.customPromptBenefits
           : JSON.stringify(data.customPromptBenefits || []),
@@ -204,11 +206,19 @@ export async function updateOptInSettings(
         ...(data.customPromptPosition !== undefined && {
           customPromptPosition: data.customPromptPosition,
         }),
-        ...(data.flyoutEnabled !== undefined && { flyoutEnabled: data.flyoutEnabled }),
-        ...(data.flyoutPosition !== undefined && { flyoutPosition: data.flyoutPosition }),
+        ...(data.flyoutEnabled !== undefined && {
+          flyoutEnabled: data.flyoutEnabled,
+        }),
+        ...(data.flyoutPosition !== undefined && {
+          flyoutPosition: data.flyoutPosition,
+        }),
         ...(data.flyoutText !== undefined && { flyoutText: data.flyoutText }),
-        ...(data.flyoutIcon !== undefined && { flyoutIcon: data.flyoutIcon || null }),
-        ...(data.flyoutColor !== undefined && { flyoutColor: data.flyoutColor }),
+        ...(data.flyoutIcon !== undefined && {
+          flyoutIcon: data.flyoutIcon || null,
+        }),
+        ...(data.flyoutColor !== undefined && {
+          flyoutColor: data.flyoutColor,
+        }),
         ...(data.flyoutDelaySeconds !== undefined && {
           flyoutDelaySeconds: data.flyoutDelaySeconds,
         }),
@@ -218,7 +228,9 @@ export async function updateOptInSettings(
         ...(data.exitIntentHeadline !== undefined && {
           exitIntentHeadline: data.exitIntentHeadline,
         }),
-        ...(data.exitIntentOffer !== undefined && { exitIntentOffer: data.exitIntentOffer }),
+        ...(data.exitIntentOffer !== undefined && {
+          exitIntentOffer: data.exitIntentOffer,
+        }),
         ...(data.exitIntentMinTimeOnSite !== undefined && {
           exitIntentMinTimeOnSite: data.exitIntentMinTimeOnSite,
         }),
@@ -237,8 +249,12 @@ export async function updateOptInSettings(
         ...(data.showOncePerSession !== undefined && {
           showOncePerSession: data.showOncePerSession,
         }),
-        ...(data.showOncePerDay !== undefined && { showOncePerDay: data.showOncePerDay }),
-        ...(data.showOncePerWeek !== undefined && { showOncePerWeek: data.showOncePerWeek }),
+        ...(data.showOncePerDay !== undefined && {
+          showOncePerDay: data.showOncePerDay,
+        }),
+        ...(data.showOncePerWeek !== undefined && {
+          showOncePerWeek: data.showOncePerWeek,
+        }),
         ...(data.urlTargetingEnabled !== undefined && {
           urlTargetingEnabled: data.urlTargetingEnabled,
         }),
@@ -331,4 +347,3 @@ export async function updateOptInSettings(
     throw new Error("Failed to update opt-in settings");
   }
 }
-

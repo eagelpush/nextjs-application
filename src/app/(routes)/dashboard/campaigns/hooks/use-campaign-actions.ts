@@ -110,7 +110,9 @@ export function useCampaignActions(): UseCampaignActionsReturn {
       console.log("📤 [confirmSend] Showing loading toast...");
       toast.loading("Sending campaign...", { id: campaignId });
 
-      console.log(`📡 [confirmSend] Fetching: /api/campaigns/${campaignId}/send`);
+      console.log(
+        `📡 [confirmSend] Fetching: /api/campaigns/${campaignId}/send`
+      );
       const response = await fetch(`/api/campaigns/${campaignId}/send`, {
         method: "POST",
       });
@@ -128,7 +130,10 @@ export function useCampaignActions(): UseCampaignActionsReturn {
         `Campaign sent successfully to ${result.sentCount.toLocaleString()} subscribers!`,
         {
           id: campaignId,
-          description: result.failedCount > 0 ? `${result.failedCount} sends failed` : undefined,
+          description:
+            result.failedCount > 0
+              ? `${result.failedCount} sends failed`
+              : undefined,
           duration: 5000,
         }
       );
@@ -143,10 +148,13 @@ export function useCampaignActions(): UseCampaignActionsReturn {
       router.refresh();
     } catch (error) {
       console.error("❌ [confirmSend] Campaign send error:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to send campaign", {
-        id: campaignId,
-        duration: 5000,
-      });
+      toast.error(
+        error instanceof Error ? error.message : "Failed to send campaign",
+        {
+          id: campaignId,
+          duration: 5000,
+        }
+      );
     }
   }, [sendDialogData, router]);
 

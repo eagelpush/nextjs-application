@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,10 +35,13 @@ export function RecentCampaigns({
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       DRAFT: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100",
-      SCHEDULED: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100",
-      SENDING: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100",
+      SCHEDULED:
+        "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100",
+      SENDING:
+        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100",
       SENT: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100",
-      PAUSED: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-100",
+      PAUSED:
+        "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-100",
       CANCELLED: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100",
       FAILED: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100",
     };
@@ -41,8 +50,10 @@ export function RecentCampaigns({
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      REGULAR: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100",
-      FLASH_SALE: "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100",
+      REGULAR:
+        "bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-100",
+      FLASH_SALE:
+        "bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100",
     };
     return colors[type] || colors.REGULAR;
   };
@@ -89,7 +100,9 @@ export function RecentCampaigns({
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center gap-2">
-              {showTopPerformers && <IconTrendingUp className="h-5 w-5 text-green-600" />}
+              {showTopPerformers && (
+                <IconTrendingUp className="h-5 w-5 text-green-600" />
+              )}
               {title}
             </CardTitle>
             <CardDescription>
@@ -122,7 +135,10 @@ export function RecentCampaigns({
             </TableHeader>
             <TableBody>
               {campaigns.map((campaign) => (
-                <TableRow key={campaign.id} className="hover:bg-muted/50 cursor-pointer">
+                <TableRow
+                  key={campaign.id}
+                  className="hover:bg-muted/50 cursor-pointer"
+                >
                   <TableCell>
                     <Link
                       href={`/dashboard/campaigns/${campaign.id}/edit`}
@@ -139,12 +155,20 @@ export function RecentCampaigns({
                     </Link>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={getTypeColor(campaign.type)}>
-                      {campaign.type === "FLASH_SALE" ? "Flash Sale" : "Regular"}
+                    <Badge
+                      variant="outline"
+                      className={getTypeColor(campaign.type)}
+                    >
+                      {campaign.type === "FLASH_SALE"
+                        ? "Flash Sale"
+                        : "Regular"}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className={getStatusColor(campaign.status)}>
+                    <Badge
+                      variant="outline"
+                      className={getStatusColor(campaign.status)}
+                    >
                       {campaign.status}
                     </Badge>
                   </TableCell>

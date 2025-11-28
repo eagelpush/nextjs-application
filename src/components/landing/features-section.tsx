@@ -56,7 +56,8 @@ const features = [
   },
   {
     name: "Easy Integration",
-    description: "Seamlessly integrate with your Shopify store in minutes — no coding required.",
+    description:
+      "Seamlessly integrate with your Shopify store in minutes — no coding required.",
     icon: Bell,
   },
 ];
@@ -68,11 +69,12 @@ export function FeaturesSection() {
         {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-3xl font-bold tracking-tight sm:text-5xl">
-            Powerful features to <span className="text-primary">grow your business</span>
+            Powerful features to{" "}
+            <span className="text-primary">grow your business</span>
           </h2>
           <p className="text-muted-foreground mx-auto mt-6 max-w-xl text-lg leading-relaxed">
-            All the tools you need to engage customers, increase conversions, and boost your revenue
-            with push notifications.
+            All the tools you need to engage customers, increase conversions,
+            and boost your revenue with push notifications.
           </p>
         </div>
 
@@ -92,7 +94,9 @@ export function FeaturesSection() {
                 </div>
 
                 {/* Content */}
-                <dt className="text-foreground text-lg font-semibold">{feature.name}</dt>
+                <dt className="text-foreground text-lg font-semibold">
+                  {feature.name}
+                </dt>
                 <dd className="text-muted-foreground mt-3 text-sm leading-relaxed">
                   {feature.description}
                 </dd>

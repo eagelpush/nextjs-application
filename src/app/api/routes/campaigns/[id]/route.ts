@@ -10,14 +10,20 @@ import {
   isValidUrl,
   ErrorResponses,
 } from "@/lib/api/utils";
-import { updateCampaignSchema, type UpdateCampaignInput } from "@/lib/validations/campaign-schemas";
+import {
+  updateCampaignSchema,
+  type UpdateCampaignInput,
+} from "@/lib/validations/campaign-schemas";
 import { toCampaignType, toCampaignStatus } from "@/lib/validations/enums";
 
 /**
  * GET /api/campaigns/[id]
  * Get a single campaign
  */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -31,7 +37,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid campaign ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid campaign ID format" },
+        { status: 400 }
+      );
     }
 
     const merchant = await getMerchantByClerkId(userId);
@@ -77,7 +86,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
  * PUT /api/campaigns/[id]
  * Update a campaign
  */
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -91,7 +103,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid campaign ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid campaign ID format" },
+        { status: 400 }
+      );
     }
 
     const body = await request.json();
@@ -140,12 +155,18 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       sanitizedData.category = sanitizeText(validatedData.category, 50);
     }
     if (validatedData.actionButtonText !== undefined) {
-      sanitizedData.actionButtonText = sanitizeText(validatedData.actionButtonText, 50);
+      sanitizedData.actionButtonText = sanitizeText(
+        validatedData.actionButtonText,
+        50
+      );
     }
     if (validatedData.destinationUrl !== undefined) {
       const url = sanitizeText(validatedData.destinationUrl, 2000);
       if (url && !isValidUrl(url)) {
-        return NextResponse.json({ error: "Invalid destination URL format" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Invalid destination URL format" },
+          { status: 400 }
+        );
       }
       sanitizedData.destinationUrl = url;
     }
@@ -156,7 +177,9 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         where: { id },
         data: {
           ...sanitizedData,
-          type: validatedData.campaignType ? toCampaignType(validatedData.campaignType) : undefined,
+          type: validatedData.campaignType
+            ? toCampaignType(validatedData.campaignType)
+            : undefined,
           status:
             validatedData.sendingOption === "now"
               ? "DRAFT"
@@ -165,7 +188,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
                 : undefined,
           sendingOption: validatedData.sendingOption,
           scheduledAt:
-            validatedData.sendingOption === "schedule" && validatedData.scheduleDate
+            validatedData.sendingOption === "schedule" &&
+            validatedData.scheduleDate
               ? new Date(validatedData.scheduleDate)
               : undefined,
           smartDelivery: validatedData.smartDelivery,
@@ -195,11 +219,13 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         await tx.campaignHeroImage.deleteMany({ where: { campaignId: id } });
 
         const validHeroImages = Object.entries(validatedData.heroImages)
-          .filter(([, url]) => url && typeof url === "string" && isValidUrl(url))
-              .map(([platform, url]) => ({
-                campaignId: id,
-                platform,
-                imageUrl: url as string,
+          .filter(
+            ([, url]) => url && typeof url === "string" && isValidUrl(url)
+          )
+          .map(([platform, url]) => ({
+            campaignId: id,
+            platform,
+            imageUrl: url as string,
           }));
 
         if (validHeroImages.length > 0) {
@@ -209,12 +235,15 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
       // Update company logo
       if (validatedData.companyLogo !== undefined) {
-          await tx.campaignCompanyLogo.updateMany({
-            where: { campaignId: id },
-            data: { isActive: false },
-          });
+        await tx.campaignCompanyLogo.updateMany({
+          where: { campaignId: id },
+          data: { isActive: false },
+        });
 
-        if (validatedData.companyLogo && isValidUrl(validatedData.companyLogo)) {
+        if (
+          validatedData.companyLogo &&
+          isValidUrl(validatedData.companyLogo)
+        ) {
           await tx.campaignCompanyLogo.create({
             data: {
               campaignId: id,
@@ -253,7 +282,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
  * DELETE /api/campaigns/[id]
  * Soft delete a campaign
  */
-export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -267,7 +299,10 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid campaign ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid campaign ID format" },
+        { status: 400 }
+      );
     }
 
     const merchant = await getMerchantByClerkId(userId);
@@ -303,7 +338,10 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
  * PATCH /api/campaigns/[id]
  * Partial update (e.g., status change)
  */
-export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -317,7 +355,10 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     const { id } = await params;
 
     if (!isValidUUID(id)) {
-      return NextResponse.json({ error: "Invalid campaign ID format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid campaign ID format" },
+        { status: 400 }
+      );
     }
 
     const body = await request.json();
@@ -354,7 +395,8 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
       }
     }
 
-    if (body.impressions !== undefined) updateData.impressions = body.impressions;
+    if (body.impressions !== undefined)
+      updateData.impressions = body.impressions;
     if (body.clicks !== undefined) updateData.clicks = body.clicks;
     if (body.ctr !== undefined) updateData.ctr = body.ctr;
     if (body.revenue !== undefined) updateData.revenue = body.revenue;

@@ -18,7 +18,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
@@ -26,7 +29,10 @@ export async function POST(request: NextRequest) {
     const { conditions }: { conditions: SegmentCondition[] } = body;
 
     if (!conditions || !Array.isArray(conditions)) {
-      return NextResponse.json({ error: "Invalid conditions provided" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid conditions provided" },
+        { status: 400 }
+      );
     }
 
     console.log(
@@ -64,20 +70,30 @@ async function estimateSegmentCount(
   merchantId: string
 ): Promise<number> {
   try {
-    console.log(`[EstimateSegmentCount] Building query for ${conditions.length} conditions`);
+    console.log(
+      `[EstimateSegmentCount] Building query for ${conditions.length} conditions`
+    );
 
     // Build Prisma query from segment conditions
     const where = buildSubscriberQuery(conditions, merchantId);
 
-    console.log(`[EstimateSegmentCount] Built where clause:`, JSON.stringify(where, null, 2));
+    console.log(
+      `[EstimateSegmentCount] Built where clause:`,
+      JSON.stringify(where, null, 2)
+    );
 
     // Query actual subscriber count from database
     const count = await prisma.subscriber.count({ where });
 
-    console.log(`[EstimateSegmentCount] Estimated ${count} subscribers match segment conditions`);
+    console.log(
+      `[EstimateSegmentCount] Estimated ${count} subscribers match segment conditions`
+    );
     return count;
   } catch (error) {
-    console.error("[EstimateSegmentCount] Error in segment count estimation:", error);
+    console.error(
+      "[EstimateSegmentCount] Error in segment count estimation:",
+      error
+    );
     // Return 0 as fallback, but log the error for debugging
     return 0;
   }
@@ -101,31 +117,36 @@ export async function GET() {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // ✅ FIXED: Get actual subscriber count instead of summing segment counts
-    const [totalSegments, activeSegments, totalSubscribers] = await Promise.all([
-      prisma.segment.count({
-        where: {
-          merchantId: merchant.id,
-          deletedAt: null,
-        },
-      }),
-      prisma.segment.count({
-        where: {
-          merchantId: merchant.id,
-          isActive: true,
-          deletedAt: null,
-        },
-      }),
-      prisma.subscriber.count({
-        where: {
-          merchantId: merchant.id,
-          isActive: true,
-        },
-      }),
-    ]);
+    const [totalSegments, activeSegments, totalSubscribers] = await Promise.all(
+      [
+        prisma.segment.count({
+          where: {
+            merchantId: merchant.id,
+            deletedAt: null,
+          },
+        }),
+        prisma.segment.count({
+          where: {
+            merchantId: merchant.id,
+            isActive: true,
+            deletedAt: null,
+          },
+        }),
+        prisma.subscriber.count({
+          where: {
+            merchantId: merchant.id,
+            isActive: true,
+          },
+        }),
+      ]
+    );
 
     const totalSubscribersCount = totalSubscribers;
 
@@ -135,12 +156,17 @@ export async function GET() {
         activeSegments,
         totalSubscribers: totalSubscribersCount,
         averageSubscribersPerSegment:
-          totalSegments > 0 ? Math.round(totalSubscribersCount / totalSegments) : 0,
+          totalSegments > 0
+            ? Math.round(totalSubscribersCount / totalSegments)
+            : 0,
       },
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error("Error fetching estimation statistics:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

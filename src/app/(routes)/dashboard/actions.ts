@@ -30,7 +30,9 @@ export async function getDashboardDataByDateRange(
     // Calculate previous period (same duration before startDate)
     const periodDuration = endDate.getTime() - startDate.getTime();
     const previousEndDate = new Date(startDate.getTime() - 1);
-    const previousStartDate = new Date(previousEndDate.getTime() - periodDuration);
+    const previousStartDate = new Date(
+      previousEndDate.getTime() - periodDuration
+    );
 
     return await fetchDashboardDataForPeriod(
       merchant.id,
@@ -49,7 +51,9 @@ export async function getDashboardDataByDateRange(
  * Get dashboard data for the authenticated merchant
  * @deprecated Use getDashboardDataByDateRange instead
  */
-export async function getDashboardData(timeRange: TimeRange = "30d"): Promise<DashboardData> {
+export async function getDashboardData(
+  timeRange: TimeRange = "30d"
+): Promise<DashboardData> {
   try {
     const { userId } = await auth();
     if (!userId) {
@@ -72,7 +76,9 @@ export async function getDashboardData(timeRange: TimeRange = "30d"): Promise<Da
     const days = daysMap[timeRange];
     const startDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
     const endDate = now;
-    const previousStartDate = new Date(startDate.getTime() - days * 24 * 60 * 60 * 1000);
+    const previousStartDate = new Date(
+      startDate.getTime() - days * 24 * 60 * 60 * 1000
+    );
     const previousEndDate = startDate;
 
     return await fetchDashboardDataForPeriod(
@@ -261,29 +267,57 @@ async function fetchDashboardDataForPeriod(
     const previousClicks = previousCampaignAnalytics._sum.clicks || 1;
     const previousRevenue = previousCampaignAnalytics._sum.revenue || 1;
 
-    const currentCTR = currentImpressions > 0 ? (currentClicks / currentImpressions) * 100 : 0;
+    const currentCTR =
+      currentImpressions > 0 ? (currentClicks / currentImpressions) * 100 : 0;
     const previousCTR =
-      previousImpressions > 0 ? (previousClicks / previousImpressions) * 100 : 0.01;
+      previousImpressions > 0
+        ? (previousClicks / previousImpressions) * 100
+        : 0.01;
 
     // Calculate percentage changes
-    const subscribersChange = calculatePercentageChange(currentSubscribers, previousSubscribers);
-    const campaignsChange = calculatePercentageChange(currentCampaigns, previousCampaigns);
-    const revenueChange = calculatePercentageChange(currentRevenue, previousRevenue);
+    const subscribersChange = calculatePercentageChange(
+      currentSubscribers,
+      previousSubscribers
+    );
+    const campaignsChange = calculatePercentageChange(
+      currentCampaigns,
+      previousCampaigns
+    );
+    const revenueChange = calculatePercentageChange(
+      currentRevenue,
+      previousRevenue
+    );
     const ctrChange = calculatePercentageChange(currentCTR, previousCTR);
-    const impressionsChange = calculatePercentageChange(currentImpressions, previousImpressions);
-    const clicksChange = calculatePercentageChange(currentClicks, previousClicks);
+    const impressionsChange = calculatePercentageChange(
+      currentImpressions,
+      previousImpressions
+    );
+    const clicksChange = calculatePercentageChange(
+      currentClicks,
+      previousClicks
+    );
 
     // Calculate days if not provided
-    const calculatedDays = days || Math.ceil((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
+    const calculatedDays =
+      days ||
+      Math.ceil(
+        (endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000)
+      );
 
     // Generate revenue timeline data (daily aggregation)
-    const revenueTimelineData = await generateRevenueTimeline(merchantId, startDate, endDate, calculatedDays);
+    const revenueTimelineData = await generateRevenueTimeline(
+      merchantId,
+      startDate,
+      endDate,
+      calculatedDays
+    );
 
     // Generate subscriber growth data
     const subscriberGrowth = subscriberGrowthData.map((item, index) => ({
       date: item.date.toISOString().split("T")[0],
       subscribers: item.count,
-      growth: index > 0 ? item.count - subscriberGrowthData[index - 1].count : 0,
+      growth:
+        index > 0 ? item.count - subscriberGrowthData[index - 1].count : 0,
     }));
 
     // Generate recent activity
@@ -366,9 +400,9 @@ async function generateRevenueTimeline(
   merchantId: string,
   startDate: Date,
   endDate: Date,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   days: number
 ) {
-
   // Fetch campaigns using Prisma for type safety
   const campaigns = await prisma.campaign.findMany({
     where: {
@@ -389,11 +423,18 @@ async function generateRevenueTimeline(
   });
 
   // Group by date
-  const grouped = new Map<string, { revenue: number; impressions: number; clicks: number }>();
+  const grouped = new Map<
+    string,
+    { revenue: number; impressions: number; clicks: number }
+  >();
   campaigns.forEach((campaign) => {
     if (campaign.sentAt) {
       const dateStr = campaign.sentAt.toISOString().split("T")[0];
-      const existing = grouped.get(dateStr) || { revenue: 0, impressions: 0, clicks: 0 };
+      const existing = grouped.get(dateStr) || {
+        revenue: 0,
+        impressions: 0,
+        clicks: 0,
+      };
       grouped.set(dateStr, {
         revenue: existing.revenue + campaign.revenue,
         impressions: existing.impressions + campaign.impressions,
@@ -425,32 +466,45 @@ async function generateRevenueTimeline(
  * Generate recent activity feed
  */
 async function generateRecentActivity(merchantId: string) {
-  const [recentCampaigns, recentSubscribers, recentSegments] = await Promise.all([
-    prisma.campaign.findMany({
-      where: { merchantId, deletedAt: null },
-      select: { id: true, title: true, status: true, createdAt: true, sentAt: true },
-      orderBy: { createdAt: "desc" },
-      take: 3,
-    }),
-    prisma.subscriber.findMany({
-      where: { merchantId, isActive: true },
-      select: { id: true, email: true, subscribedAt: true },
-      orderBy: { subscribedAt: "desc" },
-      take: 3,
-    }),
-    prisma.segment.findMany({
-      where: { merchantId, deletedAt: null },
-      select: { id: true, name: true, createdAt: true },
-      orderBy: { createdAt: "desc" },
-      take: 2,
-    }),
-  ]);
+  const [recentCampaigns, recentSubscribers, recentSegments] =
+    await Promise.all([
+      prisma.campaign.findMany({
+        where: { merchantId, deletedAt: null },
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          createdAt: true,
+          sentAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 3,
+      }),
+      prisma.subscriber.findMany({
+        where: { merchantId, isActive: true },
+        select: { id: true, email: true, subscribedAt: true },
+        orderBy: { subscribedAt: "desc" },
+        take: 3,
+      }),
+      prisma.segment.findMany({
+        where: { merchantId, deletedAt: null },
+        select: { id: true, name: true, createdAt: true },
+        orderBy: { createdAt: "desc" },
+        take: 2,
+      }),
+    ]);
 
   const activity = [
     ...recentCampaigns.map((c) => ({
       id: `campaign-${c.id}`,
-      type: c.status === "SENT" ? ("campaign_sent" as const) : ("campaign_created" as const),
-      title: c.status === "SENT" ? `Campaign "${c.title}" sent` : `Campaign "${c.title}" created`,
+      type:
+        c.status === "SENT"
+          ? ("campaign_sent" as const)
+          : ("campaign_created" as const),
+      title:
+        c.status === "SENT"
+          ? `Campaign "${c.title}" sent`
+          : `Campaign "${c.title}" created`,
       description:
         c.status === "SENT"
           ? `Sent to subscribers on ${new Date(c.sentAt || c.createdAt).toLocaleDateString()}`
@@ -474,6 +528,9 @@ async function generateRecentActivity(merchantId: string) {
   ];
 
   return activity
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .sort(
+      (a, b) =>
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    )
     .slice(0, 8);
 }

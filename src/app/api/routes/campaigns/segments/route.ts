@@ -19,7 +19,10 @@ export async function GET(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse query parameters
@@ -96,6 +99,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching segments for campaigns:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

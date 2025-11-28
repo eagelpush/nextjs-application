@@ -34,8 +34,14 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Plus, X, Save, Sparkles } from "lucide-react";
-import { newAttributeFormSchema, type NewAttributeFormValues } from "../utils/attribute-schema";
-import { ATTRIBUTE_TYPE_OPTIONS, DEFAULT_MULTIPLE_CHOICE_OPTIONS } from "../constants/attribute";
+import {
+  newAttributeFormSchema,
+  type NewAttributeFormValues,
+} from "../utils/attribute-schema";
+import {
+  ATTRIBUTE_TYPE_OPTIONS,
+  DEFAULT_MULTIPLE_CHOICE_OPTIONS,
+} from "../constants/attribute";
 import type { AttributeType } from "../types/attribute";
 
 interface AddAttributeDialogProps {
@@ -68,6 +74,7 @@ export function AddAttributeDialog({
   });
 
   const { watch, setValue, reset } = form;
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedType = watch("type");
 
   const handleClose = () => {
@@ -122,13 +129,16 @@ export function AddAttributeDialog({
             <span>Create Custom Attribute</span>
           </DialogTitle>
           <DialogDescription>
-            Define a new custom attribute to collect additional subscriber data. This will help you
-            create more targeted segments.
+            Define a new custom attribute to collect additional subscriber data.
+            This will help you create more targeted segments.
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-6"
+          >
             {/* Basic Information */}
             <div className="space-y-4">
               <FormField
@@ -138,7 +148,10 @@ export function AddAttributeDialog({
                   <FormItem>
                     <FormLabel>Attribute Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Company Size, Industry, Job Title" {...field} />
+                      <Input
+                        placeholder="e.g., Company Size, Industry, Job Title"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
                       Use a clear, descriptive name for your attribute
@@ -174,7 +187,9 @@ export function AddAttributeDialog({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormDescription>Choose the data type for this attribute</FormDescription>
+                    <FormDescription>
+                      Choose the data type for this attribute
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -193,7 +208,9 @@ export function AddAttributeDialog({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Help your team understand this attribute</FormDescription>
+                    <FormDescription>
+                      Help your team understand this attribute
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -211,7 +228,10 @@ export function AddAttributeDialog({
                       </FormDescription>
                     </div>
                     <FormControl>
-                      <Switch checked={field.value} onCheckedChange={field.onChange} />
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -291,7 +311,11 @@ export function AddAttributeDialog({
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full sm:w-auto"
+              >
                 <Save className="mr-2 h-4 w-4" />
                 {isLoading ? "Creating..." : "Create Attribute"}
               </Button>

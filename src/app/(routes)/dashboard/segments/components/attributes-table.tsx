@@ -26,7 +26,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, MoreHorizontal, Edit, Trash2, Plus, Loader2 } from "lucide-react";
+import {
+  Search,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Plus,
+  Loader2,
+} from "lucide-react";
 import type { CustomAttribute } from "../types";
 import { formatDate, getAttributeTypeLabel } from "../utils";
 import { ATTRIBUTE_TYPE_OPTIONS } from "../constants";
@@ -57,7 +64,9 @@ export function AttributesTable({
     const matchesSearch =
       attribute.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (attribute.description &&
-        attribute.description.toLowerCase().includes(searchQuery.toLowerCase()));
+        attribute.description
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()));
     const matchesType = typeFilter === "all" || attribute.type === typeFilter;
 
     return matchesSearch && matchesType;
@@ -66,7 +75,10 @@ export function AttributesTable({
   // Pagination
   const totalPages = Math.ceil(filteredAttributes.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedAttributes = filteredAttributes.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedAttributes = filteredAttributes.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const handleDelete = async (attributeId: string) => {
     setActionLoading(attributeId);
@@ -81,7 +93,9 @@ export function AttributesTable({
     <Card className="border shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold">Custom Attributes</CardTitle>
+          <CardTitle className="text-lg font-semibold">
+            Custom Attributes
+          </CardTitle>
           <Button onClick={onNewAttribute} disabled={isLoading}>
             <Plus className="mr-2 h-4 w-4" />
             New Attribute
@@ -126,7 +140,10 @@ export function AttributesTable({
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-muted-foreground py-8 text-center">
+                  <TableCell
+                    colSpan={5}
+                    className="text-muted-foreground py-8 text-center"
+                  >
                     <div className="flex items-center justify-center space-x-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
                       <span>Loading attributes...</span>
@@ -135,7 +152,10 @@ export function AttributesTable({
                 </TableRow>
               ) : paginatedAttributes.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-muted-foreground py-8 text-center">
+                  <TableCell
+                    colSpan={5}
+                    className="text-muted-foreground py-8 text-center"
+                  >
                     No attributes found
                   </TableCell>
                 </TableRow>
@@ -153,10 +173,14 @@ export function AttributesTable({
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{getAttributeTypeLabel(attribute.type)}</Badge>
+                      <Badge variant="outline">
+                        {getAttributeTypeLabel(attribute.type)}
+                      </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={attribute.required ? "default" : "secondary"}>
+                      <Badge
+                        variant={attribute.required ? "default" : "secondary"}
+                      >
                         {attribute.required ? "Required" : "Optional"}
                       </Badge>
                     </TableCell>
@@ -210,8 +234,8 @@ export function AttributesTable({
           <div className="mt-4 flex items-center justify-between">
             <div className="text-muted-foreground text-sm">
               Showing {startIndex + 1} to{" "}
-              {Math.min(startIndex + itemsPerPage, filteredAttributes.length)} of{" "}
-              {filteredAttributes.length} attributes
+              {Math.min(startIndex + itemsPerPage, filteredAttributes.length)}{" "}
+              of {filteredAttributes.length} attributes
             </div>
             <div className="flex items-center space-x-2">
               <Button
@@ -228,7 +252,9 @@ export function AttributesTable({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                onClick={() =>
+                  setCurrentPage(Math.min(totalPages, currentPage + 1))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

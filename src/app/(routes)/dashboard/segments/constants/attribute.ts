@@ -43,4 +43,8 @@ export const ATTRIBUTE_TYPE_OPTIONS: AttributeTypeOption[] = [
   },
 ];
 
-export const DEFAULT_MULTIPLE_CHOICE_OPTIONS = ["Option 1", "Option 2", "Option 3"];
+export const DEFAULT_MULTIPLE_CHOICE_OPTIONS = [
+  "Option 1",
+  "Option 2",
+  "Option 3",
+];

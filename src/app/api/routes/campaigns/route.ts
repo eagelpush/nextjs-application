@@ -3,8 +3,18 @@ import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { CampaignSenderService } from "@/lib/services/campaign-sender";
-import { checkRateLimit, getMerchantByClerkId, sanitizeText, isValidUrl, ErrorResponses } from "@/lib/api/utils";
-import { campaignQuerySchema, createCampaignSchema, type CreateCampaignInput } from "@/lib/validations/campaign-schemas";
+import {
+  checkRateLimit,
+  getMerchantByClerkId,
+  sanitizeText,
+  isValidUrl,
+  ErrorResponses,
+} from "@/lib/api/utils";
+import {
+  campaignQuerySchema,
+  createCampaignSchema,
+  type CreateCampaignInput,
+} from "@/lib/validations/campaign-schemas";
 import { toCampaignType, toCampaignStatus } from "@/lib/validations/enums";
 
 /**
@@ -52,7 +62,10 @@ export async function GET(request: NextRequest) {
         where.status = toCampaignStatus(status);
       } catch (error) {
         return NextResponse.json(
-          { error: `Invalid status: ${status}`, details: error instanceof Error ? error.message : "Unknown error" },
+          {
+            error: `Invalid status: ${status}`,
+            details: error instanceof Error ? error.message : "Unknown error",
+          },
           { status: 400 }
         );
       }
@@ -67,7 +80,10 @@ export async function GET(request: NextRequest) {
         where.type = toCampaignType(type);
       } catch (error) {
         return NextResponse.json(
-          { error: `Invalid type: ${type}`, details: error instanceof Error ? error.message : "Unknown error" },
+          {
+            error: `Invalid type: ${type}`,
+            details: error instanceof Error ? error.message : "Unknown error",
+          },
           { status: 400 }
         );
       }
@@ -135,7 +151,10 @@ export async function GET(request: NextRequest) {
       revenue: campaign.revenue,
       segment:
         campaign.segments
-          .map((s) => `${s.segment.name} (${s.segment.subscriberCount} subscribers, ${s.segment.type})`)
+          .map(
+            (s) =>
+              `${s.segment.name} (${s.segment.subscriberCount} subscribers, ${s.segment.type})`
+          )
           .join(", ") || "All Customers",
       status: campaign.status.toLowerCase(),
       createdAt: campaign.createdAt.toISOString(),
@@ -228,7 +247,10 @@ export async function POST(request: NextRequest) {
     const sanitizedDestinationUrl = sanitizeText(destinationUrl, 2000);
 
     if (sanitizedDestinationUrl && !isValidUrl(sanitizedDestinationUrl)) {
-      return NextResponse.json({ error: "Invalid destination URL format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid destination URL format" },
+        { status: 400 }
+      );
     }
 
     const merchant = await getMerchantByClerkId(userId);
@@ -246,7 +268,10 @@ export async function POST(request: NextRequest) {
 
       if (existingSegments.length !== selectedSegments.length) {
         return NextResponse.json(
-          { error: "One or more segments not found or do not belong to merchant" },
+          {
+            error:
+              "One or more segments not found or do not belong to merchant",
+          },
           { status: 400 }
         );
       }
@@ -263,7 +288,10 @@ export async function POST(request: NextRequest) {
           type: toCampaignType(campaignType),
           status: sendingOption === "now" ? "DRAFT" : "SCHEDULED",
           sendingOption,
-          scheduledAt: sendingOption === "schedule" && scheduleDate ? new Date(scheduleDate) : null,
+          scheduledAt:
+            sendingOption === "schedule" && scheduleDate
+              ? new Date(scheduleDate)
+              : null,
           sentAt: null,
           smartDelivery: smartDelivery || false,
           message: sanitizedMessage,
@@ -281,7 +309,9 @@ export async function POST(request: NextRequest) {
       // Create hero images
       if (heroImages && Object.keys(heroImages).length > 0) {
         const validHeroImages = Object.entries(heroImages)
-          .filter(([, url]) => url && typeof url === "string" && isValidUrl(url))
+          .filter(
+            ([, url]) => url && typeof url === "string" && isValidUrl(url)
+          )
           .map(([platform, url]) => ({
             campaignId: campaign.id,
             platform,
@@ -321,7 +351,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             error: "Campaign created but failed to send",
-            details: sendError instanceof Error ? sendError.message : "Unknown error",
+            details:
+              sendError instanceof Error ? sendError.message : "Unknown error",
             campaignId: result.id,
           },
           { status: 500 }

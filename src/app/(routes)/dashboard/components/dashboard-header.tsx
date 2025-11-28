@@ -30,7 +30,8 @@ export function DashboardHeader({
               <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
             </div>
             <p className="text-muted-foreground">
-              Welcome back! Here&apos;s an overview of your push notification campaigns
+              Welcome back! Here&apos;s an overview of your push notification
+              campaigns
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -43,8 +44,15 @@ export function DashboardHeader({
               align="end"
               className="w-full sm:w-[300px]"
             />
-            <Button variant="outline" size="sm" onClick={onRefresh} disabled={isRefreshing}>
-              <RefreshCw className={`mr-2 h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onRefresh}
+              disabled={isRefreshing}
+            >
+              <RefreshCw
+                className={`mr-2 h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`}
+              />
               Refresh
             </Button>
           </div>

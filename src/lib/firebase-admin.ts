@@ -1,4 +1,3 @@
-
 import { initializeApp, getApps, cert, type App } from "firebase-admin/app";
 import { getMessaging, type Messaging } from "firebase-admin/messaging";
 
@@ -53,14 +52,12 @@ function initializeFirebaseAdmin(): App {
   }
 }
 
-
 export function getFirebaseApp(): App {
   if (!app) {
     app = getApps()[0] || initializeFirebaseAdmin();
   }
   return app;
 }
-
 
 export function getMessagingInstance(): Messaging {
   if (!messagingInstance) {
@@ -69,7 +66,6 @@ export function getMessagingInstance(): Messaging {
   }
   return messagingInstance;
 }
-
 
 export const messaging = getMessagingInstance();
 

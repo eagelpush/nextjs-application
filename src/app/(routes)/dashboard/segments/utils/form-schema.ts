@@ -21,7 +21,11 @@ export const segmentConditionSchema = z
 
       // Location conditions must have at least one location field
       if (data.category === "location") {
-        return !!(data.locationCountry || data.locationCity || data.locationRegion);
+        return !!(
+          data.locationCountry ||
+          data.locationCity ||
+          data.locationRegion
+        );
       }
 
       // Device conditions with specific values must have value
@@ -38,7 +42,9 @@ export const segmentConditionSchema = z
       }
 
       // Date-based operators must have appropriate values
-      if (["in_last", "more_than_ago", "less_than_ago"].includes(data.operator)) {
+      if (
+        ["in_last", "more_than_ago", "less_than_ago"].includes(data.operator)
+      ) {
         return typeof data.numberValue === "number" && !!data.dateUnit;
       }
 
@@ -58,9 +64,14 @@ export const newSegmentFormSchema = z.object({
     .string()
     .min(1, "Segment name is required")
     .max(100, "Name must be less than 100 characters"),
-  description: z.string().max(500, "Description must be less than 500 characters").optional(),
+  description: z
+    .string()
+    .max(500, "Description must be less than 500 characters")
+    .optional(),
   type: z.enum(["dynamic", "static", "behavior"]),
-  conditions: z.array(segmentConditionSchema).min(1, "At least one condition is required"),
+  conditions: z
+    .array(segmentConditionSchema)
+    .min(1, "At least one condition is required"),
 });
 
 export type NewSegmentFormValues = z.infer<typeof newSegmentFormSchema>;

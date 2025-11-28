@@ -4,7 +4,10 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CampaignEditorForm } from "@/app/(routes)/dashboard/campaigns/new/editor/components/campaign-editor-form";
 import { updateCampaign } from "@/app/(routes)/dashboard/campaigns/lib/actions";
-import { CompleteCampaignData, CampaignSegment } from "@/app/(routes)/dashboard/campaigns/types";
+import {
+  CompleteCampaignData,
+  CampaignSegment,
+} from "@/app/(routes)/dashboard/campaigns/types";
 
 interface SimpleEditPageClientProps {
   initialCampaign: CompleteCampaignData & { id: string };
@@ -17,7 +20,8 @@ export function SimpleEditPageClient({
 }: SimpleEditPageClientProps) {
   const router = useRouter();
   const [, startTransition] = useTransition();
-  const [formData, setFormData] = useState<CompleteCampaignData>(initialCampaign);
+  const [formData, setFormData] =
+    useState<CompleteCampaignData>(initialCampaign);
 
   const handleFormChange = (newValues: Partial<CompleteCampaignData>) => {
     startTransition(() => {

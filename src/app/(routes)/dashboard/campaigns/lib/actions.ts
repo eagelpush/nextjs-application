@@ -4,7 +4,11 @@ import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
-import type { CompleteCampaignData, CampaignStatus, CampaignStats } from "../types";
+import type {
+  CompleteCampaignData,
+  CampaignStatus,
+  CampaignStats,
+} from "../types";
 import { toCampaignType, toCampaignStatus } from "@/lib/validations/enums";
 
 async function getCurrentMerchant() {
@@ -165,7 +169,9 @@ export async function getCampaignsData(
       segment:
         campaign.segments
           ?.map(
-            (s: { segment: { name: string; subscriberCount: number; type: string } }) =>
+            (s: {
+              segment: { name: string; subscriberCount: number; type: string };
+            }) =>
               `${s.segment.name} (${s.segment.subscriberCount} subscribers, ${s.segment.type})`
           )
           .join(", ") || "All Customers",
@@ -192,7 +198,11 @@ export async function getCampaignsData(
         criteria: s.segment.criteriaDisplay,
         isActive: s.segment.isActive,
       })),
-      sendingOption: campaign.sentAt ? "now" : campaign.scheduledAt ? "schedule" : "schedule",
+      sendingOption: campaign.sentAt
+        ? "now"
+        : campaign.scheduledAt
+          ? "schedule"
+          : "schedule",
       scheduleDate: campaign.scheduledAt,
     }));
 
@@ -216,7 +226,10 @@ export async function getCampaignsData(
 
 // Get campaign statistics
 // Simple in-memory cache for campaign stats (in production, use Redis)
-const statsCache = new Map<string, { data: CampaignStats; timestamp: number }>();
+const statsCache = new Map<
+  string,
+  { data: CampaignStats; timestamp: number }
+>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 export async function getCampaignStats(): Promise<CampaignStats> {
@@ -397,7 +410,10 @@ export async function createCampaign(data: CompleteCampaignData) {
 }
 
 // Update an existing campaign
-export async function updateCampaign(campaignId: string, data: Partial<CompleteCampaignData>) {
+export async function updateCampaign(
+  campaignId: string,
+  data: Partial<CompleteCampaignData>
+) {
   try {
     const merchant = await getCurrentMerchant();
 
@@ -466,7 +482,10 @@ export async function updateCampaign(campaignId: string, data: Partial<CompleteC
         });
 
         // Create new hero images
-        if (data.heroImages && Object.values(data.heroImages).some((url) => url)) {
+        if (
+          data.heroImages &&
+          Object.values(data.heroImages).some((url) => url)
+        ) {
           await tx.campaignHeroImage.createMany({
             data: Object.entries(data.heroImages)
               .filter(([, url]) => url)

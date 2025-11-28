@@ -23,7 +23,10 @@ export async function GET(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse query parameters
@@ -144,14 +147,21 @@ export async function POST(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
     const body: NewSegmentFormData = await request.json();
 
     // ✅ FIXED: Enhanced validation
-    if (!body.name || typeof body.name !== "string" || body.name.trim().length === 0) {
+    if (
+      !body.name ||
+      typeof body.name !== "string" ||
+      body.name.trim().length === 0
+    ) {
       return NextResponse.json(
         { error: "Segment name is required and must be a non-empty string" },
         { status: 400 }
@@ -159,7 +169,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.type || typeof body.type !== "string") {
-      return NextResponse.json({ error: "Segment type is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Segment type is required" },
+        { status: 400 }
+      );
     }
 
     const validTypes = ["dynamic", "static", "behavior"];
@@ -172,8 +185,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body.conditions || !Array.isArray(body.conditions) || body.conditions.length === 0) {
-      return NextResponse.json({ error: "At least one condition is required" }, { status: 400 });
+    if (
+      !body.conditions ||
+      !Array.isArray(body.conditions) ||
+      body.conditions.length === 0
+    ) {
+      return NextResponse.json(
+        { error: "At least one condition is required" },
+        { status: 400 }
+      );
     }
 
     // ✅ FIXED: Limit conditions array size to prevent abuse
@@ -194,7 +214,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingSegment) {
-      return NextResponse.json({ error: "Segment name already exists" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Segment name already exists" },
+        { status: 409 }
+      );
     }
 
     // Generate criteria display string
@@ -216,7 +239,9 @@ export async function POST(request: NextRequest) {
             operator: condition.operator,
             value: condition.value,
             numberValue: condition.numberValue,
-            dateValue: condition.dateValue ? new Date(condition.dateValue) : null,
+            dateValue: condition.dateValue
+              ? new Date(condition.dateValue)
+              : null,
             dateUnit: condition.dateUnit,
             locationCountry: condition.locationCountry,
             locationRegion: condition.locationRegion,

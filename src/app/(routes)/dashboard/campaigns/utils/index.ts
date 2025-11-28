@@ -3,12 +3,17 @@ import type { Campaign, CampaignFilters, CampaignStatus } from "../types";
 /**
  * Filters campaigns based on the provided filter criteria
  */
-export function filterCampaigns(campaigns: Campaign[], filters: CampaignFilters): Campaign[] {
+export function filterCampaigns(
+  campaigns: Campaign[],
+  filters: CampaignFilters
+): Campaign[] {
   let filtered = [...campaigns];
 
   // Filter by status (tab)
   if (filters.activeTab !== "all") {
-    filtered = filtered.filter((campaign) => campaign.status === filters.activeTab);
+    filtered = filtered.filter(
+      (campaign) => campaign.status === filters.activeTab
+    );
   }
 
   // Filter by search query
@@ -24,20 +29,28 @@ export function filterCampaigns(campaigns: Campaign[], filters: CampaignFilters)
 
   // Filter by category
   if (filters.categoryFilter !== "all") {
-    filtered = filtered.filter((campaign) => campaign.category === filters.categoryFilter);
+    filtered = filtered.filter(
+      (campaign) => campaign.category === filters.categoryFilter
+    );
   }
 
   // Filter by segment
   if (filters.segmentFilter !== "all") {
-    filtered = filtered.filter((campaign) => campaign.segment === filters.segmentFilter);
+    filtered = filtered.filter(
+      (campaign) => campaign.segment === filters.segmentFilter
+    );
   }
 
   // Filter by date range
   if (filters.dateRange && (filters.dateRange.from || filters.dateRange.to)) {
     filtered = filtered.filter((campaign) => {
       const campaignDate = new Date(campaign.createdAt);
-      const fromDate = filters.dateRange.from ? new Date(filters.dateRange.from) : new Date(0);
-      const toDate = filters.dateRange.to ? new Date(filters.dateRange.to) : new Date();
+      const fromDate = filters.dateRange.from
+        ? new Date(filters.dateRange.from)
+        : new Date(0);
+      const toDate = filters.dateRange.to
+        ? new Date(filters.dateRange.to)
+        : new Date();
       return campaignDate >= fromDate && campaignDate <= toDate;
     });
   }
@@ -75,7 +88,11 @@ export function getUniqueSegments(campaigns: Campaign[]): string[] {
 /**
  * Calculates pagination information
  */
-export function calculatePagination(totalItems: number, currentPage: number, itemsPerPage: number) {
+export function calculatePagination(
+  totalItems: number,
+  currentPage: number,
+  itemsPerPage: number
+) {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -106,7 +123,10 @@ export function generatePageNumbers(
   }
 
   if (currentPage >= totalPages - 2) {
-    return Array.from({ length: maxVisible }, (_, i) => totalPages - maxVisible + 1 + i);
+    return Array.from(
+      { length: maxVisible },
+      (_, i) => totalPages - maxVisible + 1 + i
+    );
   }
 
   return Array.from({ length: maxVisible }, (_, i) => currentPage - 2 + i);

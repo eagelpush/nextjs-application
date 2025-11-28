@@ -5,12 +5,18 @@ import type { Subscriber, TimeRange } from "../types";
 import { exportToCSV } from "../utils";
 
 export function useSubscriberActions() {
-  const handleExport = useCallback((subscribers: Subscriber[], timeRange: TimeRange) => {
-    console.log("Exporting subscribers data...");
+  const handleExport = useCallback(
+    (subscribers: Subscriber[], timeRange: TimeRange) => {
+      console.log("Exporting subscribers data...");
 
-    // In production, this might involve API calls or additional processing
-    exportToCSV(subscribers, `subscribers-${timeRange}-${new Date().toISOString().split("T")[0]}`);
-  }, []);
+      // In production, this might involve API calls or additional processing
+      exportToCSV(
+        subscribers,
+        `subscribers-${timeRange}-${new Date().toISOString().split("T")[0]}`
+      );
+    },
+    []
+  );
 
   const handleSubscriberView = useCallback((subscriberId: string) => {
     console.log("Viewing subscriber:", subscriberId);
@@ -60,10 +66,13 @@ export function useSubscriberActions() {
     // This is handled by the filters hook, but could trigger analytics
   }, []);
 
-  const handleFilterChange = useCallback((filterType: string, value: string) => {
-    console.log(`Filter changed - ${filterType}:`, value);
-    // This could trigger analytics or additional side effects
-  }, []);
+  const handleFilterChange = useCallback(
+    (filterType: string, value: string) => {
+      console.log(`Filter changed - ${filterType}:`, value);
+      // This could trigger analytics or additional side effects
+    },
+    []
+  );
 
   return {
     handleExport,

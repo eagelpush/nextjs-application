@@ -1,4 +1,4 @@
-import type { JsonValue } from "@prisma/client/runtime/library";
+import type { JsonValue } from "@/generated/prisma/internal/prismaNamespace";
 
 // PostgreSQL subscriber document interface (matches exact database schema)
 export interface PostgreSQLSubscriber {
@@ -177,9 +177,6 @@ export interface GrowthChartProps {
   growthData: GrowthDataPoint[];
   timeRange: string;
 }
-
-// Import shared types
-import type { TimeRange, DateRange } from "@/types/types";
 
 // Tab type
 export type SubscriberTab = "overview" | "analytics" | "subscribers";

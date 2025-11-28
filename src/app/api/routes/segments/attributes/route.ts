@@ -18,7 +18,10 @@ export async function GET(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse query parameters
@@ -107,7 +110,10 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching custom attributes:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -129,14 +135,21 @@ export async function POST(request: NextRequest) {
     });
 
     if (!merchant) {
-      return NextResponse.json({ error: "Merchant not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Merchant not found" },
+        { status: 404 }
+      );
     }
 
     // Parse request body
     const body: NewAttributeFormValues = await request.json();
 
     // ✅ FIXED: Enhanced validation for attributes
-    if (!body.name || typeof body.name !== "string" || body.name.trim().length === 0) {
+    if (
+      !body.name ||
+      typeof body.name !== "string" ||
+      body.name.trim().length === 0
+    ) {
       return NextResponse.json(
         { error: "Attribute name is required and must be a non-empty string" },
         { status: 400 }
@@ -144,7 +157,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.type || typeof body.type !== "string") {
-      return NextResponse.json({ error: "Attribute type is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Attribute type is required" },
+        { status: 400 }
+      );
     }
 
     const validTypes = [
@@ -177,11 +193,17 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingAttribute) {
-      return NextResponse.json({ error: "Attribute name already exists" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Attribute name already exists" },
+        { status: 409 }
+      );
     }
 
     // Validate options for multiple choice type
-    if (body.type === "multiple_choice" && (!body.options || body.options.length === 0)) {
+    if (
+      body.type === "multiple_choice" &&
+      (!body.options || body.options.length === 0)
+    ) {
       return NextResponse.json(
         { error: "Multiple choice attributes require options" },
         { status: 400 }
@@ -224,6 +246,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(transformedAttribute, { status: 201 });
   } catch (error) {
     console.error("Error creating custom attribute:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

@@ -65,7 +65,9 @@ export function SendCampaignDialog({
           </AlertDialogTitle>
           <AlertDialogDescription>
             You&apos;re about to send:{" "}
-            <span className="text-foreground font-semibold">&quot;{campaignTitle}&quot;</span>
+            <span className="text-foreground font-semibold">
+              &quot;{campaignTitle}&quot;
+            </span>
           </AlertDialogDescription>
         </AlertDialogHeader>
 
@@ -74,7 +76,8 @@ export function SendCampaignDialog({
             <div className="flex items-start gap-2 text-sm">
               <span className="text-green-600">✓</span>
               <span>
-                Push notifications will be sent to all subscribers in the selected segments
+                Push notifications will be sent to all subscribers in the
+                selected segments
               </span>
             </div>
 
@@ -83,7 +86,9 @@ export function SendCampaignDialog({
                 <span className="text-blue-600">📊</span>
                 <span>
                   Estimated reach:{" "}
-                  <strong>{estimatedSubscribers.toLocaleString()} subscribers</strong>
+                  <strong>
+                    {estimatedSubscribers.toLocaleString()} subscribers
+                  </strong>
                 </span>
               </div>
             )}
@@ -92,7 +97,8 @@ export function SendCampaignDialog({
               <div className="flex items-start gap-2 text-sm">
                 <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600" />
                 <span className="text-amber-600">
-                  This campaign was already sent. Subscribers will receive it again.
+                  This campaign was already sent. Subscribers will receive it
+                  again.
                 </span>
               </div>
             )}

@@ -27,18 +27,24 @@ export function BenefitsSection() {
                 Every visitor leaves without a purchase in their first visit
               </h2>
               <p className="text-muted-foreground mt-6 text-lg leading-8">
-                Don&apos;t let potential customers slip away. Push Eagle helps you stay connected
-                and bring them back when they&apos;re ready to buy.
+                Don&apos;t let potential customers slip away. Push Eagle helps
+                you stay connected and bring them back when they&apos;re ready
+                to buy.
               </p>
 
               {/* Benefits List */}
               <dl className="mt-10 max-w-xl space-y-4 lg:max-w-none">
                 {benefits.map((benefit) => (
-                  <div key={benefit} className="relative flex items-start gap-x-4">
+                  <div
+                    key={benefit}
+                    className="relative flex items-start gap-x-4"
+                  >
                     <div className="bg-primary flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg">
                       <Check className="text-primary-foreground h-4 w-4" />
                     </div>
-                    <dd className="text-foreground text-base leading-7">{benefit}</dd>
+                    <dd className="text-foreground text-base leading-7">
+                      {benefit}
+                    </dd>
                   </div>
                 ))}
               </dl>
@@ -70,13 +76,16 @@ export function BenefitsSection() {
                         Targeted Campaigns
                       </h3>
                       <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
-                        Send personalized notifications to the right audience at the right time
+                        Send personalized notifications to the right audience at
+                        the right time
                       </p>
                       <div className="mt-4 flex items-center gap-2">
                         <div className="bg-muted h-2 flex-1 overflow-hidden rounded-full">
                           <div className="bg-primary h-full w-3/4 rounded-full" />
                         </div>
-                        <span className="text-muted-foreground text-sm font-medium">75%</span>
+                        <span className="text-muted-foreground text-sm font-medium">
+                          75%
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -101,16 +110,26 @@ export function BenefitsSection() {
                       </p>
                       <div className="mt-4 grid grid-cols-3 gap-4">
                         <div className="text-center">
-                          <p className="text-foreground text-2xl font-bold">12.5K</p>
-                          <p className="text-muted-foreground text-xs">Clicks</p>
+                          <p className="text-foreground text-2xl font-bold">
+                            12.5K
+                          </p>
+                          <p className="text-muted-foreground text-xs">
+                            Clicks
+                          </p>
                         </div>
                         <div className="text-center">
-                          <p className="text-foreground text-2xl font-bold">8.2%</p>
+                          <p className="text-foreground text-2xl font-bold">
+                            8.2%
+                          </p>
                           <p className="text-muted-foreground text-xs">CTR</p>
                         </div>
                         <div className="text-center">
-                          <p className="text-foreground text-2xl font-bold">$2.5K</p>
-                          <p className="text-muted-foreground text-xs">Revenue</p>
+                          <p className="text-foreground text-2xl font-bold">
+                            $2.5K
+                          </p>
+                          <p className="text-muted-foreground text-xs">
+                            Revenue
+                          </p>
                         </div>
                       </div>
                     </div>

@@ -106,8 +106,12 @@ export function OptInPreview({ settings }: OptInPreviewProps) {
                   className="absolute inset-0 flex items-center justify-center bg-black/50 p-4"
                   style={{
                     alignItems:
-                      settings.customPromptPosition === "center" ? "center" : "flex-start",
-                    justifyContent: settings.customPromptPosition.includes("right")
+                      settings.customPromptPosition === "center"
+                        ? "center"
+                        : "flex-start",
+                    justifyContent: settings.customPromptPosition.includes(
+                      "right"
+                    )
                       ? "flex-end"
                       : settings.customPromptPosition.includes("left")
                         ? "flex-start"
@@ -115,7 +119,9 @@ export function OptInPreview({ settings }: OptInPreviewProps) {
                   }}
                 >
                   <div className="bg-card max-w-md rounded-xl p-6 shadow-2xl">
-                    <h3 className="mb-2 text-xl font-bold">{settings.customPromptHeadline}</h3>
+                    <h3 className="mb-2 text-xl font-bold">
+                      {settings.customPromptHeadline}
+                    </h3>
                     <p className="text-muted-foreground mb-4 text-sm">
                       {settings.customPromptDescription}
                     </p>
@@ -124,17 +130,26 @@ export function OptInPreview({ settings }: OptInPreviewProps) {
                       Array.isArray(settings.customPromptBenefits) &&
                       settings.customPromptBenefits.length > 0 && (
                         <ul className="mb-4 space-y-2">
-                          {settings.customPromptBenefits.map((benefit, index) => (
-                            <li key={index} className="flex items-start gap-2 text-sm">
-                              <span
-                                className="mt-0.5"
-                                style={{ color: settings.customPromptPrimaryColor }}
+                          {settings.customPromptBenefits.map(
+                            (benefit, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start gap-2 text-sm"
                               >
-                                ✓
-                              </span>
-                              <span className="text-foreground">{benefit}</span>
-                            </li>
-                          ))}
+                                <span
+                                  className="mt-0.5"
+                                  style={{
+                                    color: settings.customPromptPrimaryColor,
+                                  }}
+                                >
+                                  ✓
+                                </span>
+                                <span className="text-foreground">
+                                  {benefit}
+                                </span>
+                              </li>
+                            )
+                          )}
                         </ul>
                       )}
 
@@ -185,8 +200,12 @@ export function OptInPreview({ settings }: OptInPreviewProps) {
                   className="absolute flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white shadow-lg transition-all hover:scale-105"
                   style={{
                     backgroundColor: settings.flyoutColor,
-                    [settings.flyoutPosition.includes("bottom") ? "bottom" : "top"]: "20px",
-                    [settings.flyoutPosition.includes("right") ? "right" : "left"]: "20px",
+                    [settings.flyoutPosition.includes("bottom")
+                      ? "bottom"
+                      : "top"]: "20px",
+                    [settings.flyoutPosition.includes("right")
+                      ? "right"
+                      : "left"]: "20px",
                   }}
                 >
                   <svg
@@ -234,8 +253,12 @@ export function OptInPreview({ settings }: OptInPreviewProps) {
                   <div className="bg-card max-w-md rounded-xl p-6 shadow-2xl">
                     <div className="mb-4 flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="mb-2 text-xl font-bold">{settings.exitIntentHeadline}</h3>
-                        <p className="text-muted-foreground text-sm">{settings.exitIntentOffer}</p>
+                        <h3 className="mb-2 text-xl font-bold">
+                          {settings.exitIntentHeadline}
+                        </h3>
+                        <p className="text-muted-foreground text-sm">
+                          {settings.exitIntentOffer}
+                        </p>
                       </div>
                       <button className="text-muted-foreground hover:text-foreground">
                         <X className="h-5 w-5" />
@@ -258,7 +281,8 @@ export function OptInPreview({ settings }: OptInPreviewProps) {
         </Tabs>
 
         <div className="text-muted-foreground mt-4 text-center text-sm">
-          This is a simulated preview. Actual appearance may vary based on browser and device.
+          This is a simulated preview. Actual appearance may vary based on
+          browser and device.
         </div>
       </CardContent>
     </Card>

@@ -14,15 +14,18 @@ export default async function OptInSettingsPage() {
     // Fetch settings on the server
     const settings = await getOptInSettings();
 
+    // eslint-disable-next-line react-hooks/error-boundaries
     return <OptInSettingsClient initialSettings={settings} />;
-    } catch (error) {
+  } catch (error) {
     console.error("Error loading opt-in settings:", error);
 
     // Return error state
     return (
       <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <h2 className="mb-2 text-lg font-semibold">Failed to Load Opt-in Settings</h2>
+          <h2 className="mb-2 text-lg font-semibold">
+            Failed to Load Opt-in Settings
+          </h2>
           <p className="text-muted-foreground text-sm">
             Please refresh the page or contact support if the problem persists.
           </p>

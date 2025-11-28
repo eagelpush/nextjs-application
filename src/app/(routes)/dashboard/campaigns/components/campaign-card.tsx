@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Edit, Copy, Trash, Send } from "lucide-react";
 import type { Campaign } from "../types";
-import { getStatusConfig, formatNumber, formatCurrency, formatPercentage } from "../utils";
+import {
+  getStatusConfig,
+  formatNumber,
+  formatCurrency,
+  formatPercentage,
+} from "../utils";
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -102,7 +107,9 @@ export function CampaignCard({
                   {canSend && (
                     <>
                       <DropdownMenuItem
-                        onClick={() => onSend!(campaign.id, campaign.title, campaign.status)}
+                        onClick={() =>
+                          onSend!(campaign.id, campaign.title, campaign.status)
+                        }
                         className="font-medium text-green-600 dark:text-green-400"
                         disabled={isPending}
                       >
@@ -112,11 +119,17 @@ export function CampaignCard({
                       <DropdownMenuSeparator />
                     </>
                   )}
-                  <DropdownMenuItem onClick={() => onEdit(campaign.id)} disabled={isPending}>
+                  <DropdownMenuItem
+                    onClick={() => onEdit(campaign.id)}
+                    disabled={isPending}
+                  >
                     <Edit className="mr-2 h-4 w-4" aria-hidden="true" />
                     Edit
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onDuplicate(campaign.id)} disabled={isPending}>
+                  <DropdownMenuItem
+                    onClick={() => onDuplicate(campaign.id)}
+                    disabled={isPending}
+                  >
                     <Copy className="mr-2 h-4 w-4" aria-hidden="true" />
                     Duplicate
                   </DropdownMenuItem>
@@ -140,7 +153,9 @@ export function CampaignCard({
                 aria-label="Campaign metrics"
               >
                 <div className="text-center">
-                  <div className="text-muted-foreground text-xs font-medium">Impressions</div>
+                  <div className="text-muted-foreground text-xs font-medium">
+                    Impressions
+                  </div>
                   <div
                     className="font-semibold"
                     aria-label={`${formatNumber(campaign.impressions)} impressions`}
@@ -149,7 +164,9 @@ export function CampaignCard({
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-muted-foreground text-xs font-medium">Clicks</div>
+                  <div className="text-muted-foreground text-xs font-medium">
+                    Clicks
+                  </div>
                   <div
                     className="font-semibold"
                     aria-label={`${formatNumber(campaign.clicks)} clicks`}
@@ -158,7 +175,9 @@ export function CampaignCard({
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-muted-foreground text-xs font-medium">CTR</div>
+                  <div className="text-muted-foreground text-xs font-medium">
+                    CTR
+                  </div>
                   <div
                     className="font-semibold"
                     aria-label={`${formatPercentage(campaign.ctr)} click-through rate`}
@@ -167,7 +186,9 @@ export function CampaignCard({
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-muted-foreground text-xs font-medium">Revenue</div>
+                  <div className="text-muted-foreground text-xs font-medium">
+                    Revenue
+                  </div>
                   <div
                     className="font-semibold"
                     aria-label={`${formatCurrency(campaign.revenue)} revenue`}
@@ -180,15 +201,21 @@ export function CampaignCard({
               {/* Meta Info */}
               <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-xs">
                 <div className="flex items-center gap-2">
-                  <Badge variant={statusConfig?.variant || "default"} className={statusConfig?.className || ""}>
-                    {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
+                  <Badge
+                    variant={statusConfig?.variant || "default"}
+                    className={statusConfig?.className || ""}
+                  >
+                    {campaign.status.charAt(0).toUpperCase() +
+                      campaign.status.slice(1)}
                   </Badge>
                   <Badge variant="outline" className="px-2 py-0.5 text-xs">
                     {campaign.segment}
                   </Badge>
                 </div>
                 <span className="hidden sm:inline">•</span>
-                <span className="font-mono text-xs break-all">ID: {campaign.id}</span>
+                <span className="font-mono text-xs break-all">
+                  ID: {campaign.id}
+                </span>
               </div>
             </div>
           </div>

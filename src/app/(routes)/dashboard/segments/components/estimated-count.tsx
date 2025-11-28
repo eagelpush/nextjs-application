@@ -9,7 +9,10 @@ interface EstimatedCountProps {
   isLoading?: boolean;
 }
 
-export function EstimatedCount({ count, isLoading = false }: EstimatedCountProps) {
+export function EstimatedCount({
+  count,
+  isLoading = false,
+}: EstimatedCountProps) {
   return (
     <Card className="border-primary/20 bg-primary/5 border">
       <CardContent className="p-6">
@@ -28,9 +31,13 @@ export function EstimatedCount({ count, isLoading = false }: EstimatedCountProps
                   <div className="bg-muted h-8 w-24 rounded"></div>
                 </div>
               ) : (
-                <div className="text-primary text-3xl font-bold">{formatNumber(count)}</div>
+                <div className="text-primary text-3xl font-bold">
+                  {formatNumber(count)}
+                </div>
               )}
-              <p className="text-muted-foreground mt-1 text-sm">subscribers match your criteria</p>
+              <p className="text-muted-foreground mt-1 text-sm">
+                subscribers match your criteria
+              </p>
             </div>
           </div>
         </div>
@@ -38,8 +45,9 @@ export function EstimatedCount({ count, isLoading = false }: EstimatedCountProps
         {!isLoading && (
           <div className="bg-muted/50 mt-4 rounded-lg p-3">
             <p className="text-muted-foreground text-xs">
-              <strong>Note:</strong> This is an estimated count based on your current segment
-              criteria. The actual count may vary when the segment is saved and processed.
+              <strong>Note:</strong> This is an estimated count based on your
+              current segment criteria. The actual count may vary when the
+              segment is saved and processed.
             </p>
           </div>
         )}

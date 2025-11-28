@@ -8,7 +8,9 @@ interface EditSegmentPageProps {
   }>;
 }
 
-export default async function EditSegmentPage({ params }: EditSegmentPageProps) {
+export default async function EditSegmentPage({
+  params,
+}: EditSegmentPageProps) {
   try {
     const { id } = await params;
     const segment = await getSegmentById(id);
@@ -17,6 +19,7 @@ export default async function EditSegmentPage({ params }: EditSegmentPageProps) 
       notFound();
     }
 
+    // eslint-disable-next-line react-hooks/error-boundaries
     return <EditSegmentForm segment={segment} />;
   } catch (error) {
     console.error("Error fetching segment:", error);

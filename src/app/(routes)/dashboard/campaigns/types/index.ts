@@ -47,7 +47,9 @@ export type CampaignStatus =
   | "failed";
 
 // Type guards
-export function isValidCampaignStatus(status: string): status is CampaignStatus {
+export function isValidCampaignStatus(
+  status: string
+): status is CampaignStatus {
   return [
     "sent",
     "scheduled",

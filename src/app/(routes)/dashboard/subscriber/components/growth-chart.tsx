@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { TrendingUp } from "lucide-react";
 import type { GrowthChartProps } from "../types";
 import {
@@ -29,7 +35,8 @@ export function GrowthChart({ growthData, timeRange }: GrowthChartProps) {
             Subscriber Growth
           </CardTitle>
           <CardDescription>
-            Showing growth for {timeRange.replace("d", " days").replace("y", " year")}
+            Showing growth for{" "}
+            {timeRange.replace("d", " days").replace("y", " year")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -44,7 +51,8 @@ export function GrowthChart({ growthData, timeRange }: GrowthChartProps) {
   // Calculate average growth
   const avgGrowth =
     growthData.length > 0
-      ? growthData.reduce((sum, data) => sum + data.growth, 0) / growthData.length
+      ? growthData.reduce((sum, data) => sum + data.growth, 0) /
+        growthData.length
       : 0;
 
   return (
@@ -55,9 +63,12 @@ export function GrowthChart({ growthData, timeRange }: GrowthChartProps) {
           Subscriber Growth
         </CardTitle>
         <CardDescription className="flex items-center gap-2">
-          Showing growth for {timeRange.replace("d", " days").replace("y", " year")}
+          Showing growth for{" "}
+          {timeRange.replace("d", " days").replace("y", " year")}
           {avgGrowth !== 0 && (
-            <span className={avgGrowth >= 0 ? "text-green-600" : "text-red-600"}>
+            <span
+              className={avgGrowth >= 0 ? "text-green-600" : "text-red-600"}
+            >
               ({avgGrowth >= 0 ? "+" : ""}
               {avgGrowth.toFixed(1)}% avg growth)
             </span>
@@ -77,11 +88,23 @@ export function GrowthChart({ growthData, timeRange }: GrowthChartProps) {
           >
             <defs>
               <linearGradient id="fillSubscribers" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--color-subscribers)" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="var(--color-subscribers)" stopOpacity={0.05} />
+                <stop
+                  offset="5%"
+                  stopColor="var(--color-subscribers)"
+                  stopOpacity={0.3}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="var(--color-subscribers)"
+                  stopOpacity={0.05}
+                />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-muted" />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              className="stroke-muted"
+            />
             <XAxis
               dataKey="month"
               tickLine={false}
@@ -99,7 +122,10 @@ export function GrowthChart({ growthData, timeRange }: GrowthChartProps) {
                 return value.toString();
               }}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            />
             <Area
               type="monotone"
               dataKey="subscribers"

@@ -1,8 +1,17 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import type { CampaignFilters, DateRange, Campaign, PaginationState } from "../types";
-import { filterCampaigns, getUniqueCategories, getUniqueSegments } from "../utils";
+import type {
+  CampaignFilters,
+  DateRange,
+  Campaign,
+  PaginationState,
+} from "../types";
+import {
+  filterCampaigns,
+  getUniqueCategories,
+  getUniqueSegments,
+} from "../utils";
 import { PAGINATION_CONFIG } from "../constants";
 
 interface UseCampaignFiltersProps {
@@ -41,7 +50,9 @@ export function useCampaignFilters({
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [segmentFilter, setSegmentFilter] = useState("all");
   const [activeTab, setActiveTab] = useState("all");
-  const [currentPage, setCurrentPage] = useState(initialPagination?.currentPage || 1);
+  const [currentPage, setCurrentPage] = useState(
+    initialPagination?.currentPage || 1
+  );
   const [itemsPerPage] = useState(
     initialPagination?.itemsPerPage || PAGINATION_CONFIG.ITEMS_PER_PAGE
   );

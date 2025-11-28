@@ -10,17 +10,29 @@ interface SubscriberTabsProps {
   children: React.ReactNode;
 }
 
-export function SubscriberTabs({ activeTab, onTabChange, children }: SubscriberTabsProps) {
+export function SubscriberTabs({
+  activeTab,
+  onTabChange,
+  children,
+}: SubscriberTabsProps) {
   const handleValueChange = (value: string) => {
     onTabChange(value as SubscriberTab);
   };
 
   return (
     <div className="mb-8">
-      <Tabs value={activeTab} onValueChange={handleValueChange} className="w-full">
+      <Tabs
+        value={activeTab}
+        onValueChange={handleValueChange}
+        className="w-full"
+      >
         <TabsList className="mb-2 grid w-full grid-cols-3 gap-x-1">
           {SUBSCRIBER_TABS.map((tab) => (
-            <TabsTrigger key={tab.value} value={tab.value} className="bg-background">
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className="bg-background"
+            >
               {tab.label}
             </TabsTrigger>
           ))}

@@ -82,11 +82,14 @@ export async function POST(req: NextRequest) {
       if (existingMerchantByEmail) {
         // If merchant exists with this email but different clerkId, update it
         if (existingMerchantByEmail.clerkId !== clerkId) {
-          console.log("Found existing merchant with same email, updating clerkId", {
-            merchantId: existingMerchantByEmail.id,
-            oldClerkId: existingMerchantByEmail.clerkId,
-            newClerkId: clerkId,
-          });
+          console.log(
+            "Found existing merchant with same email, updating clerkId",
+            {
+              merchantId: existingMerchantByEmail.id,
+              oldClerkId: existingMerchantByEmail.clerkId,
+              newClerkId: clerkId,
+            }
+          );
 
           const updatedMerchant = await prisma.merchant.update({
             where: { id: existingMerchantByEmail.id },
@@ -102,10 +105,13 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          console.log("Successfully updated existing merchant with new Clerk ID", {
-            merchantId: updatedMerchant.id,
-            clerkId: updatedMerchant.clerkId,
-          });
+          console.log(
+            "Successfully updated existing merchant with new Clerk ID",
+            {
+              merchantId: updatedMerchant.id,
+              clerkId: updatedMerchant.clerkId,
+            }
+          );
 
           return NextResponse.json(
             {
@@ -303,11 +309,17 @@ export async function POST(req: NextRequest) {
 
         if (isPrismaError && dbError.code === "P2002") {
           // Unique constraint violation - merchant with this email or clerkId already exists
-          const errorMeta = "meta" in dbError ? (dbError.meta as { target?: string[] }) : undefined;
-          console.warn("Merchant creation failed: unique constraint violation", {
-            code: dbError.code,
-            target: errorMeta?.target,
-          });
+          const errorMeta =
+            "meta" in dbError
+              ? (dbError.meta as { target?: string[] })
+              : undefined;
+          console.warn(
+            "Merchant creation failed: unique constraint violation",
+            {
+              code: dbError.code,
+              target: errorMeta?.target,
+            }
+          );
 
           // Try to find the existing merchant by email or clerkId
           try {
@@ -368,7 +380,10 @@ export async function POST(req: NextRequest) {
               );
             }
           } catch (findError) {
-            console.error("Error finding existing merchant after constraint violation", findError);
+            console.error(
+              "Error finding existing merchant after constraint violation",
+              findError
+            );
           }
 
           // If we can't find the existing merchant, return a more specific error

@@ -31,4 +31,3 @@ export function ColorPicker({ value, onChange, className }: ColorPickerProps) {
     </div>
   );
 }
-

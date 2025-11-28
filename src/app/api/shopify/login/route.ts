@@ -16,18 +16,22 @@ function getRedirectUri(): string {
   if (explicitUri) {
     return explicitUri;
   }
-  
+
   // Fallback: construct from NEXT_PUBLIC_APP_URL
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   if (appUrl) {
     const redirectUri = `${appUrl}/api/shopify/callback`;
-    console.warn(`⚠️ SHOPIFY_REDIRECT_URI not set, using constructed value: ${redirectUri}`);
+    console.warn(
+      `⚠️ SHOPIFY_REDIRECT_URI not set, using constructed value: ${redirectUri}`
+    );
     return redirectUri;
   }
-  
+
   // Last resort: use localhost (development)
   const fallback = "http://localhost:3000/api/shopify/callback";
-  console.warn(`⚠️ SHOPIFY_REDIRECT_URI and NEXT_PUBLIC_APP_URL not set, using fallback: ${fallback}`);
+  console.warn(
+    `⚠️ SHOPIFY_REDIRECT_URI and NEXT_PUBLIC_APP_URL not set, using fallback: ${fallback}`
+  );
   return fallback;
 }
 
@@ -43,9 +47,10 @@ export async function GET(request: NextRequest) {
     if (!SHOPIFY_CLIENT_ID) {
       console.error("❌ SHOPIFY_CLIENT_ID is not set");
       return NextResponse.json(
-        { 
-          error: "Server configuration error: SHOPIFY_CLIENT_ID environment variable is required",
-          hint: "Please set SHOPIFY_CLIENT_ID in your .env.local file"
+        {
+          error:
+            "Server configuration error: SHOPIFY_CLIENT_ID environment variable is required",
+          hint: "Please set SHOPIFY_CLIENT_ID in your .env.local file",
         },
         { status: 500 }
       );
@@ -53,9 +58,10 @@ export async function GET(request: NextRequest) {
     if (!SHOPIFY_CLIENT_SECRET) {
       console.error("❌ SHOPIFY_CLIENT_SECRET is not set");
       return NextResponse.json(
-        { 
-          error: "Server configuration error: SHOPIFY_CLIENT_SECRET environment variable is required",
-          hint: "Please set SHOPIFY_CLIENT_SECRET in your .env.local file"
+        {
+          error:
+            "Server configuration error: SHOPIFY_CLIENT_SECRET environment variable is required",
+          hint: "Please set SHOPIFY_CLIENT_SECRET in your .env.local file",
         },
         { status: 500 }
       );
@@ -63,9 +69,10 @@ export async function GET(request: NextRequest) {
     if (!SCOPES) {
       console.error("❌ SHOPIFY_SCOPES is not set");
       return NextResponse.json(
-        { 
-          error: "Server configuration error: SHOPIFY_SCOPES environment variable is required",
-          hint: "Please set SHOPIFY_SCOPES in your .env.local file (e.g., 'read_products,write_products')"
+        {
+          error:
+            "Server configuration error: SHOPIFY_SCOPES environment variable is required",
+          hint: "Please set SHOPIFY_SCOPES in your .env.local file (e.g., 'read_products,write_products')",
         },
         { status: 500 }
       );
@@ -94,7 +101,9 @@ export async function GET(request: NextRequest) {
     if (hmac && !post_signup && !post_signin) {
       // Validate that we have the secret before attempting HMAC validation
       if (!SHOPIFY_CLIENT_SECRET) {
-        console.error("❌ SHOPIFY_CLIENT_SECRET is not set - cannot validate HMAC");
+        console.error(
+          "❌ SHOPIFY_CLIENT_SECRET is not set - cannot validate HMAC"
+        );
         return NextResponse.json(
           { error: "Server configuration error: Missing client secret" },
           { status: 500 }
@@ -104,8 +113,14 @@ export async function GET(request: NextRequest) {
       // Build sorted query string excluding hmac and Shopify redirect parameters
       // According to Shopify docs, 'host' and 'session' are added by Shopify's redirect
       // mechanism and should NOT be included in HMAC verification
-      const excludedParams = ["hmac", "host", "session", "post_signup", "post_signin"];
-      
+      const excludedParams = [
+        "hmac",
+        "host",
+        "session",
+        "post_signup",
+        "post_signin",
+      ];
+
       // Create a map of all parameters for HMAC (excluding excluded params)
       const paramsForHmac: Record<string, string> = {};
       Object.keys(rest).forEach((key) => {
@@ -113,7 +128,7 @@ export async function GET(request: NextRequest) {
           paramsForHmac[key] = rest[key];
         }
       });
-      
+
       // Sort all parameters alphabetically and build the message string
       const message = Object.keys(paramsForHmac)
         .sort()
@@ -143,21 +158,32 @@ export async function GET(request: NextRequest) {
           missingShop: !rest.shop,
           shopValue: shop,
         });
-        return NextResponse.json({ error: "HMAC validation failed" }, { status: 401 });
+        return NextResponse.json(
+          { error: "HMAC validation failed" },
+          { status: 401 }
+        );
       }
       console.log("✅ HMAC validation passed");
     } else {
-      console.log("⚠️ Skipping HMAC validation (internal redirect or no HMAC provided)");
+      console.log(
+        "⚠️ Skipping HMAC validation (internal redirect or no HMAC provided)"
+      );
     }
 
     // Validate shop parameter
     if (!shop) {
-      return NextResponse.json({ error: "Missing shop parameter" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing shop parameter" },
+        { status: 400 }
+      );
     }
 
     // Validate shop domain format
     if (!shop.includes(".myshopify.com")) {
-      return NextResponse.json({ error: "Invalid shop domain format" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid shop domain format" },
+        { status: 400 }
+      );
     }
 
     console.log("✅ Shop validation passed:", shop);

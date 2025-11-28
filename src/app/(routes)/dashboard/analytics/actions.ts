@@ -38,18 +38,25 @@ export async function getAnalyticsDataByDateRange(
     // Calculate previous period (same duration before startDate)
     const periodDuration = endDate.getTime() - startDate.getTime();
     const previousEndDate = new Date(startDate.getTime() - 1);
-    const previousStartDate = new Date(previousEndDate.getTime() - periodDuration);
+    const previousStartDate = new Date(
+      previousEndDate.getTime() - periodDuration
+    );
     const days = Math.ceil(periodDuration / (24 * 60 * 60 * 1000));
 
     // Fetch all data in parallel
-    const [stats, revenueOverTime, revenueAttribution, topCampaigns, deviceMetrics] =
-      await Promise.all([
-        getAnalyticsStats(merchant.id, startDate, previousStartDate),
-        getRevenueOverTime(merchant.id, startDate, endDate, days),
-        getRevenueAttribution(merchant.id, startDate),
-        getTopCampaigns(merchant.id, startDate, 5),
-        getDeviceMetrics(merchant.id, startDate),
-      ]);
+    const [
+      stats,
+      revenueOverTime,
+      revenueAttribution,
+      topCampaigns,
+      deviceMetrics,
+    ] = await Promise.all([
+      getAnalyticsStats(merchant.id, startDate, previousStartDate),
+      getRevenueOverTime(merchant.id, startDate, endDate, days),
+      getRevenueAttribution(merchant.id, startDate),
+      getTopCampaigns(merchant.id, startDate, 5),
+      getDeviceMetrics(merchant.id, startDate),
+    ]);
 
     return {
       stats,
@@ -123,17 +130,24 @@ export async function getAnalyticsData(
     const daysMap = { "7d": 7, "30d": 30, "90d": 90, "1y": 365 };
     const days = daysMap[timeRange];
     const startDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-    const previousStartDate = new Date(startDate.getTime() - days * 24 * 60 * 60 * 1000);
+    const previousStartDate = new Date(
+      startDate.getTime() - days * 24 * 60 * 60 * 1000
+    );
 
     // Fetch all data in parallel
-    const [stats, revenueOverTime, revenueAttribution, topCampaigns, deviceMetrics] =
-      await Promise.all([
-        getAnalyticsStats(merchant.id, startDate, previousStartDate),
-        getRevenueOverTime(merchant.id, startDate, now, days),
-        getRevenueAttribution(merchant.id, startDate),
-        getTopCampaigns(merchant.id, startDate, 5),
-        getDeviceMetrics(merchant.id, startDate),
-      ]);
+    const [
+      stats,
+      revenueOverTime,
+      revenueAttribution,
+      topCampaigns,
+      deviceMetrics,
+    ] = await Promise.all([
+      getAnalyticsStats(merchant.id, startDate, previousStartDate),
+      getRevenueOverTime(merchant.id, startDate, now, days),
+      getRevenueAttribution(merchant.id, startDate),
+      getTopCampaigns(merchant.id, startDate, 5),
+      getDeviceMetrics(merchant.id, startDate),
+    ]);
 
     return {
       stats,
@@ -220,28 +234,29 @@ async function getAnalyticsStats(
   });
 
   // Get subscriber counts
-  const [currentSubscribers, previousSubscribers, totalSubscribers] = await Promise.all([
-    prisma.subscriber.count({
-      where: {
-        merchantId,
-        isActive: true,
-        subscribedAt: { gte: startDate },
-      },
-    }),
-    prisma.subscriber.count({
-      where: {
-        merchantId,
-        isActive: true,
-        subscribedAt: { gte: previousStartDate, lt: startDate },
-      },
-    }),
-    prisma.subscriber.count({
-      where: {
-        merchantId,
-        isActive: true,
-      },
-    }),
-  ]);
+  const [currentSubscribers, previousSubscribers, totalSubscribers] =
+    await Promise.all([
+      prisma.subscriber.count({
+        where: {
+          merchantId,
+          isActive: true,
+          subscribedAt: { gte: startDate },
+        },
+      }),
+      prisma.subscriber.count({
+        where: {
+          merchantId,
+          isActive: true,
+          subscribedAt: { gte: previousStartDate, lt: startDate },
+        },
+      }),
+      prisma.subscriber.count({
+        where: {
+          merchantId,
+          isActive: true,
+        },
+      }),
+    ]);
 
   // Calculate metrics
   const currentRevenue = currentPeriod._sum.revenue || 0;
@@ -252,14 +267,27 @@ async function getAnalyticsStats(
   const previousImpressions = previousPeriod._sum.impressions || 1;
   const previousClicks = previousPeriod._sum.clicks || 1;
 
-  const currentCTR = currentImpressions > 0 ? (currentClicks / currentImpressions) * 100 : 0;
-  const previousCTR = previousImpressions > 0 ? (previousClicks / previousImpressions) * 100 : 0.01;
+  const currentCTR =
+    currentImpressions > 0 ? (currentClicks / currentImpressions) * 100 : 0;
+  const previousCTR =
+    previousImpressions > 0
+      ? (previousClicks / previousImpressions) * 100
+      : 0.01;
 
   // Calculate trends
-  const revenueTrend = calculatePercentageChange(currentRevenue, previousRevenue);
-  const subscribersTrend = calculatePercentageChange(currentSubscribers, previousSubscribers);
+  const revenueTrend = calculatePercentageChange(
+    currentRevenue,
+    previousRevenue
+  );
+  const subscribersTrend = calculatePercentageChange(
+    currentSubscribers,
+    previousSubscribers
+  );
   const ctrTrend = calculatePercentageChange(currentCTR, previousCTR);
-  const impressionsTrend = calculatePercentageChange(currentImpressions, previousImpressions);
+  const impressionsTrend = calculatePercentageChange(
+    currentImpressions,
+    previousImpressions
+  );
 
   return {
     totalRevenue: currentRevenue,
@@ -303,12 +331,19 @@ async function getRevenueOverTime(
   });
 
   // Group by date
-  const revenueByDate = new Map<string, { revenue: number; manual: number; automated: number }>();
+  const revenueByDate = new Map<
+    string,
+    { revenue: number; manual: number; automated: number }
+  >();
 
   campaigns.forEach((campaign) => {
     if (campaign.sentAt) {
       const dateStr = campaign.sentAt.toISOString().split("T")[0];
-      const existing = revenueByDate.get(dateStr) || { revenue: 0, manual: 0, automated: 0 };
+      const existing = revenueByDate.get(dateStr) || {
+        revenue: 0,
+        manual: 0,
+        automated: 0,
+      };
 
       existing.revenue += campaign.revenue;
       // For now, all campaigns are manual (no automation system yet)
@@ -322,10 +357,14 @@ async function getRevenueOverTime(
   const result: RevenueData[] = [];
   const currentDate = new Date(startDate);
   const maxDays = Math.min(days, 30); // Limit to 30 data points for chart readability
-  
+
   while (currentDate <= endDate && result.length < maxDays) {
     const dateStr = currentDate.toISOString().split("T")[0];
-    const data = revenueByDate.get(dateStr) || { revenue: 0, manual: 0, automated: 0 };
+    const data = revenueByDate.get(dateStr) || {
+      revenue: 0,
+      manual: 0,
+      automated: 0,
+    };
 
     result.push({
       date: dateStr,
@@ -333,7 +372,7 @@ async function getRevenueOverTime(
       manualCampaigns: data.manual,
       automatedFlows: data.automated,
     });
-    
+
     currentDate.setDate(currentDate.getDate() + 1);
   }
 
@@ -421,7 +460,10 @@ async function getTopCampaigns(
 /**
  * Get device/OS metrics
  */
-async function getDeviceMetrics(merchantId: string, startDate: Date): Promise<DeviceMetrics[]> {
+async function getDeviceMetrics(
+  merchantId: string,
+  startDate: Date
+): Promise<DeviceMetrics[]> {
   // Get all active subscribers with their devices
   const subscribers = await prisma.subscriber.findMany({
     where: {
@@ -454,7 +496,12 @@ async function getDeviceMetrics(merchantId: string, startDate: Date): Promise<De
   // Group by OS/device
   const deviceMap = new Map<
     string,
-    { subscribers: number; revenue: number; impressions: number; clicks: number }
+    {
+      subscribers: number;
+      revenue: number;
+      impressions: number;
+      clicks: number;
+    }
   >();
 
   subscribers.forEach((subscriber) => {
@@ -489,8 +536,10 @@ async function getDeviceMetrics(merchantId: string, startDate: Date): Promise<De
   // Convert to array and calculate percentages
   const deviceMetrics: DeviceMetrics[] = [];
   deviceMap.forEach((data, device) => {
-    const clickRate = data.impressions > 0 ? (data.clicks / data.impressions) * 100 : 0;
-    const percentage = totalSubscribers > 0 ? (data.subscribers / totalSubscribers) * 100 : 0;
+    const clickRate =
+      data.impressions > 0 ? (data.clicks / data.impressions) * 100 : 0;
+    const percentage =
+      totalSubscribers > 0 ? (data.subscribers / totalSubscribers) * 100 : 0;
 
     deviceMetrics.push({
       device: normalizeDeviceName(device),
@@ -513,7 +562,12 @@ function normalizeDeviceName(name: string | null): string {
 
   const lower = name.toLowerCase();
   if (lower.includes("windows")) return "Windows";
-  if (lower.includes("ios") || lower.includes("iphone") || lower.includes("ipad")) return "iOS";
+  if (
+    lower.includes("ios") ||
+    lower.includes("iphone") ||
+    lower.includes("ipad")
+  )
+    return "iOS";
   if (lower.includes("android")) return "Android";
   if (lower.includes("mac") || lower.includes("macos")) return "macOS";
   if (lower.includes("linux")) return "Linux";

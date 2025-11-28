@@ -12,7 +12,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { OptimizedImage } from "@/components/uploadcare";
-import { BellRing, Volume2, Smartphone, Tablet, Monitor, VolumeX } from "lucide-react";
+import {
+  BellRing,
+  Volume2,
+  Smartphone,
+  Tablet,
+  Monitor,
+  VolumeX,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +40,9 @@ type OSType =
   | "safari"
   | "edge";
 
-export function NotificationPreview({ campaignData }: NotificationPreviewProps) {
+export function NotificationPreview({
+  campaignData,
+}: NotificationPreviewProps) {
   const [deviceType, setDeviceType] = useState<DeviceType>("desktop");
   const [os, setOs] = useState<OSType>("windows");
   const [isMounted, setIsMounted] = useState(false);
@@ -54,7 +63,10 @@ export function NotificationPreview({ campaignData }: NotificationPreviewProps) 
   const getHeroImage = () => {
     if (campaignData.heroImages) {
       // Map device types to available platforms
-      const deviceMapping: Record<DeviceType, (keyof typeof campaignData.heroImages)[]> = {
+      const deviceMapping: Record<
+        DeviceType,
+        (keyof typeof campaignData.heroImages)[]
+      > = {
         desktop: ["windows", "mac"],
         tablet: ["ios", "android"],
         mobile: ["ios", "android"],
@@ -84,7 +96,9 @@ export function NotificationPreview({ campaignData }: NotificationPreviewProps) 
   const heroImage = getHeroImage();
   const companyLogo = campaignData.companyLogo;
 
-  const getOSOptions = (currentDeviceType: DeviceType): Array<{ value: OSType; label: string }> => {
+  const getOSOptions = (
+    currentDeviceType: DeviceType
+  ): Array<{ value: OSType; label: string }> => {
     if (currentDeviceType === "desktop") {
       return [
         { value: "windows", label: "Windows" },
@@ -145,7 +159,11 @@ export function NotificationPreview({ campaignData }: NotificationPreviewProps) 
   return (
     <div className="space-y-4">
       {/* Device Selection Tabs */}
-      <Tabs value={deviceType} onValueChange={handleDeviceChange} className="w-full">
+      <Tabs
+        value={deviceType}
+        onValueChange={handleDeviceChange}
+        className="w-full"
+      >
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="desktop">
             <Monitor className="mr-2 h-4 w-4" />
@@ -182,7 +200,8 @@ export function NotificationPreview({ campaignData }: NotificationPreviewProps) 
       <Card
         className={cn(
           "relative overflow-hidden",
-          notificationStyle === "windows-style" && "border-l-primary border-l-4",
+          notificationStyle === "windows-style" &&
+            "border-l-primary border-l-4",
           notificationStyle === "macos-style" && "rounded-xl shadow-lg",
           notificationStyle === "android-style" && "shadow-md",
           notificationStyle === "ios-style" && "rounded-2xl shadow-lg"
@@ -243,7 +262,9 @@ export function NotificationPreview({ campaignData }: NotificationPreviewProps) 
               {campaignData.actionButtonText && (
                 <Button
                   size="sm"
-                  variant={notificationStyle === "ios-style" ? "ghost" : "default"}
+                  variant={
+                    notificationStyle === "ios-style" ? "ghost" : "default"
+                  }
                   className="mt-2"
                 >
                   {campaignData.actionButtonText}
@@ -271,48 +292,50 @@ export function NotificationPreview({ campaignData }: NotificationPreviewProps) 
           Preview for {deviceType} ({os})
         </p>
         {campaignData.enableVibration && (
-          <p className="text-muted-foreground text-xs">Vibration enabled (mobile only)</p>
+          <p className="text-muted-foreground text-xs">
+            Vibration enabled (mobile only)
+          </p>
         )}
       </div>
 
       {/* Desktop-specific Browser Preview */}
-      {deviceType === "desktop" && ["chrome", "firefox", "edge", "safari"].includes(os) && (
-        <div className="bg-muted/50 mt-4 rounded-lg p-3">
-          <p className="mb-2 text-xs font-medium">Browser Notification</p>
-          <div className="bg-background space-y-2 rounded-md border p-3">
-            <div className="flex items-center gap-2">
-              {companyLogo && typeof companyLogo === "string" && (
-                <OptimizedImage
-                  src={companyLogo}
-                  alt="Logo"
-                  width={16}
-                  height={16}
-                  className="rounded"
-                  transformations="format/auto,quality/lightest,resize/1:1"
-                />
-              )}
-              <span className="text-sm font-medium">
-                {campaignData.title || "Notification Title"}
-              </span>
-            </div>
-            <p className="text-muted-foreground text-xs">
-              {campaignData.message || "This is your notification message."}
-            </p>
-            {heroImage && typeof heroImage === "string" && (
-              <div className="relative h-20 w-full overflow-hidden rounded">
-                <OptimizedImage
-                  src={heroImage}
-                  alt="Hero"
-                  fill
-                  className="object-cover"
-                  transformations="format/auto,quality/lightest"
-                />
+      {deviceType === "desktop" &&
+        ["chrome", "firefox", "edge", "safari"].includes(os) && (
+          <div className="bg-muted/50 mt-4 rounded-lg p-3">
+            <p className="mb-2 text-xs font-medium">Browser Notification</p>
+            <div className="bg-background space-y-2 rounded-md border p-3">
+              <div className="flex items-center gap-2">
+                {companyLogo && typeof companyLogo === "string" && (
+                  <OptimizedImage
+                    src={companyLogo}
+                    alt="Logo"
+                    width={16}
+                    height={16}
+                    className="rounded"
+                    transformations="format/auto,quality/lightest,resize/1:1"
+                  />
+                )}
+                <span className="text-sm font-medium">
+                  {campaignData.title || "Notification Title"}
+                </span>
               </div>
-            )}
+              <p className="text-muted-foreground text-xs">
+                {campaignData.message || "This is your notification message."}
+              </p>
+              {heroImage && typeof heroImage === "string" && (
+                <div className="relative h-20 w-full overflow-hidden rounded">
+                  <OptimizedImage
+                    src={heroImage}
+                    alt="Hero"
+                    fill
+                    className="object-cover"
+                    transformations="format/auto,quality/lightest"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </div>
   );
 }
-

@@ -64,7 +64,10 @@ const navigation = {
 
 export function Footer() {
   return (
-    <footer className="bg-card border-border border-t" aria-labelledby="footer-heading">
+    <footer
+      className="bg-card border-border border-t"
+      aria-labelledby="footer-heading"
+    >
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
@@ -73,11 +76,13 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-8">
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-card-foreground text-xl font-bold">Push Eagle</span>
+              <span className="text-card-foreground text-xl font-bold">
+                Push Eagle
+              </span>
             </Link>
             <p className="text-muted-foreground text-sm leading-6">
-              The most powerful push notification platform for Shopify stores. Drive more sales and
-              engage customers like never before.
+              The most powerful push notification platform for Shopify stores.
+              Drive more sales and engage customers like never before.
             </p>
             {/* Social links */}
             <div className="flex space-x-6">
@@ -98,7 +103,9 @@ export function Footer() {
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-foreground text-sm leading-6 font-semibold">Product</h3>
+                <h3 className="text-foreground text-sm leading-6 font-semibold">
+                  Product
+                </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.product.map((item) => (
                     <li key={item.name}>
@@ -113,7 +120,9 @@ export function Footer() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-foreground text-sm leading-6 font-semibold">Company</h3>
+                <h3 className="text-foreground text-sm leading-6 font-semibold">
+                  Company
+                </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
@@ -130,7 +139,9 @@ export function Footer() {
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-foreground text-sm leading-6 font-semibold">Resources</h3>
+                <h3 className="text-foreground text-sm leading-6 font-semibold">
+                  Resources
+                </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.resources.map((item) => (
                     <li key={item.name}>
@@ -145,7 +156,9 @@ export function Footer() {
                 </ul>
               </div>
               <div className="mt-10 md:mt-0">
-                <h3 className="text-foreground text-sm leading-6 font-semibold">Legal</h3>
+                <h3 className="text-foreground text-sm leading-6 font-semibold">
+                  Legal
+                </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
@@ -166,8 +179,8 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-border mt-16 border-t pt-8 sm:mt-20 lg:mt-24">
           <p className="text-muted-foreground text-xs leading-5">
-            &copy; {new Date().getFullYear()} Push Eagle. All rights reserved. Built for Shopify
-            merchants.
+            &copy; {new Date().getFullYear()} Push Eagle. All rights reserved.
+            Built for Shopify merchants.
           </p>
         </div>
       </div>

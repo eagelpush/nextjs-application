@@ -58,10 +58,14 @@ export default function SignInPage() {
       // Store in sessionStorage if from URL (preserve all context for sign-up navigation)
       if (shopFromUrl) {
         try {
-          const contextToStore: { shop: string; hmac?: string; timestamp?: string } = { shop };
+          const contextToStore: {
+            shop: string;
+            hmac?: string;
+            timestamp?: string;
+          } = { shop };
           if (hmacFromUrl) contextToStore.hmac = hmacFromUrl;
           if (timestampFromUrl) contextToStore.timestamp = timestampFromUrl;
-          
+
           sessionStorage.setItem(
             "shopify_install_context",
             JSON.stringify(contextToStore)
@@ -72,11 +76,11 @@ export default function SignInPage() {
       }
 
       if (!shopifyContext || shopifyContext.shop !== shop) {
-        console.log("🛍️ Sign-in with Shopify context:", { 
-          shop, 
+        console.log("🛍️ Sign-in with Shopify context:", {
+          shop,
           hasHmac: !!hmac,
           hasTimestamp: !!timestamp,
-          source: shopFromUrl ? "URL" : "SessionStorage" 
+          source: shopFromUrl ? "URL" : "SessionStorage",
         });
         setShopifyContext({ shop, hmac, timestamp });
       }
@@ -135,7 +139,9 @@ export default function SignInPage() {
                     <CardDescription>
                       {shopifyContext ? (
                         <div className="flex flex-col gap-2">
-                          <span>Complete your sign-in to connect with Shopify.</span>
+                          <span>
+                            Complete your sign-in to connect with Shopify.
+                          </span>
                           <Badge variant="secondary" className="w-fit">
                             🛍️ Installing for: {shopifyContext.shop}
                           </Badge>
@@ -172,23 +178,28 @@ export default function SignInPage() {
                         </Button>
                       </SignIn.Action>
 
-                      <Button 
-                        variant="link" 
+                      <Button
+                        variant="link"
                         size="sm"
                         onClick={(e) => {
                           e.preventDefault();
                           // Preserve Shopify context when navigating to sign-up
-                          const signUpUrl = new URL("/sign-up", window.location.origin);
-                          
+                          const signUpUrl = new URL(
+                            "/sign-up",
+                            window.location.origin
+                          );
+
                           // Get Shopify context from sessionStorage or current URL
                           let shop = shopifyContext?.shop;
                           let hmac = shopifyContext?.hmac;
                           let timestamp = shopifyContext?.timestamp;
-                          
+
                           // If not in state, try to get from sessionStorage
                           if (!shop || !hmac || !timestamp) {
                             try {
-                              const stored = sessionStorage.getItem("shopify_install_context");
+                              const stored = sessionStorage.getItem(
+                                "shopify_install_context"
+                              );
                               if (stored) {
                                 const context = JSON.parse(stored);
                                 shop = shop || context?.shop;
@@ -199,20 +210,27 @@ export default function SignInPage() {
                               console.error("Error reading sessionStorage:", e);
                             }
                           }
-                          
+
                           // If still not found, try URL params
-                          if (!shop) shop = searchParams.get("shop") || undefined;
-                          if (!hmac) hmac = searchParams.get("hmac") || undefined;
-                          if (!timestamp) timestamp = searchParams.get("timestamp") || undefined;
-                          
+                          if (!shop)
+                            shop = searchParams.get("shop") || undefined;
+                          if (!hmac)
+                            hmac = searchParams.get("hmac") || undefined;
+                          if (!timestamp)
+                            timestamp =
+                              searchParams.get("timestamp") || undefined;
+
                           // Add Shopify parameters to sign-up URL if available
                           // For Shopify OAuth, we need all three parameters
                           if (shop && hmac && timestamp) {
                             signUpUrl.searchParams.set("shop", shop);
                             signUpUrl.searchParams.set("hmac", hmac);
                             signUpUrl.searchParams.set("timestamp", timestamp);
-                            signUpUrl.searchParams.set("shopify_install", "true");
-                            
+                            signUpUrl.searchParams.set(
+                              "shopify_install",
+                              "true"
+                            );
+
                             // Ensure sessionStorage has the full context
                             try {
                               sessionStorage.setItem(
@@ -220,24 +238,33 @@ export default function SignInPage() {
                                 JSON.stringify({ shop, hmac, timestamp })
                               );
                             } catch (e) {
-                              console.error("Error writing to sessionStorage:", e);
+                              console.error(
+                                "Error writing to sessionStorage:",
+                                e
+                              );
                             }
-                            
-                            console.log("🔄 Navigating to sign-up with Shopify context:", {
-                              shop,
-                              hasHmac: !!hmac,
-                              hasTimestamp: !!timestamp,
-                              url: signUpUrl.toString(),
-                            });
-                            
+
+                            console.log(
+                              "🔄 Navigating to sign-up with Shopify context:",
+                              {
+                                shop,
+                                hasHmac: !!hmac,
+                                hasTimestamp: !!timestamp,
+                                url: signUpUrl.toString(),
+                              }
+                            );
+
                             router.push(signUpUrl.toString());
                           } else {
                             // If Shopify context is incomplete, still navigate but log warning
-                            console.warn("⚠️ Incomplete Shopify context when navigating to sign-up:", {
-                              shop: !!shop,
-                              hmac: !!hmac,
-                              timestamp: !!timestamp,
-                            });
+                            console.warn(
+                              "⚠️ Incomplete Shopify context when navigating to sign-up:",
+                              {
+                                shop: !!shop,
+                                hmac: !!hmac,
+                                timestamp: !!timestamp,
+                              }
+                            );
                             // Navigate without Shopify context (regular sign-up)
                             router.push("/sign-up");
                           }
@@ -255,17 +282,26 @@ export default function SignInPage() {
                   <CardHeader>
                     <CardTitle>Use another method</CardTitle>
                     <CardDescription>
-                      Facing issues? You can use any of these methods to sign in.
+                      Facing issues? You can use any of these methods to sign
+                      in.
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-y-4">
                     <SignIn.SupportedStrategy name="email_code" asChild>
-                      <Button type="button" variant="link" disabled={isGlobalLoading}>
+                      <Button
+                        type="button"
+                        variant="link"
+                        disabled={isGlobalLoading}
+                      >
                         Email code
                       </Button>
                     </SignIn.SupportedStrategy>
                     <SignIn.SupportedStrategy name="password" asChild>
-                      <Button type="button" variant="link" disabled={isGlobalLoading}>
+                      <Button
+                        type="button"
+                        variant="link"
+                        disabled={isGlobalLoading}
+                      >
                         Password
                       </Button>
                     </SignIn.SupportedStrategy>
@@ -356,7 +392,9 @@ export default function SignInPage() {
                     </CardHeader>
                     <CardContent className="grid gap-y-4">
                       <Clerk.Field name="code">
-                        <Clerk.Label className="sr-only">Email verification code</Clerk.Label>
+                        <Clerk.Label className="sr-only">
+                          Email verification code
+                        </Clerk.Label>
                         <div className="grid items-center justify-center gap-y-2">
                           <div className="flex justify-center text-center">
                             <Clerk.Input
@@ -380,10 +418,17 @@ export default function SignInPage() {
                             asChild
                             resend
                             className="text-muted-foreground"
-                            fallback={({ resendableAfter }: { resendableAfter: number }) => (
+                            fallback={({
+                              resendableAfter,
+                            }: {
+                              resendableAfter: number;
+                            }) => (
                               <Button variant="link" size="sm" disabled>
                                 Didn&apos;t receive a code? Resend (
-                                <span className="tabular-nums">{resendableAfter}</span>)
+                                <span className="tabular-nums">
+                                  {resendableAfter}
+                                </span>
+                                )
                               </Button>
                             )}
                           >

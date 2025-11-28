@@ -24,7 +24,11 @@ interface TopCampaignsTableProps {
 type SortField = "name" | "revenue" | "impressions" | "clicks" | "ctr";
 type SortOrder = "asc" | "desc";
 
-export function TopCampaignsTable({ campaigns, title, description }: TopCampaignsTableProps) {
+export function TopCampaignsTable({
+  campaigns,
+  title,
+  description,
+}: TopCampaignsTableProps) {
   const [sortField, setSortField] = useState<SortField>("revenue");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
 
@@ -68,7 +72,9 @@ export function TopCampaignsTable({ campaigns, title, description }: TopCampaign
     }
 
     if (typeof aValue === "string" && typeof bValue === "string") {
-      return sortOrder === "asc" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+      return sortOrder === "asc"
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     }
 
     return sortOrder === "asc"

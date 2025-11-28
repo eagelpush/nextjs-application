@@ -50,7 +50,10 @@ export async function getSubscriberDashboardDataByDateRange(
 
     return dashboardData;
   } catch (error) {
-    console.error("[getSubscriberDashboardDataByDateRange] Error fetching data from database:", error);
+    console.error(
+      "[getSubscriberDashboardDataByDateRange] Error fetching data from database:",
+      error
+    );
 
     // Return empty data structure instead of mock data
     return {
@@ -98,7 +101,10 @@ export async function getSubscriberDashboardData(
 
     return dashboardData;
   } catch (error) {
-    console.error("[getSubscriberDashboardData] Error fetching data from database:", error);
+    console.error(
+      "[getSubscriberDashboardData] Error fetching data from database:",
+      error
+    );
 
     // Return empty data structure instead of mock data
     return {

@@ -16,6 +16,7 @@ export default async function AnalyticsPage() {
     const startDate = subDays(endDate, 30);
     const analyticsData = await getAnalyticsDataByDateRange(startDate, endDate);
 
+    // eslint-disable-next-line react-hooks/error-boundaries
     return <AnalyticsPageClient initialData={analyticsData} />;
   } catch (error) {
     console.error("Error loading analytics:", error);
@@ -24,7 +25,9 @@ export default async function AnalyticsPage() {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <h2 className="mb-2 text-lg font-semibold">Failed to Load Analytics</h2>
+          <h2 className="mb-2 text-lg font-semibold">
+            Failed to Load Analytics
+          </h2>
           <p className="text-muted-foreground text-sm">
             Please refresh the page or contact support if the problem persists.
           </p>

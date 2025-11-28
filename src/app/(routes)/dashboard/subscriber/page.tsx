@@ -8,12 +8,16 @@ export const dynamic = "force-dynamic";
 // Server component that fetches data and renders the client component
 export default async function SubscriberPage() {
   try {
-  // Fetch data on the server for optimal performance (default: last 30 days)
-  const endDate = new Date();
-  const startDate = subDays(endDate, 30);
-  const dashboardData = await getSubscriberDashboardDataByDateRange(startDate, endDate);
+    // Fetch data on the server for optimal performance (default: last 30 days)
+    const endDate = new Date();
+    const startDate = subDays(endDate, 30);
+    const dashboardData = await getSubscriberDashboardDataByDateRange(
+      startDate,
+      endDate
+    );
 
-  return <SubscriberPageClient initialData={dashboardData} />;
+    // eslint-disable-next-line react-hooks/error-boundaries
+    return <SubscriberPageClient initialData={dashboardData} />;
   } catch (error) {
     console.error("Error loading subscriber dashboard:", error);
 

@@ -43,7 +43,9 @@ export function SupportForm() {
     setIsLoading(true);
     try {
       await axios.post("/api/dashboard/settings/support", data);
-      toast.success("Message sent successfully! We&apos;ll get back to you soon.");
+      toast.success(
+        "Message sent successfully! We&apos;ll get back to you soon."
+      );
       form.reset();
     } catch {
       toast.error("Failed to send message. Please try again later.");
@@ -96,7 +98,11 @@ export function SupportForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="john@example.com" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="john@example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -110,7 +116,11 @@ export function SupportForm() {
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
+                  <Input
+                    type="tel"
+                    placeholder="+1 (555) 123-4567"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

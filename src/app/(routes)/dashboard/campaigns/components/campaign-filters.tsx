@@ -1,8 +1,13 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -48,10 +53,16 @@ export function CampaignFilters({
           <Filter className="h-5 w-5" aria-hidden="true" />
           Filters
         </CardTitle>
-        <CardDescription>Filter campaigns by date range, category, and segment</CardDescription>
+        <CardDescription>
+          Filter campaigns by date range, category, and segment
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col gap-4 md:flex-row" role="group" aria-label="Campaign filters">
+        <div
+          className="flex flex-col gap-4 md:flex-row"
+          role="group"
+          aria-label="Campaign filters"
+        >
           {/* Search */}
           <div className="flex-1">
             <label htmlFor="campaign-search" className="sr-only">
@@ -93,7 +104,11 @@ export function CampaignFilters({
             <label htmlFor="category-filter" className="sr-only">
               Filter by category
             </label>
-            <Select value={categoryFilter} onValueChange={onCategoryChange} disabled={isPending}>
+            <Select
+              value={categoryFilter}
+              onValueChange={onCategoryChange}
+              disabled={isPending}
+            >
               <SelectTrigger
                 id="category-filter"
                 className="w-[180px]"
@@ -117,7 +132,11 @@ export function CampaignFilters({
             <label htmlFor="segment-filter" className="sr-only">
               Filter by segment
             </label>
-            <Select value={segmentFilter} onValueChange={onSegmentChange} disabled={isPending}>
+            <Select
+              value={segmentFilter}
+              onValueChange={onSegmentChange}
+              disabled={isPending}
+            >
               <SelectTrigger
                 id="segment-filter"
                 className="w-[180px]"

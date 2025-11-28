@@ -2,19 +2,26 @@
 
 /**
  * ImageUpload Component
- * 
+ *
  * A reusable image upload component using Uploadcare for campaign hero images
  * and company logos. Supports aspect ratio constraints and platform-specific uploads.
- * 
+ *
  * @see https://uploadcare.com/docs/integrations/react/
  */
 
 import { useRef, useState } from "react";
 import { Upload, X, Loader2 } from "lucide-react";
-import { Widget, type WidgetAPI, type FileInfo } from "@uploadcare/react-widget";
+import {
+  Widget,
+  type WidgetAPI,
+  type FileInfo,
+} from "@uploadcare/react-widget";
 
 import { cn } from "@/lib/utils";
-import { UPLOADCARE_PUBLIC_KEY, isUploadcareConfigured } from "@/lib/uploadcare";
+import {
+  UPLOADCARE_PUBLIC_KEY,
+  isUploadcareConfigured,
+} from "@/lib/uploadcare";
 import { OptimizedImage } from "@/components/uploadcare";
 import { Button } from "@/components/ui/button";
 
@@ -42,7 +49,12 @@ export function ImageUpload({
   const widgetRef = useRef<WidgetAPI | null>(null);
 
   // Determine crop ratio based on aspect ratio
-  const cropRatio = aspectRatio === "video" ? "16:9" : aspectRatio === "square" ? "1:1" : undefined;
+  const cropRatio =
+    aspectRatio === "video"
+      ? "16:9"
+      : aspectRatio === "square"
+        ? "1:1"
+        : undefined;
 
   // Handle Uploadcare file upload
   const handleUploadcareChange = (fileInfo: FileInfo | null) => {
@@ -53,7 +65,9 @@ export function ImageUpload({
 
     // Check file size if provided
     if (fileInfo.size && fileInfo.size > maxFileSize) {
-      setUploadError(`File size exceeds ${Math.round(maxFileSize / 1024 / 1024)}MB limit`);
+      setUploadError(
+        `File size exceeds ${Math.round(maxFileSize / 1024 / 1024)}MB limit`
+      );
       setIsUploading(false);
       return;
     }
@@ -76,7 +90,9 @@ export function ImageUpload({
       setUploadError(null);
       widgetRef.current.openDialog();
     } else {
-      setUploadError("Uploadcare is not configured. Please set NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY.");
+      setUploadError(
+        "Uploadcare is not configured. Please set NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY."
+      );
     }
   };
 
@@ -101,9 +117,15 @@ export function ImageUpload({
 
   if (!isUploadcareConfigured()) {
     return (
-      <div className={cn("rounded-lg border-2 border-dashed border-gray-300 p-6 text-center", className)}>
+      <div
+        className={cn(
+          "rounded-lg border-2 border-dashed border-gray-300 p-6 text-center",
+          className
+        )}
+      >
         <p className="text-destructive text-sm">
-          Uploadcare is not configured. Please set NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY.
+          Uploadcare is not configured. Please set
+          NEXT_PUBLIC_UPLOADCARE_PUBLIC_KEY.
         </p>
       </div>
     );
@@ -201,7 +223,8 @@ export function ImageUpload({
                 </p>
                 {aspectRatio !== "auto" && (
                   <p className="text-muted-foreground mt-1 text-xs">
-                    Recommended: {aspectRatio === "video" ? "16:9" : "1:1"} aspect ratio
+                    Recommended: {aspectRatio === "video" ? "16:9" : "1:1"}{" "}
+                    aspect ratio
                   </p>
                 )}
               </>
@@ -219,4 +242,3 @@ export function ImageUpload({
     </div>
   );
 }
-

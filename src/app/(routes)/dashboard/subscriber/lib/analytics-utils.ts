@@ -9,7 +9,9 @@ import type {
 /**
  * Transform PrismaSubscriber to UI Subscriber format
  */
-export function transformPrismaSubscriber(prismaSubscriber: PostgreSQLSubscriber): Subscriber {
+export function transformPrismaSubscriber(
+  prismaSubscriber: PostgreSQLSubscriber
+): Subscriber {
   // Generate display name
   const name =
     prismaSubscriber.firstName && prismaSubscriber.lastName
@@ -60,7 +62,10 @@ function getInitials(
   }
 
   if (firstName) {
-    return firstName.charAt(0).toUpperCase() + (firstName.charAt(1) || "U").toUpperCase();
+    return (
+      firstName.charAt(0).toUpperCase() +
+      (firstName.charAt(1) || "U").toUpperCase()
+    );
   }
 
   if (email && email.includes("@")) {
@@ -80,19 +85,25 @@ function getInitials(
 /**
  * Normalize device type to match UI expectations
  */
-function normalizeDevice(device?: string | null): "Desktop" | "Mobile" | "Tablet" {
+function normalizeDevice(
+  device?: string | null
+): "Desktop" | "Mobile" | "Tablet" {
   if (!device) return "Desktop";
 
   const deviceLower = device.toLowerCase();
-  if (deviceLower.includes("mobile") || deviceLower.includes("phone")) return "Mobile";
-  if (deviceLower.includes("tablet") || deviceLower.includes("ipad")) return "Tablet";
+  if (deviceLower.includes("mobile") || deviceLower.includes("phone"))
+    return "Mobile";
+  if (deviceLower.includes("tablet") || deviceLower.includes("ipad"))
+    return "Tablet";
   return "Desktop";
 }
 
 /**
  * Calculate platform breakdown from PostgreSQL subscribers
  */
-export function calculatePlatformBreakdown(subscribers: PostgreSQLSubscriber[]): PlatformBreakdown {
+export function calculatePlatformBreakdown(
+  subscribers: PostgreSQLSubscriber[]
+): PlatformBreakdown {
   const total = subscribers.length;
 
   // Browser breakdown
@@ -138,7 +149,9 @@ export function calculatePlatformBreakdown(subscribers: PostgreSQLSubscriber[]):
 /**
  * Calculate location breakdown from PostgreSQL subscribers
  */
-export function calculateLocationBreakdown(subscribers: PostgreSQLSubscriber[]): LocationBreakdown {
+export function calculateLocationBreakdown(
+  subscribers: PostgreSQLSubscriber[]
+): LocationBreakdown {
   const total = subscribers.length;
 
   // City breakdown
@@ -193,7 +206,9 @@ export function calculateLocationBreakdown(subscribers: PostgreSQLSubscriber[]):
 /**
  * Calculate growth data from subscribers
  */
-export function calculateGrowthData(subscribers: PostgreSQLSubscriber[]): GrowthDataPoint[] {
+export function calculateGrowthData(
+  subscribers: PostgreSQLSubscriber[]
+): GrowthDataPoint[] {
   // ✅ FIXED: Add data validation and consistent date handling
   const monthlyData = subscribers.reduce(
     (acc, subscriber) => {
@@ -225,7 +240,8 @@ export function calculateGrowthData(subscribers: PostgreSQLSubscriber[]): Growth
 
   return sortedData.map((data, index) => {
     const prevCount = index > 0 ? sortedData[index - 1].count : 0;
-    const growth = prevCount > 0 ? ((data.count - prevCount) / prevCount) * 100 : 0;
+    const growth =
+      prevCount > 0 ? ((data.count - prevCount) / prevCount) * 100 : 0;
 
     return {
       month: data.month,

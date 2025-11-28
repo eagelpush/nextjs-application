@@ -92,7 +92,10 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching pending merchant:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
 
@@ -105,7 +108,10 @@ export async function PATCH(request: NextRequest) {
     const { merchantId, updates } = body;
 
     if (!merchantId) {
-      return NextResponse.json({ error: "merchantId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "merchantId is required" },
+        { status: 400 }
+      );
     }
 
     // Only allow updating specific fields for security
@@ -113,10 +119,14 @@ export async function PATCH(request: NextRequest) {
     const allowedUpdates: any = {};
     if (updates.firstName) allowedUpdates.firstName = updates.firstName;
     if (updates.lastName) allowedUpdates.lastName = updates.lastName;
-    if (updates.storeImageUrl) allowedUpdates.storeImageUrl = updates.storeImageUrl;
+    if (updates.storeImageUrl)
+      allowedUpdates.storeImageUrl = updates.storeImageUrl;
 
     if (Object.keys(allowedUpdates).length === 0) {
-      return NextResponse.json({ error: "No valid updates provided" }, { status: 400 });
+      return NextResponse.json(
+        { error: "No valid updates provided" },
+        { status: 400 }
+      );
     }
 
     const updatedMerchant = await prisma.merchant.update({
@@ -146,6 +156,9 @@ export async function PATCH(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error updating pending merchant:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }

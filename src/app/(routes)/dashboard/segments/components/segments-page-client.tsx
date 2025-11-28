@@ -26,8 +26,11 @@ interface SegmentsPageClientProps {
 export function SegmentsPageClient({ initialData }: SegmentsPageClientProps) {
   const router = useRouter();
   const [segments, setSegments] = useState<Segment[]>(initialData.segments);
-  const [attributes, setAttributes] = useState<CustomAttribute[]>(initialData.attributes);
-  const [isAddAttributeDialogOpen, setIsAddAttributeDialogOpen] = useState(false);
+  const [attributes, setAttributes] = useState<CustomAttribute[]>(
+    initialData.attributes
+  );
+  const [isAddAttributeDialogOpen, setIsAddAttributeDialogOpen] =
+    useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleImportCSV = () => {
@@ -81,7 +84,9 @@ export function SegmentsPageClient({ initialData }: SegmentsPageClientProps) {
     setIsLoading(true);
     try {
       const updatedSegment = await toggleSegmentStatus(segmentId);
-      setSegments((prev) => prev.map((s) => (s.id === segmentId ? updatedSegment : s)));
+      setSegments((prev) =>
+        prev.map((s) => (s.id === segmentId ? updatedSegment : s))
+      );
       toast.success(
         `Segment ${updatedSegment.isActive ? "activated" : "deactivated"} successfully!`
       );

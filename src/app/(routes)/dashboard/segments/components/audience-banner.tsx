@@ -2,7 +2,14 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus, BookOpen, Users, Target, TrendingUp, ListIcon } from "lucide-react";
+import {
+  Plus,
+  BookOpen,
+  Users,
+  Target,
+  TrendingUp,
+  ListIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 interface AudienceBannerProps {
@@ -17,11 +24,13 @@ export function AudienceBanner({ onReadDocs }: AudienceBannerProps) {
           {/* Left Content */}
           <div className="flex-1 space-y-4">
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold tracking-tight">Build your Audience</h2>
+              <h2 className="text-2xl font-bold tracking-tight">
+                Build your Audience
+              </h2>
               <p className="text-muted-foreground max-w-2xl text-lg">
-                Create targeted segments to reach the right customers with personalized campaigns.
-                Segment by behavior, demographics, or custom attributes to maximize engagement and
-                conversion rates.
+                Create targeted segments to reach the right customers with
+                personalized campaigns. Segment by behavior, demographics, or
+                custom attributes to maximize engagement and conversion rates.
               </p>
             </div>
 

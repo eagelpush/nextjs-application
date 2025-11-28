@@ -4,10 +4,10 @@ import { auth } from "@clerk/nextjs/server";
 
 /**
  * Complete Shopify OAuth Flow
- * 
+ *
  * This route is called after Clerk sign-up/sign-in.
  * It initiates the Shopify OAuth flow by redirecting to Shopify's authorization URL.
- * 
+ *
  * Flow:
  * 1. Verify user is authenticated with Clerk
  * 2. Get shop from cookie (set during install)
@@ -16,6 +16,7 @@ import { auth } from "@clerk/nextjs/server";
  */
 
 const SHOPIFY_CLIENT_ID = process.env.SHOPIFY_CLIENT_ID!;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const SHOPIFY_CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET!;
 const APP_BASE_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 const SHOPIFY_SCOPES = process.env.SHOPIFY_SCOPES || "write_products";
@@ -33,7 +34,10 @@ export async function GET(request: NextRequest) {
     if (!userId) {
       // User not authenticated, redirect to sign-in
       const signInUrl = new URL("/sign-in", APP_BASE_URL);
-      signInUrl.searchParams.set("callbackUrl", "/api/auth/complete-shopify-oauth");
+      signInUrl.searchParams.set(
+        "callbackUrl",
+        "/api/auth/complete-shopify-oauth"
+      );
       return NextResponse.redirect(signInUrl.toString(), 302);
     }
 
@@ -99,4 +103,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

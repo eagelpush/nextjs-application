@@ -44,7 +44,8 @@ export interface CampaignStep2FormData {
 }
 
 // Complete campaign data (for review)
-export type CompleteCampaignData = CampaignStep1FormData & CampaignStep2FormData;
+export type CompleteCampaignData = CampaignStep1FormData &
+  CampaignStep2FormData;
 
 // Device types for preview
 export type DeviceType = "windows" | "mac" | "ios" | "android";

@@ -38,7 +38,10 @@ export async function GET(request: NextRequest) {
     // 1) Validate state cookie (CSRF)
     const cookieState = request.cookies.get("shopify_oauth_state")?.value;
     if (!state || !cookieState || state !== cookieState) {
-      return NextResponse.json({ error: "Invalid state parameter" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid state parameter" },
+        { status: 400 }
+      );
     }
 
     // 2) Verify HMAC of incoming query (exclude hmac itself)
@@ -53,12 +56,18 @@ export async function GET(request: NextRequest) {
       .digest("hex");
 
     if (generatedHmac !== receivedHmac) {
-      return NextResponse.json({ error: "HMAC validation failed" }, { status: 401 });
+      return NextResponse.json(
+        { error: "HMAC validation failed" },
+        { status: 401 }
+      );
     }
 
     // 3) Basic shop domain validation
     if (!shop || !isValidShopDomain(shop)) {
-      return NextResponse.json({ error: "Invalid shop domain" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid shop domain" },
+        { status: 400 }
+      );
     }
 
     // 4) Exchange temporary code for permanent access token
@@ -75,7 +84,10 @@ export async function GET(request: NextRequest) {
     if (!tokenRes.ok) {
       const errorText = await tokenRes.text();
       console.error("Token request failed:", tokenRes.status, errorText);
-      return NextResponse.json({ error: "Failed to get access token" }, { status: 401 });
+      return NextResponse.json(
+        { error: "Failed to get access token" },
+        { status: 401 }
+      );
     }
 
     const tokenData = await tokenRes.json();
@@ -111,18 +123,26 @@ export async function GET(request: NextRequest) {
       `,
     };
 
-    const storeRes = await fetch(`https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Access-Token": access_token,
-      },
-      body: JSON.stringify(graphqlQuery),
-    });
+    const storeRes = await fetch(
+      `https://${shop}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Access-Token": access_token,
+        },
+        body: JSON.stringify(graphqlQuery),
+      }
+    );
 
     if (!storeRes.ok) {
       const errorText = await storeRes.text();
-      console.error("GraphQL request failed:", storeRes.status, storeRes.statusText, errorText);
+      console.error(
+        "GraphQL request failed:",
+        storeRes.status,
+        storeRes.statusText,
+        errorText
+      );
       throw new Error(`GraphQL fetch failed: ${errorText}`);
     }
 
@@ -153,13 +173,19 @@ export async function GET(request: NextRequest) {
         storeName,
         storeSubdomain,
       });
-      return NextResponse.json({ error: "Invalid shop data received" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid shop data received" },
+        { status: 400 }
+      );
     }
 
     // Validate subdomain format
     if (!isValidShopDomain(storeSubdomain)) {
       console.error("Invalid shop domain format:", storeSubdomain);
-      return NextResponse.json({ error: "Invalid shop domain" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid shop domain" },
+        { status: 400 }
+      );
     }
 
     const fullEmail = associated_user?.email || "";
@@ -183,22 +209,23 @@ export async function GET(request: NextRequest) {
       const { userId } = await auth();
       clerkUserId = userId;
       console.log("🔐 Authenticated Clerk user found:", { clerkUserId });
-      
+
       // Fetch Clerk user details to get their email (not Shopify email)
       if (clerkUserId) {
         try {
           // clerkClient is a function, need to call it first
           const client = await clerkClient();
           const clerkUser = await client.users.getUser(clerkUserId);
-          clerkUserEmail = clerkUser.emailAddresses.find(
-            (email) => email.id === clerkUser.primaryEmailAddressId
-          )?.emailAddress || null;
+          clerkUserEmail =
+            clerkUser.emailAddresses.find(
+              (email) => email.id === clerkUser.primaryEmailAddressId
+            )?.emailAddress || null;
           clerkFirstName = clerkUser.firstName || null;
           clerkLastName = clerkUser.lastName || null;
-          console.log("📧 Clerk user email retrieved:", { 
-            clerkUserEmail, 
-            clerkFirstName, 
-            clerkLastName 
+          console.log("📧 Clerk user email retrieved:", {
+            clerkUserEmail,
+            clerkFirstName,
+            clerkLastName,
           });
         } catch (clerkError) {
           console.warn("⚠️ Failed to fetch Clerk user details:", clerkError);
@@ -207,7 +234,9 @@ export async function GET(request: NextRequest) {
       }
     } catch {
       // User might not be authenticated yet (OAuth callback happens before full auth)
-      console.log("ℹ️ No authenticated Clerk user (this is normal for OAuth callback)");
+      console.log(
+        "ℹ️ No authenticated Clerk user (this is normal for OAuth callback)"
+      );
     }
 
     let existing = null;
@@ -244,10 +273,7 @@ export async function GET(request: NextRequest) {
     if (!existing && fullEmail) {
       existing = await db.merchant.findFirst({
         where: {
-          OR: [
-            { email: fullEmail },
-            { shopifyUserEmail: fullEmail },
-          ],
+          OR: [{ email: fullEmail }, { shopifyUserEmail: fullEmail }],
         },
         include: { userSettings: true },
         orderBy: { createdAt: "desc" }, // Get most recent if multiple
@@ -288,7 +314,7 @@ export async function GET(request: NextRequest) {
     if (existing) {
       // Check if this is a temporary merchant (needs Clerk linking)
       const isTemporary = existing.clerkId.startsWith("temp-");
-      
+
       if (isTemporary) {
         // Temporary merchant: check if we have an authenticated Clerk user to link it
         if (clerkUserId) {
@@ -319,27 +345,33 @@ export async function GET(request: NextRequest) {
             storeUrl: storeUrl,
             subdomain: storeSubdomain,
           };
-          
+
           // Use Clerk email (from sign-up) instead of Shopify email
           if (clerkUserEmail) {
             updateData.email = clerkUserEmail;
-            console.log("📧 Updating temporary merchant email to Clerk email:", clerkUserEmail);
+            console.log(
+              "📧 Updating temporary merchant email to Clerk email:",
+              clerkUserEmail
+            );
           }
           // Update name from Clerk if available
           if (clerkFirstName) updateData.firstName = clerkFirstName;
           if (clerkLastName) updateData.lastName = clerkLastName;
-          
+
           const updatedMerchant = await db.merchant.update({
             where: { id: existing.id },
             data: updateData,
           });
 
-          console.log("✅ Linked temporary merchant to authenticated Clerk user:", {
-            merchantId: updatedMerchant.id,
-            clerkId: updatedMerchant.clerkId,
-            storeName: updatedMerchant.storeName,
-            subdomain: updatedMerchant.subdomain,
-          });
+          console.log(
+            "✅ Linked temporary merchant to authenticated Clerk user:",
+            {
+              merchantId: updatedMerchant.id,
+              clerkId: updatedMerchant.clerkId,
+              storeName: updatedMerchant.storeName,
+              subdomain: updatedMerchant.subdomain,
+            }
+          );
 
           // Redirect to dashboard since user is authenticated
           const redirectUrl = new URL(`${NEXT_PUBLIC_APP_URL}/dashboard`);
@@ -364,12 +396,15 @@ export async function GET(request: NextRequest) {
             },
           });
 
-          console.log("🔄 Updated temporary merchant with access token (awaiting Clerk link):", {
-            merchantId: updatedMerchant.id,
-            tempClerkId: updatedMerchant.clerkId,
-            storeName: updatedMerchant.storeName,
-            subdomain: updatedMerchant.subdomain,
-          });
+          console.log(
+            "🔄 Updated temporary merchant with access token (awaiting Clerk link):",
+            {
+              merchantId: updatedMerchant.id,
+              tempClerkId: updatedMerchant.clerkId,
+              storeName: updatedMerchant.storeName,
+              subdomain: updatedMerchant.subdomain,
+            }
+          );
 
           // Redirect to sign-up page (user needs to sign up to link the merchant)
           const signUpUrl = new URL(NEXT_PUBLIC_APP_URL);
@@ -410,16 +445,22 @@ export async function GET(request: NextRequest) {
 
         // If authenticated user exists and has different clerkId, update it
         if (clerkUserId && existing.clerkId !== clerkUserId) {
-          console.log("🔄 Updating merchant clerkId to match authenticated user:", {
-            oldClerkId: existing.clerkId,
-            newClerkId: clerkUserId,
-            merchantId: existing.id,
-          });
+          console.log(
+            "🔄 Updating merchant clerkId to match authenticated user:",
+            {
+              oldClerkId: existing.clerkId,
+              newClerkId: clerkUserId,
+              merchantId: existing.id,
+            }
+          );
           updateData.clerkId = clerkUserId;
           // Use Clerk email (from sign-up) instead of Shopify email
           if (clerkUserEmail) {
             updateData.email = clerkUserEmail;
-            console.log("📧 Updating merchant email to Clerk email:", clerkUserEmail);
+            console.log(
+              "📧 Updating merchant email to Clerk email:",
+              clerkUserEmail
+            );
           } else if (fullEmail) {
             // Fallback to Shopify email if Clerk email not available
             updateData.email = fullEmail;
@@ -431,7 +472,10 @@ export async function GET(request: NextRequest) {
         } else if (clerkUserEmail && existing.email !== clerkUserEmail) {
           // Even if clerkId matches, update email if it differs (user might have changed email in Clerk)
           updateData.email = clerkUserEmail;
-          console.log("📧 Updating merchant email to match Clerk email:", clerkUserEmail);
+          console.log(
+            "📧 Updating merchant email to match Clerk email:",
+            clerkUserEmail
+          );
         }
 
         const updatedMerchant = await db.merchant.update({
@@ -462,13 +506,18 @@ export async function GET(request: NextRequest) {
     // No existing merchant found - create a new one
     // If user is authenticated, link it immediately; otherwise create temporary merchant
     const isAuthenticated = !!clerkUserId;
-    const merchantClerkId = isAuthenticated ? clerkUserId! : `temp-${crypto.randomBytes(16).toString("hex")}`;
+    const merchantClerkId = isAuthenticated
+      ? clerkUserId!
+      : `temp-${crypto.randomBytes(16).toString("hex")}`;
     // Use Clerk email (from sign-up) as primary email, fallback to Shopify email, then temp email
-    const merchantEmail = clerkUserEmail || fullEmail || `temp-${storeSubdomain}@shopify-temp.com`;
+    const merchantEmail =
+      clerkUserEmail || fullEmail || `temp-${storeSubdomain}@shopify-temp.com`;
     // Use Clerk name if available, otherwise use Shopify name
-    const merchantFirstName = clerkFirstName || associated_user?.first_name || null;
-    const merchantLastName = clerkLastName || associated_user?.last_name || null;
-    
+    const merchantFirstName =
+      clerkFirstName || associated_user?.first_name || null;
+    const merchantLastName =
+      clerkLastName || associated_user?.last_name || null;
+
     console.log("📝 Creating merchant with:", {
       email: merchantEmail,
       emailSource: clerkUserEmail ? "Clerk" : fullEmail ? "Shopify" : "temp",
@@ -517,14 +566,17 @@ export async function GET(request: NextRequest) {
     });
 
     if (isAuthenticated) {
-      console.log("✅ Created new merchant and linked to authenticated Clerk user:", {
-        merchantId: newMerchant.id,
-        clerkId: newMerchant.clerkId,
-        storeName: newMerchant.storeName,
-        subdomain: newMerchant.subdomain,
-        hasAccessToken: !!newMerchant.accessToken,
-        isShopifyConnected: newMerchant.isShopifyConnected,
-      });
+      console.log(
+        "✅ Created new merchant and linked to authenticated Clerk user:",
+        {
+          merchantId: newMerchant.id,
+          clerkId: newMerchant.clerkId,
+          storeName: newMerchant.storeName,
+          subdomain: newMerchant.subdomain,
+          hasAccessToken: !!newMerchant.accessToken,
+          isShopifyConnected: newMerchant.isShopifyConnected,
+        }
+      );
 
       // User is authenticated - redirect to dashboard
       const redirectUrl = new URL(`${NEXT_PUBLIC_APP_URL}/dashboard`);

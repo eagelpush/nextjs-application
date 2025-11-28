@@ -7,7 +7,11 @@ interface CampaignTabsProps {
   children: React.ReactNode;
 }
 
-export function CampaignTabs({ activeTab, onTabChange, children }: CampaignTabsProps) {
+export function CampaignTabs({
+  activeTab,
+  onTabChange,
+  children,
+}: CampaignTabsProps) {
   const tabs = [
     {
       value: "all",
@@ -37,7 +41,11 @@ export function CampaignTabs({ activeTab, onTabChange, children }: CampaignTabsP
         {tabs.map((tab) => {
           const IconComponent = tab.icon;
           return (
-            <TabsTrigger key={tab.value} value={tab.value} className="flex items-center gap-2">
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className="flex items-center gap-2"
+            >
               <IconComponent className="h-4 w-4" />
               {tab.label}
             </TabsTrigger>

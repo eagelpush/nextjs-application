@@ -18,7 +18,13 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -32,7 +38,9 @@ import type { OptInAnalyticsSummary } from "@/types/opt-in";
 
 export default function OptInAnalyticsPage() {
   const [isLoading, setIsLoading] = useState(true);
-  const [analytics, setAnalytics] = useState<OptInAnalyticsSummary | null>(null);
+  const [analytics, setAnalytics] = useState<OptInAnalyticsSummary | null>(
+    null
+  );
   const [days, setDays] = useState("30");
 
   useEffect(() => {
@@ -92,7 +100,10 @@ export default function OptInAnalyticsPage() {
               <div className="bg-muted h-10 w-full animate-pulse rounded" />
               <div className="grid gap-4 md:grid-cols-2">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="bg-muted h-32 animate-pulse rounded" />
+                  <div
+                    key={i}
+                    className="bg-muted h-32 animate-pulse rounded"
+                  />
                 ))}
               </div>
             </div>
@@ -112,7 +123,9 @@ export default function OptInAnalyticsPage() {
               <div className="bg-primary/10 rounded-lg p-2">
                 <TrendingUp className="text-primary h-6 w-6" />
               </div>
-              <h1 className="text-3xl font-bold tracking-tight">Opt-in Analytics</h1>
+              <h1 className="text-3xl font-bold tracking-tight">
+                Opt-in Analytics
+              </h1>
             </div>
           </div>
         </div>
@@ -126,9 +139,12 @@ export default function OptInAnalyticsPage() {
                     <TrendingUp className="text-primary h-12 w-12" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl">No Analytics Available</CardTitle>
+                <CardTitle className="text-2xl">
+                  No Analytics Available
+                </CardTitle>
                 <CardDescription className="text-base">
-                  Configure your opt-in settings to start collecting analytics data
+                  Configure your opt-in settings to start collecting analytics
+                  data
                 </CardDescription>
               </CardHeader>
               <CardContent className="text-center">
@@ -158,10 +174,13 @@ export default function OptInAnalyticsPage() {
                 <div className="bg-primary/10 rounded-lg p-2">
                   <TrendingUp className="text-primary h-6 w-6" />
                 </div>
-                <h1 className="text-3xl font-bold tracking-tight">Opt-in Analytics</h1>
+                <h1 className="text-3xl font-bold tracking-tight">
+                  Opt-in Analytics
+                </h1>
               </div>
               <p className="text-muted-foreground">
-                Track performance of your opt-in features and optimize conversion rates
+                Track performance of your opt-in features and optimize
+                conversion rates
               </p>
             </div>
             <Select value={days} onValueChange={setDays}>
@@ -184,13 +203,17 @@ export default function OptInAnalyticsPage() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card className="transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Overall Opt-in Rate</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Overall Opt-in Rate
+              </CardTitle>
               <div className="bg-chart-3/10 rounded-lg p-2">
                 <TrendingUp className="text-chart-3 h-4 w-4" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{analytics.overallOptInRate.toFixed(1)}%</div>
+              <div className="text-3xl font-bold">
+                {analytics.overallOptInRate.toFixed(1)}%
+              </div>
               <p className="text-muted-foreground mt-1 text-xs">
                 {analytics.totalSubscribers} of {analytics.totalViews} views
               </p>
@@ -205,14 +228,20 @@ export default function OptInAnalyticsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">{analytics.totalViews.toLocaleString()}</div>
-              <p className="text-muted-foreground mt-1 text-xs">Prompt impressions</p>
+              <div className="text-3xl font-bold">
+                {analytics.totalViews.toLocaleString()}
+              </div>
+              <p className="text-muted-foreground mt-1 text-xs">
+                Prompt impressions
+              </p>
             </CardContent>
           </Card>
 
           <Card className="transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Subscribers</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Subscribers
+              </CardTitle>
               <div className="bg-chart-2/10 rounded-lg p-2">
                 <Users className="text-chart-2 h-4 w-4" />
               </div>
@@ -221,13 +250,17 @@ export default function OptInAnalyticsPage() {
               <div className="text-3xl font-bold">
                 {analytics.totalSubscribers.toLocaleString()}
               </div>
-              <p className="text-muted-foreground mt-1 text-xs">New subscribers</p>
+              <p className="text-muted-foreground mt-1 text-xs">
+                New subscribers
+              </p>
             </CardContent>
           </Card>
 
           <Card className="transition-shadow hover:shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Best Performer</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Best Performer
+              </CardTitle>
               <div className="bg-primary/10 rounded-lg p-2">
                 <MessageSquare className="text-primary h-4 w-4" />
               </div>
@@ -236,7 +269,10 @@ export default function OptInAnalyticsPage() {
               {(() => {
                 const rates = [
                   { name: "Custom Prompt", rate: analytics.customPrompt.rate },
-                  { name: "Browser Prompt", rate: analytics.browserPrompt.rate },
+                  {
+                    name: "Browser Prompt",
+                    rate: analytics.browserPrompt.rate,
+                  },
                   { name: "Flyout", rate: analytics.flyout.rate },
                   { name: "Exit Intent", rate: analytics.exitIntent.rate },
                 ];
@@ -282,13 +318,17 @@ export default function OptInAnalyticsPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Accepts</span>
+                    <span className="text-muted-foreground text-sm">
+                      Accepts
+                    </span>
                     <span className="font-semibold">
                       {analytics.customPrompt.accepts.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Acceptance Rate</span>
+                    <span className="text-muted-foreground text-sm">
+                      Acceptance Rate
+                    </span>
                     <span className="text-primary text-lg font-bold">
                       {analytics.customPrompt.rate.toFixed(1)}%
                     </span>
@@ -311,13 +351,17 @@ export default function OptInAnalyticsPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Accepts</span>
+                    <span className="text-muted-foreground text-sm">
+                      Accepts
+                    </span>
                     <span className="font-semibold">
                       {analytics.browserPrompt.accepts.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Acceptance Rate</span>
+                    <span className="text-muted-foreground text-sm">
+                      Acceptance Rate
+                    </span>
                     <span className="text-primary text-lg font-bold">
                       {analytics.browserPrompt.rate.toFixed(1)}%
                     </span>
@@ -335,16 +379,22 @@ export default function OptInAnalyticsPage() {
                 <CardContent className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground text-sm">Views</span>
-                    <span className="font-semibold">{analytics.flyout.views.toLocaleString()}</span>
+                    <span className="font-semibold">
+                      {analytics.flyout.views.toLocaleString()}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Subscriptions</span>
+                    <span className="text-muted-foreground text-sm">
+                      Subscriptions
+                    </span>
                     <span className="font-semibold">
                       {analytics.flyout.subscriptions.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Conversion Rate</span>
+                    <span className="text-muted-foreground text-sm">
+                      Conversion Rate
+                    </span>
                     <span className="text-primary text-lg font-bold">
                       {analytics.flyout.rate.toFixed(1)}%
                     </span>
@@ -367,13 +417,17 @@ export default function OptInAnalyticsPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Subscriptions</span>
+                    <span className="text-muted-foreground text-sm">
+                      Subscriptions
+                    </span>
                     <span className="font-semibold">
                       {analytics.exitIntent.subscriptions.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground text-sm">Conversion Rate</span>
+                    <span className="text-muted-foreground text-sm">
+                      Conversion Rate
+                    </span>
                     <span className="text-primary text-lg font-bold">
                       {analytics.exitIntent.rate.toFixed(1)}%
                     </span>
@@ -396,19 +450,25 @@ export default function OptInAnalyticsPage() {
                 <div className="space-y-6">
                   <div className="grid gap-4 md:grid-cols-3">
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Total Views</p>
+                      <p className="text-muted-foreground text-sm">
+                        Total Views
+                      </p>
                       <p className="text-3xl font-bold">
                         {analytics.customPrompt.views.toLocaleString()}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Total Accepts</p>
+                      <p className="text-muted-foreground text-sm">
+                        Total Accepts
+                      </p>
                       <p className="text-3xl font-bold">
                         {analytics.customPrompt.accepts.toLocaleString()}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Acceptance Rate</p>
+                      <p className="text-muted-foreground text-sm">
+                        Acceptance Rate
+                      </p>
                       <p className="text-primary text-3xl font-bold">
                         {analytics.customPrompt.rate.toFixed(1)}%
                       </p>
@@ -417,7 +477,8 @@ export default function OptInAnalyticsPage() {
 
                   <div className="bg-muted/50 rounded-lg border p-4">
                     <p className="text-sm">
-                      <strong>Industry Benchmark:</strong> 40-60% acceptance rate
+                      <strong>Industry Benchmark:</strong> 40-60% acceptance
+                      rate
                     </p>
                     <p className="text-muted-foreground mt-2 text-sm">
                       {analytics.customPrompt.rate >= 40
@@ -443,19 +504,25 @@ export default function OptInAnalyticsPage() {
                 <div className="space-y-6">
                   <div className="grid gap-4 md:grid-cols-3">
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Total Views</p>
+                      <p className="text-muted-foreground text-sm">
+                        Total Views
+                      </p>
                       <p className="text-3xl font-bold">
                         {analytics.flyout.views.toLocaleString()}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Subscriptions</p>
+                      <p className="text-muted-foreground text-sm">
+                        Subscriptions
+                      </p>
                       <p className="text-3xl font-bold">
                         {analytics.flyout.subscriptions.toLocaleString()}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Conversion Rate</p>
+                      <p className="text-muted-foreground text-sm">
+                        Conversion Rate
+                      </p>
                       <p className="text-primary text-3xl font-bold">
                         {analytics.flyout.rate.toFixed(1)}%
                       </p>
@@ -467,7 +534,8 @@ export default function OptInAnalyticsPage() {
                       <strong>Recovery Rate:</strong>{" "}
                       {analytics.totalSubscribers > 0
                         ? (
-                            (analytics.flyout.subscriptions / analytics.totalSubscribers) *
+                            (analytics.flyout.subscriptions /
+                              analytics.totalSubscribers) *
                             100
                           ).toFixed(1)
                         : 0}
@@ -484,25 +552,33 @@ export default function OptInAnalyticsPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Exit Intent Performance</CardTitle>
-                <CardDescription>Last-chance prompts when users try to leave</CardDescription>
+                <CardDescription>
+                  Last-chance prompts when users try to leave
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-6">
                   <div className="grid gap-4 md:grid-cols-3">
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Total Views</p>
+                      <p className="text-muted-foreground text-sm">
+                        Total Views
+                      </p>
                       <p className="text-3xl font-bold">
                         {analytics.exitIntent.views.toLocaleString()}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Subscriptions</p>
+                      <p className="text-muted-foreground text-sm">
+                        Subscriptions
+                      </p>
                       <p className="text-3xl font-bold">
                         {analytics.exitIntent.subscriptions.toLocaleString()}
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-muted-foreground text-sm">Conversion Rate</p>
+                      <p className="text-muted-foreground text-sm">
+                        Conversion Rate
+                      </p>
                       <p className="text-primary text-3xl font-bold">
                         {analytics.exitIntent.rate.toFixed(1)}%
                       </p>
@@ -514,7 +590,8 @@ export default function OptInAnalyticsPage() {
                       <strong>Abandonment Recovery:</strong>{" "}
                       {analytics.totalSubscribers > 0
                         ? (
-                            (analytics.exitIntent.subscriptions / analytics.totalSubscribers) *
+                            (analytics.exitIntent.subscriptions /
+                              analytics.totalSubscribers) *
                             100
                           ).toFixed(1)
                         : 0}
@@ -540,10 +617,12 @@ export default function OptInAnalyticsPage() {
                 {analytics.averageTimeToOptIn !== null && (
                   <div className="space-y-2">
                     <h4 className="font-semibold">⏱️ Average Time to Opt-in</h4>
-                    <p className="text-2xl font-bold">{analytics.averageTimeToOptIn}s</p>
+                    <p className="text-2xl font-bold">
+                      {analytics.averageTimeToOptIn}s
+                    </p>
                     <p className="text-muted-foreground text-sm">
-                      Users typically subscribe after {analytics.averageTimeToOptIn} seconds on your
-                      site
+                      Users typically subscribe after{" "}
+                      {analytics.averageTimeToOptIn} seconds on your site
                     </p>
                   </div>
                 )}
@@ -552,10 +631,12 @@ export default function OptInAnalyticsPage() {
                 {analytics.averageScrollToOptIn !== null && (
                   <div className="space-y-2">
                     <h4 className="font-semibold">📜 Average Scroll Depth</h4>
-                    <p className="text-2xl font-bold">{analytics.averageScrollToOptIn}%</p>
+                    <p className="text-2xl font-bold">
+                      {analytics.averageScrollToOptIn}%
+                    </p>
                     <p className="text-muted-foreground text-sm">
-                      Users typically scroll {analytics.averageScrollToOptIn}% of the page before
-                      subscribing
+                      Users typically scroll {analytics.averageScrollToOptIn}%
+                      of the page before subscribing
                     </p>
                   </div>
                 )}
@@ -567,15 +648,21 @@ export default function OptInAnalyticsPage() {
                     <div className="grid gap-4 md:grid-cols-3">
                       <div className="rounded-lg border p-4">
                         <p className="text-muted-foreground text-sm">Desktop</p>
-                        <p className="text-2xl font-bold">{analytics.deviceBreakdown.desktop}</p>
+                        <p className="text-2xl font-bold">
+                          {analytics.deviceBreakdown.desktop}
+                        </p>
                       </div>
                       <div className="rounded-lg border p-4">
                         <p className="text-muted-foreground text-sm">Mobile</p>
-                        <p className="text-2xl font-bold">{analytics.deviceBreakdown.mobile}</p>
+                        <p className="text-2xl font-bold">
+                          {analytics.deviceBreakdown.mobile}
+                        </p>
                       </div>
                       <div className="rounded-lg border p-4">
                         <p className="text-muted-foreground text-sm">Tablet</p>
-                        <p className="text-2xl font-bold">{analytics.deviceBreakdown.tablet}</p>
+                        <p className="text-2xl font-bold">
+                          {analytics.deviceBreakdown.tablet}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -587,24 +674,28 @@ export default function OptInAnalyticsPage() {
                   <ul className="text-muted-foreground space-y-2 text-sm">
                     {analytics.customPrompt.rate < 40 && (
                       <li>
-                        • Your custom prompt acceptance rate is below average. Try adding specific
-                        benefits or offering an incentive.
+                        • Your custom prompt acceptance rate is below average.
+                        Try adding specific benefits or offering an incentive.
                       </li>
                     )}
-                    {analytics.flyout.rate < 5 && analytics.flyout.views > 0 && (
-                      <li>
-                        • Flyout widget conversion is low. Consider changing the position or text to
-                        be more attention-grabbing.
-                      </li>
-                    )}
+                    {analytics.flyout.rate < 5 &&
+                      analytics.flyout.views > 0 && (
+                        <li>
+                          • Flyout widget conversion is low. Consider changing
+                          the position or text to be more attention-grabbing.
+                        </li>
+                      )}
                     {analytics.exitIntent.views === 0 && (
                       <li>
-                        • Exit intent is not triggering. Check your minimum time on site settings or
-                        enable the feature.
+                        • Exit intent is not triggering. Check your minimum time
+                        on site settings or enable the feature.
                       </li>
                     )}
                     {analytics.overallOptInRate > 30 && (
-                      <li>✅ Excellent! Your opt-in rate is significantly above average.</li>
+                      <li>
+                        ✅ Excellent! Your opt-in rate is significantly above
+                        average.
+                      </li>
                     )}
                   </ul>
                 </div>

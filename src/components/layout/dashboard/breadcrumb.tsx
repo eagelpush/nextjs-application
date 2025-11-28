@@ -70,7 +70,9 @@ export function DashboardBreadcrumb() {
             <Fragment key={item.href}>
               <BreadcrumbItem>
                 {isLast ? (
-                  <BreadcrumbPage className="font-medium">{item.label}</BreadcrumbPage>
+                  <BreadcrumbPage className="font-medium">
+                    {item.label}
+                  </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
                     <Link

@@ -13,7 +13,12 @@ export interface OptInSettings {
   customPromptCancelText: string;
   customPromptImage?: string;
   customPromptPrimaryColor: string;
-  customPromptPosition: "center" | "bottom-right" | "top-right" | "bottom-left" | "top-left";
+  customPromptPosition:
+    | "center"
+    | "bottom-right"
+    | "top-right"
+    | "bottom-left"
+    | "top-left";
   flyoutEnabled: boolean;
   flyoutPosition: "bottom-right" | "bottom-left" | "top-right" | "top-left";
   flyoutText: string;
@@ -50,7 +55,12 @@ export interface UpdateOptInSettingsInput {
   customPromptCancelText?: string;
   customPromptImage?: string;
   customPromptPrimaryColor?: string;
-  customPromptPosition?: "center" | "bottom-right" | "top-right" | "bottom-left" | "top-left";
+  customPromptPosition?:
+    | "center"
+    | "bottom-right"
+    | "top-right"
+    | "bottom-left"
+    | "top-left";
   flyoutEnabled?: boolean;
   flyoutPosition?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
   flyoutText?: string;
@@ -72,4 +82,3 @@ export interface UpdateOptInSettingsInput {
   includeUrls?: string[];
   excludeUrls?: string[];
 }
-

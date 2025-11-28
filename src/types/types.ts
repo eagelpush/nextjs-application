@@ -29,7 +29,14 @@ export interface CampaignSummary {
   id: string;
   title: string;
   type: "REGULAR" | "FLASH_SALE";
-  status: "DRAFT" | "SCHEDULED" | "SENDING" | "SENT" | "PAUSED" | "CANCELLED" | "FAILED";
+  status:
+    | "DRAFT"
+    | "SCHEDULED"
+    | "SENDING"
+    | "SENT"
+    | "PAUSED"
+    | "CANCELLED"
+    | "FAILED";
   impressions: number;
   clicks: number;
   ctr: number;
@@ -46,7 +53,11 @@ export interface SubscriberGrowth {
 
 export interface ActivityItem {
   id: string;
-  type: "campaign_sent" | "subscriber_joined" | "segment_created" | "campaign_created";
+  type:
+    | "campaign_sent"
+    | "subscriber_joined"
+    | "segment_created"
+    | "campaign_created";
   title: string;
   description: string;
   timestamp: string;

@@ -176,7 +176,10 @@ export class CampaignSenderService {
             icon: logoUrl || "https://cdn.pusheagle.com/icons/icon-192.png",
             badge: logoUrl || "https://cdn.pusheagle.com/icons/badge-72.png",
 
-            image: mappedHeroImages.web || mappedHeroImages.desktop || mappedHeroImages.mobile,
+            image:
+              mappedHeroImages.web ||
+              mappedHeroImages.desktop ||
+              mappedHeroImages.mobile,
 
             requireInteraction: campaign.smartDelivery || false,
             vibrate: campaign.enableVibration ? [200, 100, 200] : undefined,
@@ -242,7 +245,8 @@ export class CampaignSenderService {
 
             if (
               result.error?.code === "messaging/invalid-registration-token" ||
-              result.error?.code === "messaging/registration-token-not-registered"
+              result.error?.code ===
+                "messaging/registration-token-not-registered"
             ) {
               this.markSubscriberInactive(subscriber.id).catch((err) =>
                 console.error("Failed to mark subscriber as inactive", err)
@@ -261,7 +265,6 @@ export class CampaignSenderService {
           await prisma.campaignSend.createMany({
             data: sendRecords,
           });
-
         } catch (batchError) {
           errors.push(
             `Batch ${batchNumber}: ${
@@ -276,13 +279,18 @@ export class CampaignSenderService {
               subscriberId: subscriber.id,
               sentAt: new Date(),
               deliveredAt: null,
-              errorMessage: batchError instanceof Error ? batchError.message : "Unknown error",
+              errorMessage:
+                batchError instanceof Error
+                  ? batchError.message
+                  : "Unknown error",
             })),
           });
         }
 
         if (i + this.BATCH_SIZE < allSubscribers.length) {
-          await new Promise((resolve) => setTimeout(resolve, this.BATCH_DELAY_MS));
+          await new Promise((resolve) =>
+            setTimeout(resolve, this.BATCH_DELAY_MS)
+          );
         }
       }
 
@@ -305,7 +313,6 @@ export class CampaignSenderService {
         duration,
       };
     } catch (error) {
-
       await prisma.campaign
         .update({
           where: { id: campaignId },
@@ -313,7 +320,7 @@ export class CampaignSenderService {
         })
         .catch((err) =>
           console.error("Failed to update campaign status to FAILED", err)
-          );
+        );
 
       throw error;
     }
@@ -379,7 +386,9 @@ export class CampaignSenderService {
     return Array.from(subscriberMap.values());
   }
 
-  static async validateCampaign(campaignId: string): Promise<CampaignValidation> {
+  static async validateCampaign(
+    campaignId: string
+  ): Promise<CampaignValidation> {
     const errors: string[] = [];
     const warnings: string[] = [];
 
@@ -409,7 +418,9 @@ export class CampaignSenderService {
       }
 
       if (campaign.status === "SENT") {
-        warnings.push("This campaign was already sent. Subscribers will receive it again.");
+        warnings.push(
+          "This campaign was already sent. Subscribers will receive it again."
+        );
       }
 
       if (campaign.status === "CANCELLED") {
@@ -450,12 +461,16 @@ export class CampaignSenderService {
         estimatedSubscribers: subscriberCount,
       };
     } catch (error) {
-      errors.push(error instanceof Error ? error.message : "Unknown validation error");
+      errors.push(
+        error instanceof Error ? error.message : "Unknown validation error"
+      );
       return { valid: false, errors, warnings };
     }
   }
 
-  private static async markSubscriberInactive(subscriberId: string): Promise<void> {
+  private static async markSubscriberInactive(
+    subscriberId: string
+  ): Promise<void> {
     try {
       await prisma.subscriber.update({
         where: { id: subscriberId },
@@ -464,7 +479,6 @@ export class CampaignSenderService {
           unsubscribedAt: new Date(),
         },
       });
-
     } catch (error) {
       console.error("Failed to mark subscriber as inactive", error);
     }

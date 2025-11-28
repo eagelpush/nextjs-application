@@ -14,8 +14,8 @@ export function CTASection() {
             Ready to boost your sales?
           </h2>
           <p className="text-muted-foreground mx-auto mt-6 max-w-xl text-lg leading-8">
-            Join thousands of Shopify stores using Push Eagle to increase customer engagement and
-            drive more revenue. No credit card required.
+            Join thousands of Shopify stores using Push Eagle to increase
+            customer engagement and drive more revenue. No credit card required.
           </p>
 
           {/* CTAs */}
@@ -26,7 +26,12 @@ export function CTASection() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-12 px-8 text-base">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 px-8 text-base"
+            >
               <Link href="/sign-in">Sign In</Link>
             </Button>
           </div>
@@ -35,7 +40,9 @@ export function CTASection() {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm">
             <div className="flex items-center gap-2">
               <CheckCircle className="text-primary h-5 w-5" />
-              <span className="text-muted-foreground">No credit card required</span>
+              <span className="text-muted-foreground">
+                No credit card required
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="text-primary h-5 w-5" />

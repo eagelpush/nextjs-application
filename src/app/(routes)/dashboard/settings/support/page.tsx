@@ -1,7 +1,13 @@
 import { Clock, HelpCircle, MessageCircle } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 import { SupportForm } from "./support-form";
 
@@ -52,7 +58,8 @@ export default function SupportPage() {
         <CardHeader>
           <CardTitle>Contact Form</CardTitle>
           <CardDescription>
-            Fill out the form below and we&apos;ll get back to you as soon as possible
+            Fill out the form below and we&apos;ll get back to you as soon as
+            possible
           </CardDescription>
         </CardHeader>
         <CardContent>

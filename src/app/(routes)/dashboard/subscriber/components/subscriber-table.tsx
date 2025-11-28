@@ -19,7 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Search,
+} from "lucide-react";
 import type { SubscriberTableProps, Subscriber } from "../types";
 import { formatDate, formatRelativeDate } from "../utils";
 import { DEVICE_FILTERS } from "../constants";
@@ -28,7 +34,9 @@ interface ExtendedSubscriberTableProps extends SubscriberTableProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   deviceFilter: string;
-  onDeviceFilterChange: (device: "all" | "Desktop" | "Mobile" | "Tablet") => void;
+  onDeviceFilterChange: (
+    device: "all" | "Desktop" | "Mobile" | "Tablet"
+  ) => void;
   countryFilter: string;
   onCountryFilterChange: (country: string) => void;
   uniqueCountries: string[];
@@ -147,28 +155,38 @@ export function SubscriberTable({
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="text-xs">{subscriber.avatar}</AvatarFallback>
+                        <AvatarFallback className="text-xs">
+                          {subscriber.avatar}
+                        </AvatarFallback>
                       </Avatar>
                       <div>
                         <div className="font-medium">{subscriber.name}</div>
-                        <div className="text-muted-foreground text-sm">{subscriber.id}</div>
+                        <div className="text-muted-foreground text-sm">
+                          {subscriber.id}
+                        </div>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>{subscriber.email}</TableCell>
                   <TableCell>
-                    <Badge variant={getBadgeVariant(subscriber.device)}>{subscriber.device}</Badge>
+                    <Badge variant={getBadgeVariant(subscriber.device)}>
+                      {subscriber.device}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="text-sm">
                       <div>{subscriber.browser}</div>
-                      <div className="text-muted-foreground">{subscriber.os}</div>
+                      <div className="text-muted-foreground">
+                        {subscriber.os}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="text-sm">
                       <div>{subscriber.city}</div>
-                      <div className="text-muted-foreground">{subscriber.country}</div>
+                      <div className="text-muted-foreground">
+                        {subscriber.country}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -190,12 +208,21 @@ export function SubscriberTable({
       {pagination.totalPages > 1 && (
         <div className="flex items-center justify-between">
           <div className="text-muted-foreground text-sm">
-            Showing {(pagination.currentPage - 1) * pagination.itemsPerPage + 1} to{" "}
-            {Math.min(pagination.currentPage * pagination.itemsPerPage, pagination.totalItems)} of{" "}
-            {pagination.totalItems} subscribers
+            Showing {(pagination.currentPage - 1) * pagination.itemsPerPage + 1}{" "}
+            to{" "}
+            {Math.min(
+              pagination.currentPage * pagination.itemsPerPage,
+              pagination.totalItems
+            )}{" "}
+            of {pagination.totalItems} subscribers
           </div>
           <div className="flex items-center space-x-2">
-            {renderPaginationButton(1, ChevronsLeft, "First page", pagination.currentPage === 1)}
+            {renderPaginationButton(
+              1,
+              ChevronsLeft,
+              "First page",
+              pagination.currentPage === 1
+            )}
             {renderPaginationButton(
               pagination.currentPage > 1 ? pagination.currentPage - 1 : null,
               ChevronLeft,
@@ -206,7 +233,9 @@ export function SubscriberTable({
               Page {pagination.currentPage} of {pagination.totalPages}
             </div>
             {renderPaginationButton(
-              pagination.currentPage < pagination.totalPages ? pagination.currentPage + 1 : null,
+              pagination.currentPage < pagination.totalPages
+                ? pagination.currentPage + 1
+                : null,
               ChevronRight,
               "Next page",
               pagination.currentPage === pagination.totalPages

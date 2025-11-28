@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Area,
   AreaChart,
@@ -25,7 +31,10 @@ export function RevenueChart({ data }: RevenueChartProps) {
 
   // Calculate total revenue
   const totalRevenue = data.reduce((sum, item) => sum + item.revenue, 0);
-  const totalImpressions = data.reduce((sum, item) => sum + item.impressions, 0);
+  const totalImpressions = data.reduce(
+    (sum, item) => sum + item.impressions,
+    0
+  );
   const totalClicks = data.reduce((sum, item) => sum + item.clicks, 0);
 
   // Custom tooltip
@@ -49,11 +58,15 @@ export function RevenueChart({ data }: RevenueChartProps) {
             </div>
             <div className="flex items-center justify-between gap-4">
               <span className="text-muted-foreground">Impressions:</span>
-              <span className="font-medium">{data.impressions.toLocaleString()}</span>
+              <span className="font-medium">
+                {data.impressions.toLocaleString()}
+              </span>
             </div>
             <div className="flex items-center justify-between gap-4">
               <span className="text-muted-foreground">Clicks:</span>
-              <span className="font-medium">{data.clicks.toLocaleString()}</span>
+              <span className="font-medium">
+                {data.clicks.toLocaleString()}
+              </span>
             </div>
             {data.impressions > 0 && (
               <div className="flex items-center justify-between gap-4">
@@ -76,7 +89,9 @@ export function RevenueChart({ data }: RevenueChartProps) {
         <div className="flex items-center justify-between">
           <div>
             <CardTitle>Revenue Over Time</CardTitle>
-            <CardDescription>Track your campaign performance and revenue trends</CardDescription>
+            <CardDescription>
+              Track your campaign performance and revenue trends
+            </CardDescription>
           </div>
           <div className="flex gap-6 text-sm">
             <div className="text-center">
@@ -97,7 +112,9 @@ export function RevenueChart({ data }: RevenueChartProps) {
             </div>
             <div className="text-center">
               <div className="text-muted-foreground">Clicks</div>
-              <div className="text-primary text-lg font-bold">{totalClicks.toLocaleString()}</div>
+              <div className="text-primary text-lg font-bold">
+                {totalClicks.toLocaleString()}
+              </div>
             </div>
           </div>
         </div>
@@ -105,11 +122,22 @@ export function RevenueChart({ data }: RevenueChartProps) {
       <CardContent>
         <div className="h-[300px] sm:h-[350px] md:h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <AreaChart
+              data={data}
+              margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            >
               <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--chart-1))" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(var(--chart-1))" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="hsl(var(--chart-1))"
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
@@ -126,6 +154,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
                 tickLine={false}
                 axisLine={false}
               />
+              {/* eslint-disable-next-line react-hooks/static-components */}
               <Tooltip content={<CustomTooltip />} />
               <Area
                 type="monotone"

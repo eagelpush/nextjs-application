@@ -28,8 +28,11 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
     []
   );
 
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(defaultDateRange);
-  const [dashboardData, setDashboardData] = useState<DashboardData>(initialData);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
+    defaultDateRange
+  );
+  const [dashboardData, setDashboardData] =
+    useState<DashboardData>(initialData);
   const [isPending, startTransition] = useTransition();
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -174,38 +177,48 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
             <div className="bg-card hover:bg-accent/50 rounded-lg border p-6 transition-colors">
               <div className="mb-2 flex items-center gap-2">
                 <div className="bg-chart-1/10 rounded-full p-2">
-                  <IconRefresh className="text-chart-1 h-4 w-4" aria-hidden="true" />
+                  <IconRefresh
+                    className="text-chart-1 h-4 w-4"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h3 className="font-semibold">Real-time Updates</h3>
               </div>
               <p className="text-muted-foreground text-sm">
-                Your dashboard automatically updates with the latest campaign performance and
-                subscriber data.
+                Your dashboard automatically updates with the latest campaign
+                performance and subscriber data.
               </p>
             </div>
 
             <div className="bg-card hover:bg-accent/50 rounded-lg border p-6 transition-colors">
               <div className="mb-2 flex items-center gap-2">
                 <div className="bg-chart-3/10 rounded-full p-2">
-                  <IconRefresh className="text-chart-3 h-4 w-4" aria-hidden="true" />
+                  <IconRefresh
+                    className="text-chart-3 h-4 w-4"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h3 className="font-semibold">Real-time Updates</h3>
               </div>
               <p className="text-muted-foreground text-sm">
-                Download detailed reports in CSV or PDF format for in-depth analysis and record
-                keeping.
+                Download detailed reports in CSV or PDF format for in-depth
+                analysis and record keeping.
               </p>
             </div>
 
             <div className="bg-card hover:bg-accent/50 rounded-lg border p-6 transition-colors">
               <div className="mb-2 flex items-center gap-2">
                 <div className="bg-chart-2/10 rounded-full p-2">
-                  <IconRefresh className="text-chart-2 h-4 w-4" aria-hidden="true" />
+                  <IconRefresh
+                    className="text-chart-2 h-4 w-4"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h3 className="font-semibold">Custom Time Ranges</h3>
               </div>
               <p className="text-muted-foreground text-sm">
-                Filter your data by different time periods to track performance trends and patterns.
+                Filter your data by different time periods to track performance
+                trends and patterns.
               </p>
             </div>
           </div>
